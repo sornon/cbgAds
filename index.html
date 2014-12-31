@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+ 
+    <script src="http://cdn.staticfile.org/jquery/1.6.2/jquery.min.js"></script>
+
+    <script src="lib/esl - Copy.js"></script>
+    <!--<script src="lib/require.js"></script>-->
+
+     <script src="adsLoader.js"></script>
+
+    <!--<script src="build/adsLoader.js"></script>-->
+
+</head>
+<body>
+
+    <script>
+ 
+
+
+
+
+    </script>
+
+
+    <noscript>
+
+        加载广告，不一定必须放在iframe里，只要样式不冲突，也可以直接写在页面里
+        这里的好处是
+        1、code reuse，页面上可能直接存在jquery
+        2、没有跨域问题
+
+        坏处是 onload延迟，小圆圈一直转（empty iframe onload）
+        可能样式冲突
+        js比较大
+
+    </noscript>
+
+
+</body>
+</html>
