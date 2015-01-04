@@ -1,0 +1,47 @@
+﻿<html>
+<head>
+</head>
+<body onload="(function loadMultiScripts(scripts, done) {
+
+                var scripts = ['./delay2.js'];
+
+                var head = document.getElementsByTagName('head')[0];
+                var loadedCount = 0;
+
+                for (var i = 0 ; i < scripts.length; i++) {
+                    loadScript(scripts[i], loaded);
+                }
+
+                //加载script
+                function loadScript(url) {
+                    var script = document.createElement('script');
+                    script.type = 'text/javascript';
+                    script.src = url;
+                    script.async = true;
+                    script.onerror = loaded;
+
+                    if (script.readyState) {
+                        script.onreadystatechange = function () {
+                            if (this.readyState == 'loaded' || this.readyState == 'complete') {
+                                loaded();
+                            }
+                        }
+                    } else {
+                        script.onload = loaded;
+                    }
+                    head.appendChild(script);
+                }
+
+                //所有script均加载
+                function loaded() {
+                    loadedCount += 1;
+
+                    if (loadedCount === scripts.length) {
+                        //done();
+                    }
+                }
+
+                console.log('run');
+            }())">
+</body>
+</html>

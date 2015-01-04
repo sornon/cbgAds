@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <!--<script src="lib/esl.js"></script>-->
+
+    <script src="lib/require.js"></script>
+    <script src="lib/jquery1.js"></script>
+ </head>
+<body>
+
+    <p>
+        script without async harm domready event, even appendscript,
+        async script injected will wait until all the sync script loaded, then download
+    </p>
+
+    <p>
+        directly append a long time script will harm onload
+    </p>
+
+
+    <p>
+        double setTimeout will break the onload
+
+    </p>
+ 
+  
+    <script src="adsLoader.js"></script>
+
+    <script src="main.js"></script>
+    <script src="delay.js"></script>
+    <script src="delayAsync.js" async></script>
+
+
+
+    <script>
+
+        (function (doc, script) {
+            var js,
+                fjs = doc.getElementsByTagName(script)[0],
+                add = function (url, id) {
+                    if (doc.getElementById(id)) { return; }
+                    js = doc.createElement(script);
+                    js.src = url;
+                    js.async = true;
+                    id && (js.id = id);
+                    fjs.parentNode.insertBefore(js, fjs);
+                };
+       
+            add('./delayHalf.js', 'delay1');
+
+            //setTimeout(function () {
+               
+            //    //add('./delay1.js', 'delay1');
+
+            //    setTimeout(function () {
+            //        add('./delay2.js', 'delay2');
+
+            //            //$('<script />', {
+            //            //    src: './delay2.js',
+            //            //    async: true
+            //            //}).appendTo('body');
+
+            //    }, 16);
+
+            //}, 0);
+
+
+            //$(function () {
+
+            //});
+
+
+            // Load script into an iframe with current context ... it blocks onload!
+
+            function loadIframe2(url, id) {
+                var iframe = document.createElement('iframe');
+                (iframe.frameElement || iframe).style.cssText = "display:none";
+                iframe.src = "javascript:false";
+                var where = document.getElementsByTagName('script')[0];
+                where.parentNode.insertBefore(iframe, where);
+                var doc = (iframe.contentWindow.document || iframe.contentDocument);
+                doc.open().write('<body onload="' +
+                    // asign window.parent to iframe's context
+                    'var win = parent.window;' +
+                    '(function (window, document) {' +
+                    'var js = document.createElement(\'script\');' +
+                    'js.type = \'text/javascript\';' +
+                    'js.async = true;' +
+                    (id ? 'js.id = \'' + id + '\';' : '') +
+                    'js.src = \'' + url + '\';' +
+                    'document.body.appendChild(js);' +
+                    '})(win, win.document)' +
+                    '">');
+                doc.close();
+            }
+
+
+        }(document, 'script'));
+
+
+
+        //var iframe = document.createElement('iframe');
+        //(iframe.frameElement || iframe).style.cssText = "display:none";
+        //iframe.id = 'testframe';
+        //iframe.name = 'testframe';
+        //iframe.src = "http://www.baidu.com/";
+
+        //var fn = function () {
+  
+        //    var script = document.createElement('script');
+        //    script.type = 'text/javascript';
+        //    script.src = './delay2.js';
+        //    script.async = true;
+
+        //    console.log(window.parent);
+        //    console.log(window);
+
+        //    window.document.body.appendChild(script);
+
+        //};
+
+        //if (iframe.attachEvent) {
+        //    iframe.attachEvent('onload', fn);
+        //} else {
+        //    //iframe.onload = fn;
+        //    iframe.addEventListener('load', fn)
+        //}
+        //document.body.insertBefore(iframe, document.body.firstChild);
+
+    </script>
+
+  
+
+</body>
+
+</html>
