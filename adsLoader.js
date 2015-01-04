@@ -3,8 +3,8 @@ author: https://github.com/21paradox
 广告位加载器
 */
 
-//var require = cbgAds_1230.require,
-//    define = cbgAds_1230.define;
+var require = cbgAds_1230.require,
+    define = cbgAds_1230.define;
 
 require.config({
     baseUrl: 'http://localhost:54653/',
@@ -21,6 +21,14 @@ if (jQuery && jQuery.fn.on) {
         return jQuery;
     });
 
+}
+
+
+cbgAds_1230.done = function () {
+
+    require(['site/delay', 'jquery'], function (init, $) {
+        init($);
+    });
 }
 
 //function loadMultiScripts(scripts, done) {
@@ -83,6 +91,3 @@ if (jQuery && jQuery.fn.on) {
 
 
 
-//require(['site/init', 'jquery'], function (init, $) {
-//    init($);
-//});

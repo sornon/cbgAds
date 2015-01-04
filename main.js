@@ -1,6 +1,6 @@
-﻿function loadMultiScripts(scripts, done) {
+﻿function loadMultiScripts(done) {
 
-    var scripts = ['./delay2.js'];
+    var scripts = ['./site/delay.js'];
 
     var head = document.getElementsByTagName('head')[0];
     var loadedCount = 0;
@@ -34,7 +34,7 @@
         loadedCount += 1;
 
         if (loadedCount === scripts.length) {
-            //done();
+            done && done();
         }
     }
 
@@ -61,30 +61,12 @@ function loadIframe(url, id) {
     //doc.close();
 
  
-    doc.open().write('<body onload="(' + loadByEsl.toString() + '(window.parent))">');
+    doc.open().write('<body onload="(' + loadMultiScripts.toString() + '(window.parent.cbgAds_1230.done))">');
     doc.close();
 
 }
 
-
-
-function loadByEsl(window) {
-
-    var require = window.require,
-        define = window.define;
-
-  
-    //require(['site/init', 'jquery'], function (init, $) {
  
-    //    init($);
-    //});
-
-    require(['jquery'], function () {
-        console.log('13123213');
-    });
-
-}
-
 
 //loadMultiScripts(["./delay2.js"]);
 
