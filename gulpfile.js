@@ -30,7 +30,7 @@ gulp.task('require', function () {
            baseUrl: './',
            out: 'init.js',
            optimize: 'none',
-           name: 'site/init',
+          
            mainConfigFile: 'config.js',   //项目的 config.js 用于配置是否依赖jquery，别名，等
            optimizeAllPluginResources: true,   //打包html模板
            stubModules: ['text', 'normalize'],  //上线不依赖 require-text插件
@@ -38,9 +38,10 @@ gulp.task('require', function () {
            findNestedDependencies: true,    //保证依赖全部打包进来
            pragmasOnSave: {
                excludeRequireCss: true
-           }
+           },
+           wrap: true
        }))
-       .pipe(wrap('(function(){\n var require = cbgAds_1230.require; \n var define = cbgAds_1230.define;\n<%= contents %>\n}());'))
+       //.pipe(wrap('(function(){\n var require = cbgAds_1230.require; \n var define = cbgAds_1230.define;\n<%= contents %>\n}());'))
        .pipe(gulp.dest('build/site'));
 
 });

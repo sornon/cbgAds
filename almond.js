@@ -1,5 +1,4 @@
-(function () {
-/**
+﻿/**
  * @license almond 0.3.0 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
  * see: http://github.com/jrburke/almond for details
@@ -427,19 +426,4 @@ var requirejs, require, define;
     define.amd = {
         jQuery: true
     };
-}());
-define("almond", function(){});
-
-define('site/init',['jquery'], function ($) {
-
-    return function ($) {
-
-        console.log($.fn.jquery);
-        console.log(window.jQuery.fn.jquery);
-
-    }
-
- 
-});
-require(["site/init"]);
 }());
