@@ -1,4 +1,3 @@
-(function () {
 /**
  * @license almond 0.3.0 Copyright (c) 2011-2014, The Dojo Foundation All Rights Reserved.
  * Available via the MIT or new BSD license.
@@ -368,7 +367,7 @@ var requirejs, require, define;
         }
 
         //Support require(['a'])
-        callback = callback || function () { };
+        callback = callback || function () {};
 
         //If relName is a function, it is an errback handler,
         //so remove it.
@@ -427,19 +426,4 @@ var requirejs, require, define;
     define.amd = {
         jQuery: true
     };
-}());
-define("almond", function(){});
-
-define('site/init',['jquery'], function ($) {
-
-    return function ($) {
-
-        console.log($.fn.jquery);
-        console.log(window.jQuery.fn.jquery);
-
-    }
-
- 
-});
-require(["site/init"]);
 }());

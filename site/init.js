@@ -1,11 +1,16 @@
-﻿define(['jquery'], function ($) {
+﻿define(['jquery', 'window'], function ($, window) {
 
-    return function ($) {
+    return function () {
 
-        console.log($.fn.jquery);
-        console.log(window.jQuery.fn.jquery);
+         //console.log(window.jQuery.fn.jquery);
+ 
+
+        $('<img src = "./delay.jpg" />').on('load', function () {
+            console.log('abc');
+            $(window.document.body).append(this);
+
+        });
 
     }
 
- 
 });

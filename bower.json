@@ -1,0 +1,23 @@
+{
+  "name": "cbg_ads",
+  "version": "0.0.1",
+  "homepage": "https://github.com/21paradox/cbgAds",
+  "authors": [
+    "shiwenzhe <shiwenzhe@baidu.com>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~1.11.0",
+    "almond": "~0.3.0"
+  }
+}

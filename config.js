@@ -6,7 +6,7 @@ requirejs.config({
 		jquery: 'empty:',
 		sharejQuery: 'empty:',
 	 },
-	 name: 'almond',    //指定almond路径，打包 almond（requirejs精简版）https://github.com/jrburke/almond
-	 include: ['site/init'],
-	 insertRequire: ['site/init']
+	 name: 'bower_components/almond/almond',    //指定almond路径，打包 almond（requirejs精简版）https://github.com/jrburke/almond
+	 include: ['site/main']//,
+	 //insertRequire: ['site/init']
 });
