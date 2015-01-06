@@ -6,6 +6,7 @@ var eventStream = require('event-stream');
 var streamqueue = require('streamqueue');
 
 var rjs = require('gulp-requirejs');
+var insert = require('gulp-insert');
 
 //loaderScript
 gulp.task('loader', function () {
@@ -61,7 +62,8 @@ gulp.task('require', function () {
             //    end: "\n return { require: require, define: define }; \n}());"
             //}
         }))
-        //.pipe(uglify())
+        .pipe(uglify())
+        .pipe(insert.prepend('/*! Copyright 2014 Baidu Inc. All Rights Reserved. */'))
         //.pipe(wrap('(function(){\n var require = cbgAds_1230.require; \n var define = cbgAds_1230.define;\n<%= contents %>\n}());'))
         .pipe(gulp.dest('build/'));
 

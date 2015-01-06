@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
- 
-    <script src="http://cdn.staticfile.org/jquery/1.6.2/jquery.min.js"></script>
-     <script src="lib/modjs.js"></script>
+
+    <script src="build/lib/jquery.js"></script>
+      <script src="lib/modjs.js"></script>
     <!--<script src="lib/esl.js"></script>-->
     <!--<script src="lib/require.js"></script>-->
 
@@ -94,22 +94,32 @@
         //})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
  
-        var d = $.Deferred(function (deferred) {
+        //var d = $.Deferred(function (deferred) {
 
-            setTimeout(function() {
-                $('.curtain').css('top', '-400px');
-                deferred.resolve();
-            }, 1000);
+        //    setTimeout(function() {
+        //        $('.curtain').css('top', '-400px');
+        //        deferred.resolve();
+        //    }, 1000);
 
-        });
+        //});
 
-        d.done(function () {
-            console.log('done11');
-        });
+        //d.done(function () {
+        //    console.log('done11');
+        //});
 
 
     </script>
 
+ 
+    <div id="dsf" style="padding: 40px; background: red">
+        <ul style="padding: 30px; background: blue">
+            <li style="padding: 10px; background: yellow">213</li>
+            <li>444</li>
+        </ul>
+    </div>
+  
+
+ 
 
 </body>
 </html>
