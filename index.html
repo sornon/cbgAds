@@ -50,13 +50,13 @@
 
 
     <script>
-        (function () {
+        (function (window) {
 
-            if (document.getElementById('cbgAdsRuntime')) {
+            if (window['_cbgAds']) {
                 return;
             }
-
-            function loadScript() {
+ 
+            var loadScript = function () {
                 var script = document.createElement('script');
                 script.async = true;
                 script.src = './build/all_jq_delay.js';
@@ -72,8 +72,14 @@
             var doc = (iframe.contentWindow.document || iframe.contentDocument);
             doc.open().write('<body onload="(' + loadScript.toString() + '())">');
             doc.close();
+            window['_cbgAds'] = true;
 
-        }());
+        }(window));
+
+       
+        setInterval(function () {
+            console.log('run')
+        }, 500);
 
 
  
@@ -110,7 +116,8 @@
 
     </script>
 
- 
+     <script src="delayHalf.js"></script>
+
     <div id="dsf" style="padding: 40px; background: red">
         <ul style="padding: 30px; background: blue">
             <li style="padding: 10px; background: yellow">213</li>
