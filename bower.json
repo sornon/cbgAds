@@ -18,6 +18,8 @@
   ],
   "dependencies": {
     "jquery": "~1.11.0",
-    "almond": "~0.3.0"
+    "almond": "~0.3.0",
+    "swfobject": "https://github.com/21paradox/swfobject.git",
+    "requirejs": "~2.1.15"
   }
 }

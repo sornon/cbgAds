@@ -27,26 +27,26 @@ gulp.task('loader', function () {
 gulp.task('require', function () {
 
     gulp.src('./')
-       .pipe(rjs({
-           baseUrl: './',
-           out: 'all_delay.js',
-           optimize: 'none',
-           mainConfigFile: 'config.js',   //项目的 config.js 用于配置是否依赖jquery，别名，等
-           optimizeAllPluginResources: true,   //打包html模板
-           stubModules: ['text', 'normalize'],  //上线不依赖 require-text插件
-           preserveLicenseComments: true, //
-           findNestedDependencies: true,    //保证依赖全部打包进来
-           pragmasOnSave: {
-               excludeRequireCss: true
-           }//,
-           //wrap: {
-           //    start: "var cbgAds_1230 = (function () {",
-           //    end: "\n return { require: require, define: define }; \n}());"
-           //}
-       }))
+       //.pipe(rjs({
+       //    baseUrl: './',
+       //    out: 'all_delay.js',
+       //    optimize: 'none',
+       //    mainConfigFile: 'config.js',   //项目的 config.js 用于配置是否依赖jquery，别名，等
+       //    optimizeAllPluginResources: true,   //打包html模板
+       //    stubModules: ['text', 'normalize'],  //上线不依赖 require-text插件
+       //    preserveLicenseComments: true, //
+       //    findNestedDependencies: true,    //保证依赖全部打包进来
+       //    pragmasOnSave: {
+       //        excludeRequireCss: true
+       //    }//,
+       //    //wrap: {
+       //    //    start: "var cbgAds_1230 = (function () {",
+       //    //    end: "\n return { require: require, define: define }; \n}());"
+       //    //}
+       //}))
         .pipe(rjs({
             baseUrl: './',
-            out: 'all_jq_delay.js',
+            out: 'all.js',
             optimize: 'none',
             include: ["bower_components/jquery/dist/jquery.min", 'site/main'],
             mainConfigFile: 'config.js',   //项目的 config.js 用于配置是否依赖jquery，别名，等
@@ -62,8 +62,8 @@ gulp.task('require', function () {
             //    end: "\n return { require: require, define: define }; \n}());"
             //}
         }))
-        .pipe(uglify())
-        .pipe(insert.prepend('/*! Copyright 2014 Baidu Inc. All Rights Reserved. */'))
+        //.pipe(uglify())
+        //.pipe(insert.prepend('/*! Copyright 2014 Baidu Inc. All Rights Reserved. */'))
         //.pipe(wrap('(function(){\n var require = cbgAds_1230.require; \n var define = cbgAds_1230.define;\n<%= contents %>\n}());'))
         .pipe(gulp.dest('build/'));
 

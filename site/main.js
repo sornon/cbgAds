@@ -22,9 +22,16 @@ define('window', [], function () {
 
 require.config({
     baseUrl: 'http://localhost:54653/',
-    //paths: {
-    //    'jquery': 'bower_components/jquery/dist/jquery.min'
-    //},
+    paths: {
+        'jquery': 'bower_components/jquery/dist/jquery.min',
+        'swfobject': 'bower_components/swfobject/swfobject/src/swfobject'
+    },
+    shim: {
+        'swfobject': {
+            exports: 'swfobject'
+        }
+    }
+
     //waitSeconds: 2,
     //map: {
     //    // '*' means all modules will get 'jquery-private'

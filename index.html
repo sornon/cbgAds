@@ -2,10 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-
-    <script src="build/lib/jquery.js"></script>
-      <script src="lib/modjs.js"></script>
-    <!--<script src="lib/esl.js"></script>-->
+    <script src="bower_components/requirejs/require.js"></script>
+      <!--<script src="lib/esl.js"></script>-->
     <!--<script src="lib/require.js"></script>-->
 
      <!--<script src="adsLoader.js"></script>-->
@@ -13,6 +11,7 @@
     <!--<script src="build/adsLoader.js"></script>-->
     <!--<script src="build/all_jq.js"></script>-->
 
+    <!--<script src="bower_components/swfobject/swfobject/src/swfobject.js"></script>-->
 
 </head>
 <body>
@@ -48,68 +47,43 @@
     </noscript>
 
 
-
     <script>
-        (function () {
+        //(function () {
 
-            if (document.getElementById('cbgAdsRuntime')) {
-                return;
-            }
+        //    if (document.getElementById('cbgAdsRuntime')) {
+        //        return;
+        //    }
 
-            function loadScript() {
-                var script = document.createElement('script');
-                script.async = true;
-                script.src = './build/all_jq_delay.js';
-                document.body.appendChild(script);
-            }
+        //    function loadScript() {
+        //        var script = document.createElement('script');
+        //        script.async = true;
+        //        script.src = './build/all.js';
+        //        document.body.appendChild(script);
+        //    }
 
-            var iframe = document.createElement('iframe');
-            (iframe.frameElement || iframe).style.cssText = "display:none";
-            iframe.src = "javascript:false";
-            iframe.setAttribute('id', 'cbgAdsRuntime');
-            document.body.appendChild(iframe);
+        //    var iframe = document.createElement('iframe');
+        //    (iframe.frameElement || iframe).style.cssText = "display:none";
+        //    iframe.src = "javascript:false";
+        //    iframe.setAttribute('id', 'cbgAdsRuntime');
+        //    document.body.appendChild(iframe);
 
-            var doc = (iframe.contentWindow.document || iframe.contentDocument);
-            doc.open().write('<body onload="(' + loadScript.toString() + '())">');
-            doc.close();
+        //    var doc = (iframe.contentWindow.document || iframe.contentDocument);
+        //    doc.open().write('<body onload="(' + loadScript.toString() + '())">');
+        //    doc.close();
 
-        }());
-
-
- 
-        //(function (window, document, o, g, r, a, m) {
-        //    window['GoogleAnalyticsObject'] = r;
-
-        //    window['ga'] = window['ga'] || function () {
-        //        (window['ga'].q = window['ga'].q || []).push(arguments)
-        //    }, window['ga'].l = 1 * new Date();
-
-        //    a = document.createElement('script'),
-        //    m = document.getElementsByTagName('script')[0];
-
-        //    a.async = 1;
-        //    a.src = '//www.google-analytics.com/analytics.js';
-        //    m.parentNode.insertBefore(a, m);
-
-        //})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
- 
-        //var d = $.Deferred(function (deferred) {
-
-        //    setTimeout(function() {
-        //        $('.curtain').css('top', '-400px');
-        //        deferred.resolve();
-        //    }, 1000);
-
-        //});
-
-        //d.done(function () {
-        //    console.log('done11');
-        //});
-
+        //}());
 
     </script>
 
+    <script src="site/main.js"></script>
+    <script src="delayFull.js" async></script>
+
+    <script src="delay.js"></script>
+    <script>
+
+    
+
+    </script>
  
     <div id="dsf" style="padding: 40px; background: red">
         <ul style="padding: 30px; background: blue">
@@ -118,7 +92,7 @@
         </ul>
     </div>
   
-
+    
  
 
 </body>

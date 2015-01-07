@@ -1,4 +1,4 @@
-﻿define(['jquery', 'window'], function ($, window) {
+﻿define(['jquery', 'window', 'swfobject', 'require'], function ($, window, swfobject, require) {
 
     return function () {
 
@@ -10,6 +10,28 @@
             $(window.document.body).append(this);
 
         });
+
+
+        var content = $('<div />').appendTo(window.document.body);
+
+        swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
+            content[0],
+            "900",
+            "250",
+            "9.0.0",
+            "expressInstall.swf",
+            {
+                clickTAG: "http://www.googleadservices.com/pagead/aclk%3Fsa%3DL%26ai%3DCCb-_95WsVLPoOYLH9AWmyYHYCsuOx5YG2-nn5P0BwI23ARABIOrgvh5gnbnQgZAFoAGr9IH6A8gBBKkCQ1H3KEyahT6oAwGqBJYBT9BaRgpuCL5JG-ZyVWEBdFx_1CBYaNbcsebIcKQjQUDommOXGORsnu69Mb48wC0uaNqPvPLTfE2YT9amTXkDl9sFT2MffG4ZxmLyWiLpsMaBDirLnRjxSVJl011eAEc7xgaks3ZkaxSJD6UN2CmKHtTO8RyvoA-tw2P6zetXtmNkalefyNm5yJO87oSmsqG8Th2XaXWuiAYBoAYEgAe7n4Ag%26num%3D1%26cid%3D5GhW16lbBk7UrexLSSMRG4lv%26sig%3DAOD64_2Hy6QtsyryKFpRHvC4tmH1UyNFRw%26client%3Dca-pub-7090564139599510%26adurl%3Dhttp://www.ef.com.cn/online/lp/cn/2014yr/ee/131226_lp_master.aspx%253Fctr%253Dcn%2526ptn%253Dsmgg%2526etag%253Dsmgg-bj-aliceltd-image-dco",
+                bannerSID: "http://img3.tbcdn.cn/tfscom/T1eiCQFuReXXXgzXjX.xml"
+            },
+            {
+                loop: true,
+                menu: true,
+                wmode: 'direct',
+
+            });
+
+        console.log(require('swfobject'));
 
     }
 
