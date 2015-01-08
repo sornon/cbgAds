@@ -7,10 +7,9 @@
 
         $('<img src = "./delay.jpg" />').on('load', function () {
             console.log('abc');
-            $(window.document.body).append(this);
+            //$(window.document.body).append(this);
 
         });
-
 
         var content = $('<div />').appendTo(window.document.body);
 
@@ -31,7 +30,27 @@
 
             });
 
-        console.log(require('swfobject'));
+
+        $('<div />', {
+            id: 'BAIDU_CLB_AD_IFRAME_666982'
+        })
+            .appendTo('body');
+
+        $('<div />', {
+            id: 'BAIDU_CLB_AD_IFRAME_u1825627'
+        })
+           .appendTo('body');
+
+
+
+        $.getScript('//cbjs.baidu.com/js/m.js')
+        .done(function () {
+
+            BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
+
+            BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
+
+        });
 
     }
 

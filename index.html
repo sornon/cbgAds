@@ -2,14 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <script src="bower_components/requirejs/require.js"></script>
+    <!--<script src="bower_components/requirejs/require.js"></script>-->
       <!--<script src="lib/esl.js"></script>-->
     <!--<script src="lib/require.js"></script>-->
 
      <!--<script src="adsLoader.js"></script>-->
 
     <!--<script src="build/adsLoader.js"></script>-->
-    <!--<script src="build/all_jq.js"></script>-->
+    <!--<script src="build/all.js"></script>-->
 
     <!--<script src="bower_components/swfobject/swfobject/src/swfobject.js"></script>-->
 
@@ -48,34 +48,34 @@
 
 
     <script>
-        //(function () {
+        (function () {
 
-        //    if (document.getElementById('cbgAdsRuntime')) {
-        //        return;
-        //    }
+            if (document.getElementById('cbgAdsRuntime')) {
+                return;
+            }
 
-        //    function loadScript() {
-        //        var script = document.createElement('script');
-        //        script.async = true;
-        //        script.src = './build/all.js';
-        //        document.body.appendChild(script);
-        //    }
+            function loadScript() {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = './build/all.js';
+                document.body.appendChild(script);
+            }
 
-        //    var iframe = document.createElement('iframe');
-        //    (iframe.frameElement || iframe).style.cssText = "display:none";
-        //    iframe.src = "javascript:false";
-        //    iframe.setAttribute('id', 'cbgAdsRuntime');
-        //    document.body.appendChild(iframe);
+            var iframe = document.createElement('iframe');
+            (iframe.frameElement || iframe).style.cssText = "display:none";
+            iframe.src = "javascript:false";
+            iframe.setAttribute('id', 'cbgAdsRuntime');
+            document.body.appendChild(iframe);
 
-        //    var doc = (iframe.contentWindow.document || iframe.contentDocument);
-        //    doc.open().write('<body onload="(' + loadScript.toString() + '())">');
-        //    doc.close();
+            var doc = (iframe.contentWindow.document || iframe.contentDocument);
+            doc.open().write('<body onload="(' + loadScript.toString() + '())">');
+            doc.close();
 
-        //}());
+        }());
 
     </script>
 
-    <script src="site/main.js"></script>
+    <!--<script src="site/main.js"></script>-->
     <script src="delayFull.js" async></script>
 
     <script src="delay.js"></script>
@@ -92,8 +92,21 @@
         </ul>
     </div>
   
-    
- 
+    <!--<script type="text/javascript">
+    /*960*60 百度*/
+    var cpro_id = "u1825627";
+    </script>
+    <script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>-->
+
+
+    <!--<div id="BAIDU_CLB_AD_IFRAME_666982"></div>
+
+    <script src="//cbjs.baidu.com/js/m.js"></script>
+
+    <script>
+        BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
+
+    </script>-->
 
 </body>
 </html>

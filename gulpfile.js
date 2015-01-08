@@ -56,7 +56,8 @@ gulp.task('require', function () {
             findNestedDependencies: true,    //保证依赖全部打包进来
             pragmasOnSave: {
                 excludeRequireCss: true
-            }//,
+            },
+            wrapShim: true,
             //wrap: {
             //    start: "var cbgAds_1230 = (function () {",
             //    end: "\n return { require: require, define: define }; \n}());"
