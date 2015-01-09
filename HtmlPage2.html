@@ -3,13 +3,67 @@
 <head>
     <title></title>
     <meta name="baidu_union_verify" content="8da3c5f1b3f4c3f34b80264511b264af">
-
+    <script src="bower_components/knockout/dist/knockout.debug.js"></script>
 
 </head>
 <body>
 
 
     <p>test</p>
+
+    <script>
+
+
+        ko.extenders.lock = function (target, option) {
+ 
+            var realNum = ko.unwrap(target);
+            var lock = false;
+
+            var exposeComputed = ko.computed({
+                read: function () {
+                    return realNum;
+                },
+                write: function (input) {
+                    if (lock) {
+                        return;
+                    }
+                    realNum = input;
+                }
+            });
+
+            exposeComputed.lock = function () {
+                lock = true;
+            };
+
+            exposeComputed.unlock = function () {
+                lock = false;
+            };
+
+            return exposeComputed;
+        };
+
+
+        var a = ko.observable(123).extend({
+            lock: true
+        });
+
+ 
+        var b = ko.computed(function () {
+
+            return a() + 'computed';
+        });
+
+        a.lock();
+
+        a(44);
+
+
+
+        console.log(b());
+
+
+
+    </script>
 
 </body>
 </html>
