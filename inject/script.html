@@ -1,0 +1,33 @@
+﻿<!--广告位：{{placeName}} 请粘贴到广告位所在位置-->
+<div class="cbg-Ads"
+     style="display:inline-block;width:{{width}}px;height:{{height}}px"
+     data-place-id="{{placeId}}"></div>
+
+<script>
+    //代码：每个页面只需投放一次,放在页面最后
+    (function (window) {
+
+        if (window['_cbgAds']) {
+            return;
+        }
+
+        var loadScript = function () {
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = '//cp01-rdqa-dev368.cp01.baidu.com:8884/all.js';
+            document.body.appendChild(script);
+        }
+
+        var iframe = document.createElement('iframe');
+        (iframe.frameElement || iframe).style.cssText = "display:none";
+        iframe.src = "javascript:false";
+        iframe.setAttribute('id', 'cbgAdsRuntime');
+        document.body.appendChild(iframe);
+
+        var doc = (iframe.contentWindow.document || iframe.contentDocument);
+        doc.open().write('<body onload="(' + loadScript.toString() + '())">');
+        doc.close();
+        window['_cbgAds'] = true;
+
+    }(window));
+</script>

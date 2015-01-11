@@ -107,3 +107,18 @@ gulp.task('tmod-convert', function () {
           }));
 
 });
+
+
+
+gulp.task('tmod-script', function () {
+
+    return gulp.src('inject/*.html')
+          .pipe(tmodjs({
+              base: 'inject/',
+              output: 'build',
+              compress: false,
+              type: 'default',
+              minify: false
+          }));
+
+});

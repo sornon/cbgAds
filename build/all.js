@@ -1264,14 +1264,154 @@ define("swfobject", (function (global) {
     };
 }(this)));
 
-define('site/init',['jquery', 'window', 'swfobject', 'require'], function ($, window, swfobject, require) {
+define('site/service',['jquery'], function ($) {
+
+    function getContent(config) {
+
+        //return $.ajax({
+        //    url: 'http://172.22.158.10:8080/rs/adp/launch',
+        //    data: {
+        //        placeId: config.placeId,
+        //        referUrl: config.referUrl
+        //    },
+        //    dataType: 'jsonp',
+        //    cache: false,
+        //    timeout: 10000
+        //});
+
+
+       
+
+        return $.Deferred(function (deferred) {
+
+            setTimeout(function () {
+
+                deferred.resolve({
+                    "status": true,
+                    "placeId": "1",
+                    "ideaId": "3",
+                    "ideaType": 1,
+                    "token": "",
+                    "content":
+                        {
+                            "0":
+                              { "title": "最终幻想14", "src": "http://p2.youxi.bdimg.com/r/image/2014-11-24/7a4dab107d518f07bb18c054d3c42e32.jpg", "href": "//www.baidu.com" }
+                        }
+                });
+
+            }, 10);
+
+        });
+
+
+
+    }
+
+    return {
+        getContent: getContent
+    };
+
+});
+/*TMODJS:{}*/
+!function() {
+    function template(filename, content) {
+        return (/string|function/.test(typeof content) ? compile : renderFile)(filename, content);
+    }
+    function toString(value, type) {
+        return "string" != typeof value && (type = typeof value, "number" === type ? value += "" : value = "function" === type ? toString(value.call(value)) : ""), 
+        value;
+    }
+    function escapeFn(s) {
+        return escapeMap[s];
+    }
+    function escapeHTML(content) {
+        return toString(content).replace(/&(?![\w#]+;)|[<>"']/g, escapeFn);
+    }
+    function each(data, callback) {
+        if (isArray(data)) for (var i = 0, len = data.length; len > i; i++) callback.call(data, data[i], i, data); else for (i in data) callback.call(data, data[i], i);
+    }
+    function resolve(from, to) {
+        var DOUBLE_DOT_RE = /(\/)[^/]+\1\.\.\1/, dirname = ("./" + from).replace(/[^/]+$/, ""), filename = dirname + to;
+        for (filename = filename.replace(/\/\.\//g, "/"); filename.match(DOUBLE_DOT_RE); ) filename = filename.replace(DOUBLE_DOT_RE, "/");
+        return filename;
+    }
+    function renderFile(filename, data) {
+        var fn = template.get(filename) || showDebugInfo({
+            filename: filename,
+            name: "Render Error",
+            message: "Template not found"
+        });
+        return data ? fn(data) : fn;
+    }
+    function compile(filename, fn) {
+        if ("string" == typeof fn) {
+            var string = fn;
+            fn = function() {
+                return new String(string);
+            };
+        }
+        var render = cache[filename] = function(data) {
+            try {
+                return new fn(data, filename) + "";
+            } catch (e) {
+                return showDebugInfo(e)();
+            }
+        };
+        return render.prototype = fn.prototype = utils, render.toString = function() {
+            return fn + "";
+        }, render;
+    }
+    function showDebugInfo(e) {
+        var type = "{Template Error}", message = e.stack || "";
+        if (message) message = message.split("\n").slice(0, 2).join("\n"); else for (var name in e) message += "<" + name + ">\n" + e[name] + "\n\n";
+        return function() {
+            return "object" == typeof console && console.error(type + "\n\n" + message), type;
+        };
+    }
+    var cache = template.cache = {}, String = this.String, escapeMap = {
+        "<": "&#60;",
+        ">": "&#62;",
+        '"': "&#34;",
+        "'": "&#39;",
+        "&": "&#38;"
+    }, isArray = Array.isArray || function(obj) {
+        return "[object Array]" === {}.toString.call(obj);
+    }, utils = template.utils = {
+        $helpers: {},
+        $include: function(filename, data, from) {
+            return filename = resolve(from, filename), renderFile(filename, data);
+        },
+        $string: toString,
+        $escape: escapeHTML,
+        $each: each
+    }, helpers = template.helpers = utils.$helpers;
+    template.get = function(filename) {
+        return cache[filename.replace(/^\.\//, "")];
+    }, template.helper = function(name, helper) {
+        helpers[name] = helper;
+    }, define('templatesamd/template',[],function() {
+        return template;
+    });
+}();
+/*TMODJS:{"version":1,"md5":"2247788c80b603fa135cb59d33152aaf"}*/
+define('templatesamd/view0',['require','./template'],function(require) {
+    return require("./template")("view0", function($data) {
+        
+        var $utils = this, $escape = ($utils.$helpers, $utils.$escape), href = $data.href, src = $data.src, title = $data.title, $out = "";
+        return $out += '<a href="', $out += $escape(href), $out += '" target="_blank">\r\n    <img src="', 
+        $out += $escape(src), $out += '" title="', $out += $escape(title), $out += '" alt="', 
+        $out += $escape(title), $out += '" />\r\n</a>\r\n', new String($out);
+    });
+});
+define('site/init',['jquery',
+        'window',
+        'swfobject',
+        'site/service',
+        'require',
+        'templatesamd/view0'], function ($, window, swfobject, service, require) {
 
     return function () {
-
-         //console.log(window.jQuery.fn.jquery);
  
- 
-
 
         //$('<img src = "./delay.jpg" />').on('load', function () {
         //    console.log('abc');
@@ -1279,192 +1419,106 @@ define('site/init',['jquery', 'window', 'swfobject', 'require'], function ($, wi
 
         //});
 
-        var content = $('<div />').appendTo(window.document.body);
+        //var content = $('<div />').appendTo(window.document.body);
 
-        swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
-            content[0],
-            "900",
-            "250",
-            "9.0.0",
-            "expressInstall.swf",
-            {
-                clickTAG: "http://www.googleadservices.com/pagead/aclk%3Fsa%3DL%26ai%3DCCb-_95WsVLPoOYLH9AWmyYHYCsuOx5YG2-nn5P0BwI23ARABIOrgvh5gnbnQgZAFoAGr9IH6A8gBBKkCQ1H3KEyahT6oAwGqBJYBT9BaRgpuCL5JG-ZyVWEBdFx_1CBYaNbcsebIcKQjQUDommOXGORsnu69Mb48wC0uaNqPvPLTfE2YT9amTXkDl9sFT2MffG4ZxmLyWiLpsMaBDirLnRjxSVJl011eAEc7xgaks3ZkaxSJD6UN2CmKHtTO8RyvoA-tw2P6zetXtmNkalefyNm5yJO87oSmsqG8Th2XaXWuiAYBoAYEgAe7n4Ag%26num%3D1%26cid%3D5GhW16lbBk7UrexLSSMRG4lv%26sig%3DAOD64_2Hy6QtsyryKFpRHvC4tmH1UyNFRw%26client%3Dca-pub-7090564139599510%26adurl%3Dhttp://www.ef.com.cn/online/lp/cn/2014yr/ee/131226_lp_master.aspx%253Fctr%253Dcn%2526ptn%253Dsmgg%2526etag%253Dsmgg-bj-aliceltd-image-dco",
-                bannerSID: "http://img3.tbcdn.cn/tfscom/T1eiCQFuReXXXgzXjX.xml"
-            },
-            {
-                loop: true,
-                menu: true,
-                wmode: 'direct',
+        //swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
+        //    content[0],
+        //    "900",
+        //    "250",
+        //    "9.0.0",
+        //    "expressInstall.swf",
+        //    {
+        //        clickTAG: "http://www.googleadservices.com/pagead/aclk%3Fsa%3DL%26ai%3DCCb-_95WsVLPoOYLH9AWmyYHYCsuOx5YG2-nn5P0BwI23ARABIOrgvh5gnbnQgZAFoAGr9IH6A8gBBKkCQ1H3KEyahT6oAwGqBJYBT9BaRgpuCL5JG-ZyVWEBdFx_1CBYaNbcsebIcKQjQUDommOXGORsnu69Mb48wC0uaNqPvPLTfE2YT9amTXkDl9sFT2MffG4ZxmLyWiLpsMaBDirLnRjxSVJl011eAEc7xgaks3ZkaxSJD6UN2CmKHtTO8RyvoA-tw2P6zetXtmNkalefyNm5yJO87oSmsqG8Th2XaXWuiAYBoAYEgAe7n4Ag%26num%3D1%26cid%3D5GhW16lbBk7UrexLSSMRG4lv%26sig%3DAOD64_2Hy6QtsyryKFpRHvC4tmH1UyNFRw%26client%3Dca-pub-7090564139599510%26adurl%3Dhttp://www.ef.com.cn/online/lp/cn/2014yr/ee/131226_lp_master.aspx%253Fctr%253Dcn%2526ptn%253Dsmgg%2526etag%253Dsmgg-bj-aliceltd-image-dco",
+        //        bannerSID: "http://img3.tbcdn.cn/tfscom/T1eiCQFuReXXXgzXjX.xml"
+        //    },
+        //    {
+        //        loop: true,
+        //        menu: true,
+        //        wmode: 'direct',
 
-            });
+        //    });
 
 
-       var a =  $('<div />', {
-           id: 'BAIDU_CLB_AD_IFRAME_923533'
-        })
-            .appendTo('body');
+        //$('<div />', {
+        //    id: 'BAIDU_CLB_AD_IFRAME_666982'
+        //})
+        //    .appendTo('body');
 
-        var b = $('<div />', {
-            id: 'BAIDU_CLB_AD_IFRAME_u1825627'
+        //$('<div />', {
+        //    id: 'BAIDU_CLB_AD_IFRAME_u1825627'
+        //})
+        //   .appendTo('body');
 
-        })
-           .appendTo('body');
 
-  
-        //onload: function () {
 
-        //    //window.BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
-        //   // window.BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
-        //    console.log('load')
+        //$.getScript('//cbjs.baidu.com/js/m.js')
+        //.done(function () {
 
-        //    console.log(window.BAIDU_CLB_fillSlotAsync);
+        //    BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
 
-        //    console.log(BAIDU_CLB_fillSlotAsync)
+        //    BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
+
+        //});
+
+        //function loadScript(url, loaded) {
+        //    var script = document.createElement('script');
+        //    script.type = 'text/javascript';
+        //    script.src = url;
+        //    script.async = true;
+        //    //script.onerror = loaded;
+
+        //    if (script.readyState) {
+        //        script.onreadystatechange = function () {
+        //            if (this.readyState == 'loaded' || this.readyState == 'complete') {
+        //                loaded();
+        //            }
+        //        }
+        //    } else {
+        //        script.onload = loaded;
+        //    }
+        //    window.document.body.appendChild(script);
         //}
 
-        //$('<script src="//cbjs.baidu.com/js/m.js" async></script>')
-        // .appendTo(window.document.body)
-        // //.on('load', function () {
-        //  //   console.log('load')
-        //     console.log(window.BAIDU_CLB_fillSlotAsync);
-        //// })
+        var $ads = $(window.document).find('.cbg-Ads');
+        var referrer = window.document.referrer;
 
 
-        //var getById = window.document.getElementById;
+        $ads.each(function () {
 
-        //window.document.getElementById = function (name) {
+            var $this = $(this);
+            var placeId = $this.data('placeId');
 
-        //    console.trace();
+            service.getContent({
+                placeId: placeId,
+                referrer: referrer
+            })
 
-        //    var a = getById.call(window.document, name);
+            .done(function (data) {
 
-        //    return a;
-        //}
+                $this.data('cbgAdsInfo', data);
+                var outHtml;
 
+                //view 0
+                if (data.content['0']) {
 
-        //var getById = document.getElementById;
+                    outHtml = require('templatesamd/view0')(data.content['0']);
 
-        //document.getElementById = function (name) {
+                }
 
-        //    console.trace();
-        //    //var a = getById.call(document, name);
-        //    // return a;
+                $this.html(outHtml);
 
-        //    return document.querySelector('#' + name);
-        //}
+            })
 
- 
-        $.getScript('//cbjs.baidu.com/js/m.js')
-        .done(function () {
+            .fail(function () {
 
-           // BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
-           // BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
-            BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
-
-            console.log(a.html());
-
-            a.on("DOMSubtreeModified", function () {
-                console.log('changed');
-
-                console.log(a.html());
             });
-
-            a.on("propertychange", function () {
-                console.log(a.find('iframe'));
-            });
-
-
-            //setTimeout(function () {
-
-            //    //b.appendTo(window.document.body);
-
-            //    console.log(b.find('iframe'));
-
-            //}, 500);
 
         });
 
-
-        //var iframe = $('<iframe />', {
-        //    src: 'javascript:false',
-        //    onload: function () {
-        //        console.log('load')
-        //    }
-        //}).appendTo('body')[0];
+ 
+      
 
 
-        //function loadScript() {
-        //    var script = document.createElement('script');
-        //    script.async = true;
-        //    script.src = '//cbjs.baidu.com/js/m.js';
-        //    document.body.appendChild(script);
-        //}
-
-
-        //var doc = (iframe.contentWindow.document || iframe.contentDocument);
-        //doc.open().write('<body<div id=BAIDU_CLB_AD_IFRAME_666982></div></body>');
-
-
-
-        //加载script
-        function loadScript(url, loaded) {
-            var script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = url;
-            script.async = true;
-            //script.onerror = loaded;
-
-            if (script.readyState) {
-                script.onreadystatechange = function () {
-                    if (this.readyState == 'loaded' || this.readyState == 'complete') {
-                        loaded();
-                    }
-                }
-            } else {
-                script.onload = loaded;
-            }
-            window.document.body.appendChild(script);
-        }
-
-
-        //$(function () {
-
-            //window.setTimeout(function () {
-
-                //loadScript('//cbjs.baidu.com/js/m.js', function () {
-                //    BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
-
-
-                //    BAIDU_CLB_addOrientation('tbid', '5136001');// 坑爹的玩意，必须要传递字符串
-                //});
-
-
-            //    new Image().src = '//cbjs.baidu.com/js/m.js'
-            //$('<img src = "./delay.jpg" />')
-
-            //},10)
-
-        //});
-
-        //$(window.document).ready(function () {
-
-        //    window.setTimeout(function () {
-
-        //        loadScript('//cbjs.baidu.com/js/m.js', function () {
-        //            window.BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982', function () {
-        //                console.log(111);
-        //            }); // pb页顶部网盟广告
-        //        });
-
-
-        //        //new window.Image().src = '//cbjs.baidu.com/js/m.js'
-        //        //$('<img src = "./delay.jpg" />')
-
-        //    }, 10);
-
-        //});
-
-       
 
     }
 
@@ -1481,51 +1535,27 @@ define('window', [], function () {
     return window == top ? window : top;
 });
 
-//如果有jquery 而且 jquery 版本大于1.7，就用页面上的 jquery, 否则使用打包好的jquery
-//if (win.jQuery && win.jQuery.fn.on) {
-
-//    define('jquery', [], function () {
-//        return win.jQuery;
-//    });
-
-//}
-
-
 require.config({
     baseUrl: 'http://localhost:54653/',
     paths: {
         'jquery': 'bower_components/jquery/dist/jquery.min',
-        'swfobject': 'bower_components/swfobject/swfobject/src/swfobject'
+        'swfobject': 'bower_components/swfobject/swfobject/src/swfobject',
+        'mock': 'bower_components/mockjs/dist/mock'
     },
     shim: {
         'swfobject': {
             exports: 'swfobject'
         }
     }
-
-    //waitSeconds: 2,
-    //map: {
-    //    // '*' means all modules will get 'jquery-private'
-    //    // for their 'jquery' dependency.
-    //    '*': { 'jquery': 'jquery-private' },
-
-    //    // 'jquery-private' wants the real jQuery module
-    //    // though. If this line was not here, there would
-    //    // be an unresolvable cyclic dependency.
-    //    'jquery-private': { 'jquery': 'jquery' }
-    //}
 });
 
-// http://requirejs.org/docs/jquery.html#noconflictmap
-// and the 'jquery-private' module, in the
-// jquery-private.js file:
-//define('jquery-private', ['jquery'], function (jq) {
-//    return jq.noConflict(true);
-//});
 
+require(['site/init', 'window', 'jquery'], function (init, window, $) {
 
-require(['site/init'], function (init) {
-    main = init();
+    $(window.document).ready(function () {
+        init();
+    });
+
 });
 
 

@@ -21,6 +21,7 @@
     "almond": "~0.3.0",
     "swfobject": "https://github.com/21paradox/swfobject.git",
     "requirejs": "~2.1.15",
-    "knockout": "~3.2.0"
+    "knockout": "~3.2.0",
+    "mockjs": "~0.1.6"
   }
 }

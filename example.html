@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+     <script src="http://cdn.staticfile.org/jquery/2.1.1-rc2/jquery.min.js"></script>
+     <script src="template.js"></script>
+
+    <style>
+        .wrap{
+            width: 960px;
+            margin: 0 auto;
+        }
+
+
+        #example{
+
+
+            width: 600px;
+        }
+
+    </style>
+</head>
+<body class="wrap">
+
+    <h4>使用方法</h4>
+    <pre id="how-to"></pre>
+
+    <p>下面是生成的代码</p>
+    
+    <hr />
+
+    <pre id="example"></pre>
+
+    <script id="use">
+        var temp = template('script');
+
+        var html = temp({
+            placeName: '视频首页， banner300*250',
+            placeId: '1231231',
+            width: '300',
+            height: '250'
+        });
+
+        $('#example').text(html);
+    </script>
+
+    <script>
+
+        $('#how-to').html($('#use').html());
+
+        $('<div />').insertAfter('.wrap h4').text('首先 include <script src="http\://cp01-rdqa-dev368.cp01.baidu.com:8884/template.js">\<\/script>');
+ 
+ 
+    </script>
+
+
+</body>
+</html>
