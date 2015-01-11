@@ -91,3 +91,19 @@ gulp.task('require', function () {
 
 
 gulp.task('run', ['require', 'loader']);
+
+
+var tmodjs = require('gulp-tmod');
+
+gulp.task('tmod-convert', function () {
+ 
+    return gulp.src('templates/*.html')
+          .pipe(tmodjs({
+              base: 'templates/',
+              output: 'templatesamd',
+              compress: false,
+              type: 'cmd',
+              minify: false
+          }));
+
+});

@@ -1270,12 +1270,14 @@ define('site/init',['jquery', 'window', 'swfobject', 'require'], function ($, wi
 
          //console.log(window.jQuery.fn.jquery);
  
+ 
 
-        $('<img src = "./delay.jpg" />').on('load', function () {
-            console.log('abc');
-            //$(window.document.body).append(this);
 
-        });
+        //$('<img src = "./delay.jpg" />').on('load', function () {
+        //    console.log('abc');
+        //    //$(window.document.body).append(this);
+
+        //});
 
         var content = $('<div />').appendTo(window.document.body);
 
@@ -1297,56 +1299,172 @@ define('site/init',['jquery', 'window', 'swfobject', 'require'], function ($, wi
             });
 
 
-       //var a =  $('<div />', {
-       //     id: 'BAIDU_CLB_AD_IFRAME_666982'
-       // })
-       //     .appendTo('body');
+       var a =  $('<div />', {
+           id: 'BAIDU_CLB_AD_IFRAME_923533'
+        })
+            .appendTo('body');
 
-       // var b = $('<div />', {
-       //     id: 'BAIDU_CLB_AD_IFRAME_u1825627'
+        var b = $('<div />', {
+            id: 'BAIDU_CLB_AD_IFRAME_u1825627'
 
-       // })
-       //    .appendTo('body');
+        })
+           .appendTo('body');
 
   
+        //onload: function () {
 
-       // $.getScript('//cbjs.baidu.com/js/m.js')
-       // .done(function () {
+        //    //window.BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
+        //   // window.BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
+        //    console.log('load')
 
-       //     BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
-       //     BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
-   
+        //    console.log(window.BAIDU_CLB_fillSlotAsync);
 
-       //     setTimeout(function () {
+        //    console.log(BAIDU_CLB_fillSlotAsync)
+        //}
 
-       //         b.appendTo(window.document.body);
-
-       //         //console.log(b.find('iframe'));
-
-       //     }, 3000);
-
-       // });
-
-
-        var iframe = $('<iframe />', {
-            src: 'javascript:false',
-            onload: function () {
-                console.log('load')
-            }
-        }).appendTo('body')[0];
+        //$('<script src="//cbjs.baidu.com/js/m.js" async></script>')
+        // .appendTo(window.document.body)
+        // //.on('load', function () {
+        //  //   console.log('load')
+        //     console.log(window.BAIDU_CLB_fillSlotAsync);
+        //// })
 
 
-        function loadScript() {
+        //var getById = window.document.getElementById;
+
+        //window.document.getElementById = function (name) {
+
+        //    console.trace();
+
+        //    var a = getById.call(window.document, name);
+
+        //    return a;
+        //}
+
+
+        //var getById = document.getElementById;
+
+        //document.getElementById = function (name) {
+
+        //    console.trace();
+        //    //var a = getById.call(document, name);
+        //    // return a;
+
+        //    return document.querySelector('#' + name);
+        //}
+
+ 
+        $.getScript('//cbjs.baidu.com/js/m.js')
+        .done(function () {
+
+           // BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
+           // BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
+            BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+
+            console.log(a.html());
+
+            a.on("DOMSubtreeModified", function () {
+                console.log('changed');
+
+                console.log(a.html());
+            });
+
+            a.on("propertychange", function () {
+                console.log(a.find('iframe'));
+            });
+
+
+            //setTimeout(function () {
+
+            //    //b.appendTo(window.document.body);
+
+            //    console.log(b.find('iframe'));
+
+            //}, 500);
+
+        });
+
+
+        //var iframe = $('<iframe />', {
+        //    src: 'javascript:false',
+        //    onload: function () {
+        //        console.log('load')
+        //    }
+        //}).appendTo('body')[0];
+
+
+        //function loadScript() {
+        //    var script = document.createElement('script');
+        //    script.async = true;
+        //    script.src = '//cbjs.baidu.com/js/m.js';
+        //    document.body.appendChild(script);
+        //}
+
+
+        //var doc = (iframe.contentWindow.document || iframe.contentDocument);
+        //doc.open().write('<body<div id=BAIDU_CLB_AD_IFRAME_666982></div></body>');
+
+
+
+        //加载script
+        function loadScript(url, loaded) {
             var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
             script.async = true;
-            script.src = '//cbjs.baidu.com/js/m.js';
-            document.body.appendChild(script);
+            //script.onerror = loaded;
+
+            if (script.readyState) {
+                script.onreadystatechange = function () {
+                    if (this.readyState == 'loaded' || this.readyState == 'complete') {
+                        loaded();
+                    }
+                }
+            } else {
+                script.onload = loaded;
+            }
+            window.document.body.appendChild(script);
         }
 
 
-        var doc = (iframe.contentWindow.document || iframe.contentDocument);
-        doc.open().write('<body<div id=BAIDU_CLB_AD_IFRAME_666982></div></body>');
+        //$(function () {
 
+            //window.setTimeout(function () {
+
+                //loadScript('//cbjs.baidu.com/js/m.js', function () {
+                //    BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+
+
+                //    BAIDU_CLB_addOrientation('tbid', '5136001');// 坑爹的玩意，必须要传递字符串
+                //});
+
+
+            //    new Image().src = '//cbjs.baidu.com/js/m.js'
+            //$('<img src = "./delay.jpg" />')
+
+            //},10)
+
+        //});
+
+        //$(window.document).ready(function () {
+
+        //    window.setTimeout(function () {
+
+        //        loadScript('//cbjs.baidu.com/js/m.js', function () {
+        //            window.BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982', function () {
+        //                console.log(111);
+        //            }); // pb页顶部网盟广告
+        //        });
+
+
+        //        //new window.Image().src = '//cbjs.baidu.com/js/m.js'
+        //        //$('<img src = "./delay.jpg" />')
+
+        //    }, 10);
+
+        //});
+
+       
 
     }
 

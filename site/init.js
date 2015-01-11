@@ -52,6 +52,25 @@
 
         });
 
+        function loadScript(url, loaded) {
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = url;
+            script.async = true;
+            //script.onerror = loaded;
+
+            if (script.readyState) {
+                script.onreadystatechange = function () {
+                    if (this.readyState == 'loaded' || this.readyState == 'complete') {
+                        loaded();
+                    }
+                }
+            } else {
+                script.onload = loaded;
+            }
+            window.document.body.appendChild(script);
+        }
+
     }
 
 });
