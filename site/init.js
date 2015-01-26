@@ -14,9 +14,11 @@
 
         //});
 
-        //var content = $('<div />').appendTo(window.document.body);
+       //var content = $('<div />').appendTo(window.document.body);
 
         //swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
+        //swfobject.embedSWF(" http://test.gtcdn.gaitu.cn/delay.swf",
+           
         //    content[0],
         //    "900",
         //    "250",
@@ -74,18 +76,26 @@
         //    window.document.body.appendChild(script);
         //}
 
-        var $ads = $(window.document).find('.cbg-Ads');
-        var referrer = window.document.referrer;
+
+        //loadScript('//cbjs.baidu.com/js/m.js', function () {
+        //    window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+        //});
+
+        var _$ = $(window.document).find.bind($(window.document));
+
+        //var $ads = $(window.document).find('.cbg-Ads');
+
+         var referrer = window.document.referrer;
 
 
-        $ads.each(function () {
+        _$('.cbg-Ads').each(function () {
 
             var $this = $(this);
             var placeId = $this.data('placeId');
 
             service.getContent({
                 placeId: placeId,
-                referrer: referrer
+                referUrl: referrer
             })
 
             .done(function (data) {
@@ -94,9 +104,25 @@
                 var outHtml;
 
                 //view 0
-                if (data.content['0']) {
+                if (data.status === true && data.content['0']) {
+
+                    if (data.content['0'].src.match('^\/[^/].+')) { //match /asdsad/这样的 //baidu.com 和 http://baidu.com 都不match
+                        data.content['0'].src = '//adp.baidu.com' + data.content['0'].src;
+                    }
+
 
                     outHtml = require('templatesamd/view0')(data.content['0']);
+
+                    $this.on('click', function () {
+                        service.log({
+                            placeId: data.placeId,
+                            ideaId: data.ideaId,
+                            ideaType: data.ideaType,
+                            token: data.token,
+                            _random: data._random,
+                            referUrl: referrer
+                        });
+                    });
 
                 }
 

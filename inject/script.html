@@ -5,29 +5,11 @@
 
 <script>
     //代码：每个页面只需投放一次,放在页面最后
-    (function (window) {
-
-        if (window['_cbgAds']) {
-            return;
-        }
-
-        var loadScript = function () {
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = '//cp01-rdqa-dev368.cp01.baidu.com:8884/all.js';
-            document.body.appendChild(script);
-        }
-
-        var iframe = document.createElement('iframe');
-        (iframe.frameElement || iframe).style.cssText = "display:none";
-        iframe.src = "javascript:false";
-        iframe.setAttribute('id', 'cbgAdsRuntime');
-        document.body.appendChild(iframe);
-
-        var doc = (iframe.contentWindow.document || iframe.contentDocument);
-        doc.open().write('<body onload="(' + loadScript.toString() + '())">');
-        doc.close();
-        window['_cbgAds'] = true;
-
+    (function (e) {
+        if (e._cbgAds) return;
+        var t = function () { var e = document.createElement('script'); e.async = true, e.src = '//static.pay.baidu.com/resource/ads/all.js', document.body.appendChild(e) },
+        n = document.createElement("iframe"); (n.frameElement || n).style.cssText = "display:none", n.src = "javascript:false",
+        n.setAttribute("id", "cbgAdsRuntime"), document.body.appendChild(n);
+        var c = n.contentWindow.document || n.contentDocument; c.open().write('<body onload="(' + t + '())">'), c.close(), e._cbgAds = !0
     }(window));
 </script>

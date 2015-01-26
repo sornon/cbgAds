@@ -63,7 +63,38 @@
 
 
 
+        var a1 = function () {
+            console.log('this is a1 ');
+        }
+
+        var a2 = function () {
+            console.log('this is a2 ');
+        }
+
+        var a3 = function () {
+            console.log('this is a3');
+        }
+
+
+        var arr = [a1, a2, a3];
+ 
+        arr.forEach(function (fn) {
+            fn();
+        })
+
+        arr.splice(1, 1);
+
+        console.log(arr);
+
+
+
     </script>
+
+
+    <select>
+        <option>123</option>
+        <option selected>1234</option>
+    </select>
 
 </body>
 </html>

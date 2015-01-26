@@ -112,7 +112,7 @@ gulp.task('tmod-convert', function () {
 
 gulp.task('tmod-script', function () {
 
-    return gulp.src('inject/*.html')
+    return gulp.src('inject/script.html')
           .pipe(tmodjs({
               base: 'inject/',
               output: 'build',

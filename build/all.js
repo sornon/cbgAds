@@ -1268,47 +1268,58 @@ define('site/service',['jquery'], function ($) {
 
     function getContent(config) {
 
-        //return $.ajax({
-        //    url: 'http://172.22.158.10:8080/rs/adp/launch',
-        //    data: {
-        //        placeId: config.placeId,
-        //        referUrl: config.referUrl
-        //    },
-        //    dataType: 'jsonp',
-        //    cache: false,
-        //    timeout: 10000
-        //});
+        return $.ajax({
+            //url: 'http://10.205.82.57:8181/rs/adp/launch',
+            //url: 'http://10.99.31.12:8181/rs/adp/launch',
 
-
-       
-
-        return $.Deferred(function (deferred) {
-
-            setTimeout(function () {
-
-                deferred.resolve({
-                    "status": true,
-                    "placeId": "1",
-                    "ideaId": "3",
-                    "ideaType": 1,
-                    "token": "",
-                    "content":
-                        {
-                            "0":
-                              { "title": "最终幻想14", "src": "http://p2.youxi.bdimg.com/r/image/2014-11-24/7a4dab107d518f07bb18c054d3c42e32.jpg", "href": "//www.baidu.com" }
-                        }
-                });
-
-            }, 10);
-
+            url: 'http://adplaunch.baidu.com/rs/adp/launch',
+            data: {
+                placeId: config.placeId,
+                referUrl: config.referUrl
+            },
+            dataType: 'jsonp',
+            cache: false,
+            timeout: 10000
         });
 
+        //return $.Deferred(function (deferred) {
 
+        //    setTimeout(function () {
+
+        //        deferred.resolve({
+        //            "status": true,
+        //            "placeId": "1",
+        //            "ideaId": "3",
+        //            "ideaType": 1,
+        //            "token": "",
+        //            "content":
+        //                {
+        //                    "0":
+        //                      { "title": "最终幻想14", "src": "http://p2.youxi.bdimg.com/r/image/2014-11-24/7a4dab107d518f07bb18c054d3c42e32.jpg", "href": "//www.baidu.com" }
+        //                }
+        //        });
+
+        //    }, 10);
+
+        //});
+    }
+
+    function log(data) {
+
+        var img = new Image();
+        var baseUrl = 'http://10.205.82.57:8181/rs/logger/stat?';
+        var query = $.param(data);
+
+        img.src = baseUrl + query;
+        img.onload = img.onerror = function () {
+            img = null;
+        };
 
     }
 
     return {
-        getContent: getContent
+        getContent: getContent,
+        log: log
     };
 
 });
@@ -1419,9 +1430,11 @@ define('site/init',['jquery',
 
         //});
 
-        //var content = $('<div />').appendTo(window.document.body);
+       //var content = $('<div />').appendTo(window.document.body);
 
         //swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
+        //swfobject.embedSWF(" http://test.gtcdn.gaitu.cn/delay.swf",
+           
         //    content[0],
         //    "900",
         //    "250",
@@ -1479,18 +1492,26 @@ define('site/init',['jquery',
         //    window.document.body.appendChild(script);
         //}
 
-        var $ads = $(window.document).find('.cbg-Ads');
-        var referrer = window.document.referrer;
+
+        //loadScript('//cbjs.baidu.com/js/m.js', function () {
+        //    window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+        //});
+
+        var _$ = $(window.document).find.bind($(window.document));
+
+        //var $ads = $(window.document).find('.cbg-Ads');
+
+         var referrer = window.document.referrer;
 
 
-        $ads.each(function () {
+        _$('.cbg-Ads').each(function () {
 
             var $this = $(this);
             var placeId = $this.data('placeId');
 
             service.getContent({
                 placeId: placeId,
-                referrer: referrer
+                referUrl: referrer
             })
 
             .done(function (data) {
@@ -1499,9 +1520,25 @@ define('site/init',['jquery',
                 var outHtml;
 
                 //view 0
-                if (data.content['0']) {
+                if (data.status === true && data.content['0']) {
+
+                    if (data.content['0'].src.match('^\/[^/].+')) { //match /asdsad/这样的 //baidu.com 和 http://baidu.com 都不match
+                        data.content['0'].src = '//adp.baidu.com' + data.content['0'].src;
+                    }
+
 
                     outHtml = require('templatesamd/view0')(data.content['0']);
+
+                    $this.on('click', function () {
+                        service.log({
+                            placeId: data.placeId,
+                            ideaId: data.ideaId,
+                            ideaType: data.ideaType,
+                            token: data.token,
+                            _random: data._random,
+                            referUrl: referrer
+                        });
+                    });
 
                 }
 
