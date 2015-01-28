@@ -1,7 +1,7 @@
 requirejs.config({
     baseUrl: '',
     paths: {
-        jquery: 'empty:',
+        jquery: 'bower_components/jquery/dist/jquery.min',
         sharejQuery: 'empty:',
         swfobject: 'bower_components/swfobject/swfobject/src/swfobject'
     },

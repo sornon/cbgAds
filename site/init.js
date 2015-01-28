@@ -5,6 +5,14 @@
         'require',
         'templatesamd/view0'], function ($, window, swfobject, service, require) {
 
+   /*
+      before you start
+      注意ie6的一些问题
+
+    */
+
+ 
+
     return function () {
  
 
@@ -81,7 +89,9 @@
         //    window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
         //});
 
-        var _$ = $(window.document).find.bind($(window.document));
+        //var _$ = $(window.document).find.bind($(window.document));
+
+        var _$ = $.proxy($.fn.find, $(window.document));
 
         //var $ads = $(window.document).find('.cbg-Ads');
 

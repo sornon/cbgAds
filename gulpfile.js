@@ -48,7 +48,8 @@ gulp.task('require', function () {
             baseUrl: './',
             out: 'all.js',
             optimize: 'none',
-            include: ["bower_components/jquery/dist/jquery.min", 'site/main'],
+            //include: ["bogulpwer_components/jquery/dist/jquery.min", 'site/main'],
+            include: ['site/main'],
             mainConfigFile: 'config.js',   //项目的 config.js 用于配置是否依赖jquery，别名，等
             optimizeAllPluginResources: true,   //打包html模板
             stubModules: ['text', 'normalize'],  //上线不依赖 require-text插件
@@ -59,8 +60,8 @@ gulp.task('require', function () {
             },
             wrapShim: true,
             //wrap: {
-            //    start: "var cbgAds_1230 = (function () {",
-            //    end: "\n return { require: require, define: define }; \n}());"
+            //    start: "(function (window) {  window = top; ",
+            //    end: "\n return { require: require, define: define }; \n}(window));"
             //}
         }))
         //.pipe(uglify())
