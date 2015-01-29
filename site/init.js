@@ -93,6 +93,18 @@
 
         var _$ = $.proxy($.fn.find, $(window.document));
 
+
+
+        $('<script />', window.document).attr({
+            src: '//cbjs.baidu.com/js/m.js',
+            async: '',
+            onload: function () {
+                alert(123123);
+            }
+        })
+
+        .appendTo(_$('body'));
+
         //var $ads = $(window.document).find('.cbg-Ads');
 
          var referrer = window.document.referrer;

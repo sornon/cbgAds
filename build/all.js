@@ -1480,33 +1480,61 @@ define('site/init',['jquery',
 
         //});
 
-        function loadScript(url, loaded) {
-            var script = window.document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = url;
-            script.async = true;
-            //script.onerror = loaded;
+        //function loadScript(url, loaded) {
+        //    var script = window.document.createElement('script');
+        //    script.type = 'text/javascript';
+        //    script.src = url;
+        //    script.async = true;
+        //    //script.onerror = loaded;
 
-            if (script.readyState) {
-                script.onreadystatechange = function () {
-                    if (this.readyState == 'loaded' || this.readyState == 'complete') {
-                        loaded();
-                    }
-                }
-            } else {
-                script.onload = loaded;
-            }
-            window.document.body.appendChild(script);
-        }
+        //    if (script.readyState) {
+        //        script.onreadystatechange = function () {
+        //            if (this.readyState == 'loaded' || this.readyState == 'complete') {
+        //                loaded();
+        //            }
+        //        }
+        //    } else {
+        //        script.onload = loaded;
+        //    }
+        //    window.document.body.appendChild(script);
+        //}
 
 
-        loadScript('//cbjs.baidu.com/js/m.js', function () {
-            window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
-        });
+        //loadScript('//cbjs.baidu.com/js/m.js', function () {
+        //    window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+        //});
+
+
+       
+
+
+
 
         //var _$ = $(window.document).find.bind($(window.document));
 
         var _$ = $.proxy($.fn.find, $(window.document));
+
+
+        $('<script />', window.document).attr({
+            src: '//cbjs.baidu.com/js/m.js',
+            async: '',
+            onload: function () {
+                alert(123123);
+            }
+        })
+
+
+        //$('<script />').attr({
+        //    src: '//cbjs.baidu.com/js/m.js',
+        //    async: 1,
+        //    onload: function () {
+        //        console.log(123123);
+        //    }
+        //})
+
+          .appendTo(_$('body'));
+
+
 
         //var $ads = $(window.document).find('.cbg-Ads');
 
