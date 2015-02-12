@@ -1262,7 +1262,7 @@ define("swfobject", (function (global) {
     };
 }(this)));
 
-define('site/service',['jquery'], function ($) {
+define('site/service',['jquery', 'window'], function ($, window) {
 
     function getContent(config) {
 
@@ -1288,7 +1288,7 @@ define('site/service',['jquery'], function ($) {
         //            "status": true,
         //            "placeId": "1",
         //            "ideaId": "3",
-        //            "ideaType": 1,
+        //            "ideaType": Math.random(100),
         //            "token": "",
         //            "content":
         //                {
@@ -1305,7 +1305,8 @@ define('site/service',['jquery'], function ($) {
     function log(data) {
 
         var img = new Image();
-        var baseUrl = 'http://10.205.82.57:8181/rs/logger/stat?';
+        //var baseUrl = 'http://10.205.82.57:8181/rs/logger/stat?';
+        var baseUrl = 'http://adplaunch.baidu.com/rs/logger/stat?';
         var query = $.param(data);
 
         img.src = baseUrl + query;
@@ -1314,10 +1315,59 @@ define('site/service',['jquery'], function ($) {
         };
 
     }
+    
+    //http://stackoverflow.com/questions/1007981/how-to-get-function-parameter-names-values-dynamically-from-javascript
+    var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+    var ARGUMENT_NAMES = /([^\s,]+)/g;
+
+    function getParamNames(func) {
+
+        var fnStr = func.toString().replace(STRIP_COMMENTS, '');
+        var result = fnStr.slice(fnStr.indexOf('(') + 1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+        if (result === null)
+            result = [];
+        return result;
+    }
+
+
+    function loadScript(url, error, loaded) {
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = url;
+        script.async = true;
+        script.onerror = error;
+
+        if (script.readyState) {
+            script.onreadystatechange = function () {
+                if (this.readyState == 'loaded' || this.readyState == 'complete') {
+                    loaded();
+                }
+            }
+        } else {
+            script.onload = loaded;
+        }
+
+        window.document.body.appendChild(script);
+    }
+
+
+    function getMjs() {
+
+        return $.Deferred(function (deferred) {
+
+            loadScript('//cbjs.baidu.com/js/m.js', deferred.reject, deferred.resolve);
+
+        });
+
+    }
+
 
     return {
         getContent: getContent,
-        log: log
+        log: log,
+        getFnParam: getParamNames,
+        getMjs: getMjs
     };
 
 });
@@ -1419,24 +1469,16 @@ define('site/init',['jquery',
         'require',
         'templatesamd/view0'], function ($, window, swfobject, service, require) {
 
-    return function () {
+   /*
+      before you start
+      注意ie6的一些问题
+
+    */
+
  
 
-        //$('<img src = "./delay.jpg" />').on('load', function () {
-        //     $(window.document.body).append(this);
-        //});
-
-
-        //$(window.document.body).append('<img src = "./delay.jpg" />');
-
-
-
-        $('<img src = "./delay.jpg">', window.document).appendTo(window.document.body);
-
-
-  
-       //$(window.document.body).append('<img src = "./delay.jpg" />');
-
+    return function () {
+ 
        //var content = $('<div />').appendTo(window.document.body);
 
         //swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
@@ -1458,30 +1500,8 @@ define('site/init',['jquery',
 
         //    });
 
-
-        //$('<div />', {
-        //    id: 'BAIDU_CLB_AD_IFRAME_666982'
-        //})
-        //    .appendTo('body');
-
-        //$('<div />', {
-        //    id: 'BAIDU_CLB_AD_IFRAME_u1825627'
-        //})
-        //   .appendTo('body');
-
-
-
-        //$.getScript('//cbjs.baidu.com/js/m.js')
-        //.done(function () {
-
-        //    BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
-
-        //    BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
-
-        //});
-
         //function loadScript(url, loaded) {
-        //    var script = window.document.createElement('script');
+        //    var script = document.createElement('script');
         //    script.type = 'text/javascript';
         //    script.src = url;
         //    script.async = true;
@@ -1501,46 +1521,69 @@ define('site/init',['jquery',
 
 
         //loadScript('//cbjs.baidu.com/js/m.js', function () {
-        //    window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+           
+
         //});
 
 
-       
+        //service.getMjs().done(function () {
+
+        //    //window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+
+        //    //如果 cbgAds 里面有被注入的方法
+        //    if ($.isArray(window.cbgAds)) {
+
+        //        $.each(window.cbgAds, function (index, fn) {
+
+        //            if (!$.isFunction(fn)) {
+        //                return;
+        //            }
+
+        //            var params = service.getFnParam(fn);
+        //            var paramsToCall = $.map(params, function (param) {
+        //                return window[param];
+        //            });
+
+        //            fn.apply(null, paramsToCall);
+
+        //        });
+
+        //        setTimeout(function () {
+
+        //            //http://stackoverflow.com/questions/2381336/detect-click-into-iframe-using-javascript
+        //            //http://www.baidu.com/dan.php?c=IZ0qn
+        //            //http://www.baidu.com/cpro.php?izRK00jJey_YLl2-2V
+
+        //            var overiFrame = false;
+
+        //            _$('#ad-banner iframe').hover(function () {
+        //                overiFrame = !overiFrame;
+        //            });
 
 
+        //            $(window).blur(function () {
+        //                if (overiFrame) {
+        //                    console.log('link');
+        //                }
+        //            })
+
+        //        }, 1000)
+
+        //    }
+
+        //});
 
 
-        //var _$ = $(window.document).find.bind($(window.document));
 
         var _$ = $.proxy($.fn.find, $(window.document));
-
-
-        $('<script />', window.document).attr({
-            src: '//cbjs.baidu.com/js/m.js',
-            async: '',
-            onload: function () {
-                alert(123123);
-            }
-        })
-
-
-        //$('<script />').attr({
-        //    src: '//cbjs.baidu.com/js/m.js',
-        //    async: 1,
-        //    onload: function () {
-        //        console.log(123123);
-        //    }
-        //})
-
-          .appendTo(_$('body'));
 
 
 
         //var $ads = $(window.document).find('.cbg-Ads');
 
-         var referrer = window.document.referrer;
+        var referrer = window.document.referrer;
 
-        
+
         _$('.cbg-Ads').each(function () {
 
             var $this = $(this);
@@ -1575,24 +1618,37 @@ define('site/init',['jquery',
                             _random: data._random,
                             referUrl: referrer
                         });
+                    })
+
+                    .html(outHtml)
+
+                    .find('img').one('load', function () {
+
+                        service.log({
+                            placeId: data.placeId,
+                            ideaId: data.ideaId,
+                            ideaType: data.ideaType,
+                            token: data.token,
+                            _random: data._random,
+                            referUrl: referrer,
+                            isDis: 1
+                        });
+
                     });
 
                 }
 
-                $this.html(outHtml);
+                //$this.html(outHtml);
 
             })
 
             .fail(function () {
 
-                console.log(111);
-
             });
 
         });
 
- 
-       
+
     }
 
 });

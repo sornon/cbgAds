@@ -77,6 +77,28 @@
         }(window));
 
 
+        //_cbgAds.BAIDU_CLB = [];
+        //_cbgAds.BAIDU_CLB.push({
+        //    slot: 646866,
+        //    albumartistid: '944,23152118',
+        //    albumsongid: '',
+        //    artistname: '刘欢,吉克隽逸',
+        //    albumname: '奋不顾身'
+        //});
+
+        var cbgAds = cbgAds || [];
+
+        cbgAds.push(function (BAIDU_CLB_addOrientation, BAIDU_CLB_fillSlotAsync) {
+
+            BAIDU_CLB_addOrientation("albumartistid", "944,23152118");
+            BAIDU_CLB_addOrientation("albumsongid", "");
+            BAIDU_CLB_addOrientation("albumid", "132020867");
+            BAIDU_CLB_addOrientation("artistname", "刘欢,吉克隽逸");
+            BAIDU_CLB_addOrientation("albumname", "奋不顾身");
+            BAIDU_CLB_fillSlotAsync("646866", "ad-banner");
+
+        });
+         
         //(function (e) {
         //    if (e._cbgAds) return;
         //    var t = function () { var e = document.createElement('script'); e.async = true, e.src = '//static.pay.baidu.com/resource/ads/all.js', document.body.appendChild(e) },
@@ -147,15 +169,31 @@
     
     <!--广告位：视频首页， banner300*250 请粘贴到广告位所在位置-->
     <div class="cbg-Ads"
-         style="display:inline-block;width:290px;height:220px"
+         style="display:inline-block;width:1000px;height:220px"
          data-place-id="1"></div>
 
     <div class="cbg-Ads"
-         style="display:inline-block;width:290px;height:220px"
+         style="display:inline-block;width:1000px;height:220px"
          data-place-id="2"></div>
 
 
-    <div id="BAIDU_CLB_AD_IFRAME_923533"></div>
+    <div id="ad-banner"></div>
+
+    <div id="ad-banner1"></div>
+
+    <script>
+
+        cbgAds.push(function (BAIDU_CLB_addOrientation, BAIDU_CLB_fillSlotAsync) {
+ 
+            BAIDU_CLB_fillSlotAsync("923533", "ad-banner1");  
+
+        });
+
+
+    </script>
+
+
+    <!--<div id="BAIDU_CLB_AD_IFRAME_646866"></div>-->
 
 
 </body>

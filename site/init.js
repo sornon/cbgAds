@@ -15,13 +15,6 @@
 
     return function () {
  
-
-        //$('<img src = "./delay.jpg" />').on('load', function () {
-        //    console.log('abc');
-        //    //$(window.document.body).append(this);
-
-        //});
-
        //var content = $('<div />').appendTo(window.document.body);
 
         //swfobject.embedSWF("http://static.googleadsserving.cn/pagead/imgad?id=CICAgKDjo7_CMhCsAhj6ATII_OC2zb4J2bw",
@@ -42,28 +35,6 @@
         //        wmode: 'direct',
 
         //    });
-
-
-        //$('<div />', {
-        //    id: 'BAIDU_CLB_AD_IFRAME_666982'
-        //})
-        //    .appendTo('body');
-
-        //$('<div />', {
-        //    id: 'BAIDU_CLB_AD_IFRAME_u1825627'
-        //})
-        //   .appendTo('body');
-
-
-
-        //$.getScript('//cbjs.baidu.com/js/m.js')
-        //.done(function () {
-
-        //    BAIDU_CLB_fillSlotAsync('666982', 'BAIDU_CLB_AD_IFRAME_666982'); // pb页顶部网盟广告
-
-        //    BAIDU_CLB_fillSlotAsync('u1825627', 'BAIDU_CLB_AD_IFRAME_u1825627');
-
-        //});
 
         //function loadScript(url, loaded) {
         //    var script = document.createElement('script');
@@ -86,28 +57,67 @@
 
 
         //loadScript('//cbjs.baidu.com/js/m.js', function () {
-        //    window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+           
+
         //});
 
-        //var _$ = $(window.document).find.bind($(window.document));
+
+        //service.getMjs().done(function () {
+
+        //    //window.BAIDU_CLB_fillSlotAsync('923533', 'BAIDU_CLB_AD_IFRAME_923533'); // pb页顶部网盟广告
+
+        //    //如果 cbgAds 里面有被注入的方法
+        //    if ($.isArray(window.cbgAds)) {
+
+        //        $.each(window.cbgAds, function (index, fn) {
+
+        //            if (!$.isFunction(fn)) {
+        //                return;
+        //            }
+
+        //            var params = service.getFnParam(fn);
+        //            var paramsToCall = $.map(params, function (param) {
+        //                return window[param];
+        //            });
+
+        //            fn.apply(null, paramsToCall);
+
+        //        });
+
+        //        setTimeout(function () {
+
+        //            //http://stackoverflow.com/questions/2381336/detect-click-into-iframe-using-javascript
+        //            //http://www.baidu.com/dan.php?c=IZ0qn
+        //            //http://www.baidu.com/cpro.php?izRK00jJey_YLl2-2V
+
+        //            var overiFrame = false;
+
+        //            _$('#ad-banner iframe').hover(function () {
+        //                overiFrame = !overiFrame;
+        //            });
+
+
+        //            $(window).blur(function () {
+        //                if (overiFrame) {
+        //                    console.log('link');
+        //                }
+        //            })
+
+        //        }, 1000)
+
+        //    }
+
+        //});
+
+
 
         var _$ = $.proxy($.fn.find, $(window.document));
 
 
 
-        $('<script />', window.document).attr({
-            src: '//cbjs.baidu.com/js/m.js',
-            async: '',
-            onload: function () {
-                alert(123123);
-            }
-        })
-
-        .appendTo(_$('body'));
-
         //var $ads = $(window.document).find('.cbg-Ads');
 
-         var referrer = window.document.referrer;
+        var referrer = window.document.referrer;
 
 
         _$('.cbg-Ads').each(function () {
@@ -144,11 +154,27 @@
                             _random: data._random,
                             referUrl: referrer
                         });
+                    })
+
+                    .html(outHtml)
+
+                    .find('img').one('load', function () {
+
+                        service.log({
+                            placeId: data.placeId,
+                            ideaId: data.ideaId,
+                            ideaType: data.ideaType,
+                            token: data.token,
+                            _random: data._random,
+                            referUrl: referrer,
+                            isDis: 1
+                        });
+
                     });
 
                 }
 
-                $this.html(outHtml);
+                //$this.html(outHtml);
 
             })
 
@@ -157,10 +183,6 @@
             });
 
         });
-
- 
-      
-
 
 
     }
