@@ -26,7 +26,7 @@ gulp.task('loader', function () {
 
 gulp.task('require', function () {
 
-    gulp.src('./')
+  return  gulp.src('./')
        //.pipe(rjs({
        //    baseUrl: './',
        //    out: 'all_delay.js',
@@ -87,6 +87,13 @@ gulp.task('require', function () {
     //   }))
     //   //.pipe(wrap('(function(){\n var require = cbgAds_1230.require; \n var define = cbgAds_1230.define;\n<%= contents %>\n}());'))
     //   .pipe(gulp.dest('build/site'));
+
+});
+
+
+gulp.task('watch-require', function () {
+
+    gulp.watch('site/**/*', ['require'])
 
 });
 

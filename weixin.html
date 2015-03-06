@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html ng-app="myapp">
+<head>
+    <title>测试数据</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+
+    <style>
+        body {
+            background: #f7f7f7;
+        }
+
+        #content {
+            color: teal;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #select-option {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.14/angular.min.js"></script>
+</head>
+<body ng-controller="main">
+
+
+    <div id="content">
+
+        <div>
+            {{data}}
+
+        </div>
+
+
+        <select id="select-option">
+            <option>123123</option>
+
+        </select>
+
+    </div>
+
+    <script>
+
+        var myapp = angular.module('myapp', []);
+
+        myapp.controller('main', function ($scope, $rootScope, dataService) {
+
+            $scope.data = null;
+
+
+            dataService.getToken().then(function (result) {
+                $scope.data = result.data;
+            });
+
+        });
+
+        myapp.factory('dataService', function ($http, $q) {
+
+            var dataService = {};
+
+
+            dataService.getToken = function () {
+
+                return $http({
+                    url: 'https://api.weixin.qq.com/cgi-bin/token',
+                    method: 'GET',
+                    params: {
+                        grant_type: 'client_credential',
+                        appid: 'wxa058db9b0285e6a2',
+                        secret: '73f76a1be84770f45d704419bbdd26ab'
+                    },
+                    timeout: 6000,
+                    responseType: 'json'
+                })
+                .then(function (result) {
+
+                    console.log(result);
+
+                    return result;
+                })
+                .catch(function (error) {
+                    alert(error);
+                })
+
+            };
+
+
+            return dataService;
+        });
+
+ 
+
+
+    </script>
+
+
+</body>
+</html>
+

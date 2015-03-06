@@ -8,9 +8,9 @@ requirejs.config({
     name: 'bower_components/almond/almond',    //指定almond路径，打包 almond（requirejs精简版）https://github.com/jrburke/almond
     include: ['site/main'],
     shim: {
-        'swfobject': {
-            exports: 'swfobject'
-        }
+        //'swfobject': {
+        //    exports: 'swfobject'
+        //}
     }
     //insertRequire: ['site/init']
 });

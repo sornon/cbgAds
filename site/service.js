@@ -2,20 +2,20 @@
 
     function getContent(config) {
 
-        return $.ajax({
-            //url: 'http://10.205.82.57:8181/rs/adp/launch',
-            //url: 'http://10.99.31.12:8181/rs/adp/launch',
+        //return $.ajax({
+        //    //url: 'http://10.205.82.57:8181/rs/adp/launch',
+        //    //url: 'http://10.99.31.12:8181/rs/adp/launch',
 
-            //url: 'http://adplaunch.baidu.com/rs/adp/launch',
-            url: 'http://baichuan.baidu.com/rs/adp/launch',
-            data: {
-                placeId: config.placeId,
-                referUrl: config.referUrl
-            },
-            dataType: 'jsonp',
-            cache: false,
-            timeout: 10000
-        });
+        //    //url: 'http://adplaunch.baidu.com/rs/adp/launch',
+        //    url: 'http://baichuan.baidu.com/rs/adp/launch',
+        //    data: {
+        //        placeId: config.placeId,
+        //        referUrl: config.referUrl
+        //    },
+        //    dataType: 'jsonp',
+        //    cache: false,
+        //    timeout: 10000
+        //});
 
         //return $.Deferred(function (deferred) {
 
@@ -37,6 +37,51 @@
         //    }, 10);
 
         //});
+
+        return $.Deferred(function (deferred) {
+
+            setTimeout(function () {
+
+                deferred.resolve({
+                    "status": true,
+                    "content": {
+                        "1": {
+                            "title": "thuti",
+                            "src": "http://test.gtcdn.gaitu.cn/delay.swf",
+                            "href": "http://www.baidu.com"
+                        }
+                    },
+                    "cru": "http://baichuan.baidu.com/redirecting?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzI=",
+                    "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                });
+
+
+            }, 10);
+
+        });
+
+        //return $.Deferred(function (deferred) {
+
+        //    setTimeout(function () {
+
+        //        deferred.resolve({
+        //            "status": true,
+        //            "content": {
+        //                "0": {
+        //                    "title": "thuti",
+        //                    "src": "http://p2.youxi.bdimg.com/r/image/2015-02-05/890f47de2868c23545cf3597ffc94bf2.jpg",
+        //                    "href": "http://www.baidu.com"
+        //                }
+        //            },
+        //            "cru": "http://baichuan.baidu.com/redirecting?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzI=",
+        //            "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+        //        });
+
+
+        //    }, 10);
+
+        //});
+
     }
 
     function log(data) {
@@ -45,16 +90,27 @@
         //var baseUrl = 'http://10.205.82.57:8181/rs/logger/stat?';
         //var baseUrl = 'http://adplaunch.baidu.com/rs/logger/stat?';
         var baseUrl = 'http://baichuan.baidu.com/rs/logger/stat?';
- 
         var query = $.param(data);
 
         img.src = baseUrl + query;
         img.onload = img.onerror = function () {
             img = null;
         };
-
     }
-    
+
+    function logJsonp(logurl, data) {
+
+        return $.ajax({
+            url: logurl,
+            data: data,
+            dataType: 'jsonp',
+            cache: false,
+            timeout: 1000
+        });
+    }
+
+
+
     //http://stackoverflow.com/questions/1007981/how-to-get-function-parameter-names-values-dynamically-from-javascript
     var STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
     var ARGUMENT_NAMES = /([^\s,]+)/g;
@@ -106,7 +162,8 @@
         getContent: getContent,
         log: log,
         getFnParam: getParamNames,
-        getMjs: getMjs
+        getMjs: getMjs,
+        logJsonp: logJsonp
     };
 
 });
