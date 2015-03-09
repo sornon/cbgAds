@@ -255,24 +255,32 @@
                     var width = $this.width();
                     var height = $this.height();
 
+                    content.width = width;
+                    content.height = height;
+
                     var outHtml = require('templatesamd/view1')(content);
 
-                    var div = $this.html(outHtml)
+                    $this.html(outHtml)
 
-                        .find('div[flashwrap]')
+                    .find('div[flashwrap]')
 
-                        .flash({
-                            swf: 'http://test.gtcdn.gaitu.cn/delay.swf',
-                            width: width,
-                            height: height,
-                            wmode: 'transparent',
-                            flashvars: {
+                    .flash({
+                        swf: 'http://test.gtcdn.gaitu.cn/delay.swf',
+                        width: width,
+                        height: height,
+                        wmode: 'transparent',
+                        flashvars: {
 
-                            }
-                        });
+                        }
+                    })
 
-                    $this.find('iframe').on('click', function () {
-                        alert(123);
+                    .end()
+
+                    // shim for ie7
+                    .on('mousedown', function (e) {
+                        if (e.which === 1) {
+                            window.open(content.link);
+                        }
                     });
 
                 }
