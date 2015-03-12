@@ -5,6 +5,7 @@
      <script src="//cdn.staticfile.org/jquery/1.11.1/jquery.min.js"></script>
 
     <script src="//static.pay.baidu.com/resource/ads/template.js"></script>
+    <!--<script src="//cdn.jsdelivr.net/g/mutationobserver/"></script>-->
 
     <style>
         .wrap{
@@ -33,6 +34,11 @@
 
     <pre id="example"></pre>
 
+    <iframe src="HtmlPage.html"></iframe>
+ 
+    <button id="btn123">123213213</button>
+
+
     <script id="use">
         var temp = template('script');
 
@@ -57,7 +63,36 @@
 
         $('#how-to').html($('#use').html());
 
+
+        //var observer = new MutationObserver(function (mutations, observer) {
+        //    // fired when a mutation occurs
+        //    console.log(mutations, observer);
+        //});
+
+        //observer.observe(document, {
+        //    subtree: true,
+        //    attributes: true
+        //    //...
+        //});
+
+        window.onload = function () {
+
+ 
+        }
+
+        $('#btn123').on('click', function () {
+            window.frames[0].postMessage('getcolor', 'http://localhost:54653/');
+
+            $(window).one('message', function () {
+
+
+                console.log('msg');
+            });
+
+        });
+
     </script>
+
 
 
 </body>

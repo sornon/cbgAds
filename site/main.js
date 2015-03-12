@@ -19,14 +19,8 @@ require.config({
     baseUrl: 'http://localhost:54653/',
     paths: {
         'jquery': 'bower_components/jquery/dist/jquery.min',
-        //'swfobject': 'bower_components/swfobject/swfobject/src/swfobject',
         'mock': 'bower_components/mockjs/dist/mock'
-    }//,
-    //shim: {
-    //    'swfobject': {
-    //        exports: 'swfobject'
-    //    }
-    //}
+    }
 });
 
 

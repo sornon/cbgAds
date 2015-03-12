@@ -1,0 +1,81 @@
+﻿
+<!doctype html>
+<html lang="utf-8" ng-app="zpzkApp">
+<head>
+    <title>正品折扣移动版</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- <meta name="viewport" content="width=640, user-scalable=no, initial-scale=.5, maximum-scale=.5"> -->
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="正品折扣手机购物，正品商城，品牌特卖会" name="keywords">
+    <meta content="正品折扣手机购物网以1-7折超低折扣对全球各大品牌进行限时特卖，商城内正品囊括服装、化妆品、家居、奢侈品等。100%正品、手机购物下单、货到付款、7天无条件退货。" name="description">
+
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+    <link rel="stylesheet" href="css/base-debug.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/font-awesome.css">
+    <link rel="stylesheet" href="css/angular-carousel.css">
+    <link rel="stylesheet" href="css/myanimate.css">
+    <link rel="stylesheet" href="css/02-3.css">
+
+
+    <link rel="shortcut icon" href="i/favicon.ico">
+    <link rel="apple-touch-icon" href="i/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="i/apple-touch-icon-57x57-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="i/apple-touch-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="i/apple-touch-icon-114x114-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="i/apple-touch-icon-144x144-precomposed.png" />
+
+
+    <script type="text/javascript" src="js/angular.js"></script>
+    <script type="text/javascript" src="js/angular-route.js"></script>
+    <script type="text/javascript" src="js/angular-touch.js"></script>
+    <script type="text/javascript" src="js/angular-carousel.js"></script>
+    <script type="text/javascript" src="js/angular-animate.js"></script>
+
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/swipe.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+
+</head>
+<body ng-swipe-left="offNav()" ng-swipe-right="onNav()" ng-controller="bodyController">
+
+    <main ng-class="{'navon' : navon}">
+        <header>
+            <!-- <a ng-click="setRoute('Promos')"> 正品折扣移动版</a> -->
+            <a href="javascript:;" class="go-back" ng-click="goBack()"></a>
+            <h3 ng-class="{'logo': islogo}">{{title}}</h3>
+            <!-- <i class="fa fa-bars fa-lg" ng-click="toggleNav()"></i> -->
+
+        </header>
+        <div id="slideDots" class="dot-slider enable">
+            <span class="dot current"></span>
+            <span class="dot "></span>
+            <span class="dot "></span>
+        </div>
+        <ng-view></ng-view>
+        <!--sideMenu-->
+        <nav class="nav"></nav>
+    </main>
+
+    <script>
+        window.mySwipe = new Swipe(document.getElementById('slider-banner'), {
+            startSlide: 2,
+            speed: 400,
+            auto: 3000,
+            continuous: true,
+            disableScroll: false,
+            stopPropagation: false,
+            callback: function (index, elem) { },
+            transitionEnd: function (index, elem) { }
+        });
+
+    </script>
+
+</body>
+</html>

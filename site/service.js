@@ -38,6 +38,29 @@
 
         //});
 
+        //return $.Deferred(function (deferred) {
+
+        //    setTimeout(function () {
+
+        //        deferred.resolve({
+        //            "status": true,
+        //            "content": {
+        //                "1": {
+        //                    "title": "thuti",
+        //                    "src": "http://test.gtcdn.gaitu.cn/delay.swf",
+        //                    "href": "http://www.baidu.com"
+        //                }
+        //            },
+        //            "cru": "http://baichuan.baidu.com/redirecting?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzI=",
+        //            "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+        //        });
+
+
+        //    }, 10);
+
+        //});
+
+
         return $.Deferred(function (deferred) {
 
             setTimeout(function () {
@@ -45,11 +68,8 @@
                 deferred.resolve({
                     "status": true,
                     "content": {
-                        "1": {
-                            "title": "thuti",
-                            "src": "http://test.gtcdn.gaitu.cn/delay.swf",
-                            "href": "http://www.baidu.com"
-                        }
+                        // "2": "904459"
+                        "2": "u1978671"
                     },
                     "cru": "http://baichuan.baidu.com/redirecting?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzI=",
                     "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
@@ -59,6 +79,8 @@
             }, 10);
 
         });
+
+
 
         //return $.Deferred(function (deferred) {
 
@@ -147,14 +169,33 @@
     }
 
 
+    var mjsLoaded = false;
+    var deferred;
+
+
     function getMjs() {
 
-        return $.Deferred(function (deferred) {
+        if (!mjsLoaded) {
 
-            loadScript('//cbjs.baidu.com/js/m.js', deferred.reject, deferred.resolve);
+            deferred = $.Deferred();
 
-        });
+            mjsLoaded = true;
 
+            //loadScript('//cbjs.baidu.com/js/m.js', function () {
+            loadScript('//cpro.baidustatic.com/cpro/ui/c.js', function () {
+
+                mjsLoaded = false;
+                deferred.reject();
+
+            }, function () {
+
+                deferred.resolve();
+
+            });
+
+        }
+
+        return deferred.promise();
     }
 
 
