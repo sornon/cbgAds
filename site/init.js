@@ -18,6 +18,8 @@
         return src;
     }
 
+
+
     /*
        before you start
        注意ie6的一些问题
@@ -25,12 +27,12 @@
 
     module.exports = function () {
 
-        _$('.cbg-Ads').each(function () {
+        var adsPromise = _$('.cbg-Ads').map(function () {
 
             var $this = $(this);
             var placeId = $this.data('placeId');
 
-            service.getContent({
+            return service.getContent({
                 placeId: placeId,
                 referUrl: referrer
             })
@@ -184,16 +186,72 @@
 
                 if (data.status === true && data.content['2']) {
 
-                    var slotId = data.content['2'];
+                    var name = data.content['2'].idName;
+                    var id = data.content['2'].idValue;
+                    var src = data.content['2'].jsSrc;
 
-                    service.getMjs().done(function () {
+                    service.getMjs(src).done(function () {
 
-                       // window.BAIDU_CLB_fillSlotAsync(slotId, $this[0]);
-                        window.BAIDU_CLB_DUP2_fillSlotAsync(slotId, $this[0]);
+                        if (name === 'cpro_id') {
+                            window.BAIDU_CLB_DUP2_fillSlotAsync(id, $this[0]);
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                            window.BAIDU_CLB_fillSlotAsync(id, $this[0]);
+                        } else if (name === 'FTAPI_slotid') {
+                            window._FTAPI_.init(id, { target: $this[0] });
+                        }
 
                     });
 
+                    var count = 10;
+
+                    var interval = window.setInterval(function () {
+
+                        if (count > 10) {
+                            window.clearInterval(interval);
+                            return;
+                        }
+
+                        if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
+                            window.clearInterval(interval);
+
+                            service.logJsonp(data.dsu, {
+                                referUrl: referrer
+                            });
+
+                            return;
+                        }
+
+                        count += 1;
+
+                    }, 200);
+
+                    var overiFrame = false;
+
+                    $this.on({
+                        mouseenter: function () {
+                            overiFrame = true;
+                        },
+                        mouseleave: function () {
+                            overiFrame = false;
+                        }
+                    });
+
+                    $(window).on('blur', function () {
+                        if (overiFrame) {
+
+                            service.logJsonp(data.cru, {
+                                referUrl: referrer
+                            });
+
+                        }
+                    });
+
                 }
+
+            })
+
+            .done(function (data) {
+
 
             })
 
@@ -202,6 +260,20 @@
             });
 
         });
+
+        $.when.apply(null, adsPromise)
+
+                .done(function () {
+
+                    var mzParams = $.map(arguments, function (val, key) {
+
+
+                    });
+
+
+                });
+
+
     }
 
 });

@@ -506,10 +506,19 @@ define('site/service',['jquery', 'window'], function ($, window) {
                 deferred.resolve({
                     "status": true,
                     "content": {
-                        // "2": "904459"
-                        "2": "u1984141"
+                        //"2": {
+                        //    idValue: "923533",
+                        //    idName: "BAIDU_CLB_SLOT_ID",
+                        //    jsSrc: "http://cbjs.baidu.com/js/m.js"
+                        //}
+
+                        "2": {
+                            idValue: "1008346",
+                            idName: "FTAPI_slotid",
+                            jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
+                        }
+
                     },
-                    "cru": "http://baichuan.baidu.com/redirecting?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzI=",
                     "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                 });
 
@@ -587,51 +596,78 @@ define('site/service',['jquery', 'window'], function ($, window) {
 
     function loadScript(url, error, loaded) {
 
-        var script = document.createElement('script');
+        var head = window.document.head || $('head', window.document)[0] || window.document.documentElement;
+        var script = window.document.createElement('script');
+
         script.type = 'text/javascript';
         script.src = url;
         script.async = true;
         script.onerror = error;
 
-        if (script.readyState) {
-            script.onreadystatechange = function () {
-                if (this.readyState == 'loaded' || this.readyState == 'complete') {
+        //if (script.readyState) {
+        //    script.onreadystatechange = function () {
+        //        if (this.readyState == 'loaded' || this.readyState == 'complete') {
+        //            loaded();
+        //        }
+        //    }
+        //} else {
+        //    script.onload = loaded;
+        //}
+
+        script.onload = script.onreadystatechange = function (_, isAbort) {
+
+            if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
+
+                // Handle memory leak in IE
+                script.onload = script.onreadystatechange = null;
+
+                // Remove the script
+                //if (script.parentNode) {
+                //    script.parentNode.removeChild(script);
+                //}
+
+                // Dereference the script
+                script = null;
+
+                // Callback if not abort
+                if (!isAbort) {
                     loaded();
                 }
             }
-        } else {
-            script.onload = loaded;
-        }
+        };
 
-        window.document.body.appendChild(script);
+        head.insertBefore(script, head.firstChild);
+        //window.document.body.appendChild(script);
     }
 
+    // 新建调用script的缓存
+    var scriptsCache = {};
 
-    var mjsLoaded = false;
-    var deferred;
+    function getMjs(src) {
 
+        var url = src || '//cbjs.baidu.com/js/m.js';
 
-    function getMjs() {
-
-        if (!mjsLoaded) {
-
-            deferred = $.Deferred();
-
-            mjsLoaded = true;
-
-            //loadScript('//cbjs.baidu.com/js/m.js', function () {
-            loadScript('//cpro.baidustatic.com/cpro/ui/c.js', function () {
-
-                mjsLoaded = false;
-                deferred.reject();
-
-            }, function () {
-
-                deferred.resolve();
-
-            });
-
+        // 如果有缓存 直接返回 promise
+        if (scriptsCache[url]) {
+            return scriptsCache[url];
         }
+
+        // 没有缓存 新建一个deferred
+        var deferred = $.Deferred();
+
+        loadScript(url, function () {
+
+            // 加载失败 清除缓存
+            delete scriptsCache[url];
+
+            deferred.reject();
+
+        }, deferred.resolve);
+
+        var promise = deferred.promise();
+
+        // url里是 promise
+        scriptsCache[url] = promise;
 
         return deferred.promise();
     }
@@ -1012,6 +1048,8 @@ define('site/init',['require','exports','module','jquery','window','site/service
         return src;
     }
 
+
+
     /*
        before you start
        注意ie6的一些问题
@@ -1178,13 +1216,64 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
                 if (data.status === true && data.content['2']) {
 
-                    var slotId = data.content['2'];
+                    var name = data.content['2'].idName;
+                    var id = data.content['2'].idValue;
+                    var src = data.content['2'].jsSrc;
 
-                    service.getMjs().done(function () {
+                    service.getMjs(src).done(function () {
 
-                       // window.BAIDU_CLB_fillSlotAsync(slotId, $this[0]);
-                        window.BAIDU_CLB_DUP2_fillSlotAsync(slotId, $this[0]);
+                        if (name === 'cpro_id') {
+                            window.BAIDU_CLB_DUP2_fillSlotAsync(id, $this[0]);
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                            window.BAIDU_CLB_fillSlotAsync(id, $this[0]);
+                        } else if (name === 'FTAPI_slotid') {
+                             window._FTAPI_.init(id, { target: $this[0] });
+                        }
 
+                    });
+
+                    var count = 10;
+
+                    var interval = window.setInterval(function () {
+
+                        if (count > 10) {
+                            window.clearInterval(interval);
+                            return;
+                        }
+
+                        if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
+                            window.clearInterval(interval);
+
+                            service.logJsonp(data.dsu, {
+                                referUrl: referrer
+                            });
+
+                            return;
+                        }
+
+                        count += 1;
+
+                    }, 200);
+
+                    var overiFrame = false;
+
+                    $this.on({
+                        mouseenter: function () {
+                            overiFrame = true;
+                        },
+                        mouseleave: function () {
+                            overiFrame = false;
+                        }
+                    });
+
+                    $(window).on('blur', function () {
+                        if (overiFrame) {
+
+                            service.logJsonp(data.cru, {
+                                referUrl: referrer
+                            });
+
+                        }
                     });
 
                 }
