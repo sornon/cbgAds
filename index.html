@@ -241,7 +241,7 @@
 
     <!--<script src="http://pic.fastapi.net/sdk/js/_a.js" charset="utf-8"></script>-->
 
-    <script src="http://js.miaozhen.com/mz_ad_serving.js"></script>
+    <!--<script src="http://js.miaozhen.com/mz_ad_serving.js"></script>-->
 
     <script>
 
@@ -272,17 +272,17 @@ var cpro_id = "u1978671";
     
 
 
-    setTimeout(function () {
+    //setTimeout(function () {
 
-        (function (doc) {
-            var js = doc.createElement("script"),
-            fs = doc.getElementsByTagName("script")[0];
-            js.charset = "utf-8";
-            js.src = "http://js.miaozhen.com/mz_ad_serving.js";
-            fs.parentNode.insertBefore(js, fs);
-        })(document);
+    //    (function (doc) {
+    //        var js = doc.createElement("script"),
+    //        fs = doc.getElementsByTagName("script")[0];
+    //        js.charset = "utf-8";
+    //        js.src = "http://js.miaozhen.com/mz_ad_serving.js";
+    //        fs.parentNode.insertBefore(js, fs);
+    //    })(document);
 
-    },2000)
+    //},2000)
 
     </script>
 
@@ -351,14 +351,14 @@ var cpro_id = "u1978671";
 
         //})
 
-        (function (win) {
-            var params = {};
-            params["l"] = "88573";
-            params["_srv"] = "MZHKY3";
-            params["_id"] = "MZHKY3_88573";
-            __mz_rpq = win.__mz_rpq || [];
-            __mz_rpq.push(params);
-        })(window);
+        //(function (win) {
+        //    var params = {};
+        //    params["l"] = "88573";
+        //    params["_srv"] = "MZHKY3";
+        //    params["_id"] = "MZHKY3_88573";
+        //    __mz_rpq = win.__mz_rpq || [];
+        //    __mz_rpq.push(params);
+        //})(window);
 
     </script>
  
@@ -384,5 +384,35 @@ var cpro_id = "u1978671";
 
 
     <div id="MZHKY3_88573"></div>
+
+
+
+   <script>
+
+
+       $(function () {
+
+
+           setTimeout(function () {
+
+               $('body').append("<script src='//localhost:8887/delay.js'><\/script>");
+               $('body').append("<script src='//localhost:8887/normal.js'><\/script>");
+
+
+           }, 1000);
+
+
+       })
+
+
+   </script>
+
+
+    <noscript>
+
+        BAIDU_CLB_SLOT_ID = "1111";
+
+    </noscript>
+
 </body>
 </html>
