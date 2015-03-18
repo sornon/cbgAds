@@ -76,6 +76,18 @@
                         },
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                     });
+                }else if(config.placeId == 4){
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            "3": {
+                                aid:'4',
+                                str:'<script type="text/javascript">BAIDU_CLB_SLOT_ID = "999704";</script><script type="text/javascript" src="http://testdelay.chinacloudsites.cn/m.js"></script>'
+                            }
+
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
                 }else{
                     deferred.resolve({
                         "status": true,

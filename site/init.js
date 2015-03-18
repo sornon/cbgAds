@@ -257,7 +257,7 @@ define(function (require, exports, module) {
                     var iframe = parent.createElement('iframe');
                     (iframe.frameElement || iframe).style.cssText = "margin:0;padding0;border:0";
                     iframe.src = "javascript:false";
-                    iframe.setAttribute('id', 'test');
+                    iframe.setAttribute('id', 'cbgAdsExt_'+data.content['3'].aid;
                     iframe.width = $this.width();
                     iframe.height = $this.height();
                     iframe.scrolling = 'no';
