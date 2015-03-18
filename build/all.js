@@ -440,20 +440,20 @@ define('site/service',['jquery', 'window'], function ($, window) {
 
     function getContent(config) {
 
-        //return $.ajax({
-        //    //url: 'http://10.205.82.57:8181/rs/adp/launch',
-        //    //url: 'http://10.99.31.12:8181/rs/adp/launch',
+        return $.ajax({
+            //url: 'http://10.205.82.57:8181/rs/adp/launch',
+            //url: 'http://10.99.31.12:8181/rs/adp/launch',
 
-        //    //url: 'http://adplaunch.baidu.com/rs/adp/launch',
-        //    url: 'http://baichuan.baidu.com/rs/adp/launch',
-        //    data: {
-        //        placeId: config.placeId,
-        //        referUrl: config.referUrl
-        //    },
-        //    dataType: 'jsonp',
-        //    cache: false,
-        //    timeout: 10000
-        //});
+            //url: 'http://adplaunch.baidu.com/rs/adp/launch',
+            url: 'http://baichuan.baidu.com/rs/adp/launch',
+            data: {
+                placeId: config.placeId,
+                referUrl: config.referUrl
+            },
+            dataType: 'jsonp',
+            cache: false,
+            timeout: 10000
+        });
 
         //return $.Deferred(function (deferred) {
 
@@ -503,27 +503,56 @@ define('site/service',['jquery', 'window'], function ($, window) {
 
             setTimeout(function () {
 
-                deferred.resolve({
-                    "status": true,
-                    "content": {
-                        //"2": {
-                        //    idValue: "923533",
-                        //    idName: "BAIDU_CLB_SLOT_ID",
-                        //    jsSrc: "http://cbjs.baidu.com/js/m.js"
-                        //}
+                if (config.placeId == 3) {
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            "3": {
+                                aid: '3',
+                                str: '<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
+                            }
 
-                        "2": {
-                            idValue: "1008346",
-                            idName: "FTAPI_slotid",
-                            jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
-                        }
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                } if (config.placeId == 4) {
 
-                    },
-                    "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
-                });
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            "3": {
+                                aid: '3',
+                                str: '<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
+                            }
+
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
 
 
-            }, 10);
+
+                } else {
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            //"2": {
+                            //    idValue: "923533",
+                            //    idName: "BAIDU_CLB_SLOT_ID",
+                            //    jsSrc: "http://cbjs.baidu.com/js/m.js"
+                            //}
+
+                            "2": {
+                                idValue: "1008346",
+                                idName: "FTAPI_slotid",
+                                jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
+                            }
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                }
+
+
+            }, Math.random() * 300);
 
         });
 
@@ -614,6 +643,7 @@ define('site/service',['jquery', 'window'], function ($, window) {
         //    script.onload = loaded;
         //}
 
+        //  从jquery script.js 中拷过来
         script.onload = script.onreadystatechange = function (_, isAbort) {
 
             if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
@@ -1057,12 +1087,12 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
     module.exports = function () {
 
-        _$('.cbg-Ads').each(function () {
+        var adsPromise = _$('.cbg-Ads').map(function () {
 
             var $this = $(this);
             var placeId = $this.data('placeId');
 
-            service.getContent({
+            return service.getContent({
                 placeId: placeId,
                 referUrl: referrer
             })
@@ -1227,7 +1257,7 @@ define('site/init',['require','exports','module','jquery','window','site/service
                         } else if (name === 'BAIDU_CLB_SLOT_ID') {
                             window.BAIDU_CLB_fillSlotAsync(id, $this[0]);
                         } else if (name === 'FTAPI_slotid') {
-                             window._FTAPI_.init(id, { target: $this[0] });
+                            window._FTAPI_.init(id, { target: $this[0] });
                         }
 
                     });
@@ -1253,31 +1283,81 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
                         count += 1;
 
-                    }, 200);
+                    }, 500);
 
                     var overiFrame = false;
 
                     $this.on({
-                        mouseenter: function () {
+                        mouseover: function () {
                             overiFrame = true;
                         },
-                        mouseleave: function () {
+                        mouseout: function () {
                             overiFrame = false;
                         }
                     });
 
-                    $(window).on('blur', function () {
-                        if (overiFrame) {
+                    // hack for firefox
+                    if (/Firefox/.test(window.navigator.userAgent)) {
 
-                            service.logJsonp(data.cru, {
-                                referUrl: referrer
-                            });
+                        $(window).on('visibilitychange', function (e) {
 
-                        }
-                    });
+                            if (!window.document.hidden && overiFrame) {
+                                service.logJsonp(data.cru, {
+                                    referUrl: referrer
+                                });
+
+                                setTimeout(function () {
+                                    overiFrame = false;
+                                });
+                            }
+                        });
+
+                    } else {
+                        // hack for ie chrome
+                        $(window).on('blur', function () {
+
+                            if (overiFrame) {
+
+                                service.logJsonp(data.cru, {
+                                    referUrl: referrer
+                                });
+
+                                setTimeout(function () {
+                                    overiFrame = false;
+                                    $(window).focus();
+                                });
+                            }
+
+                        });
+                    }
 
                 }
 
+            })
+
+            .done(function (data) {
+                if (data.status === true && data.content['3']) {
+                    var html = data.content['3'].str;
+
+                    var $iframe = $('<iframe />', window.document)
+
+                    .attr({
+                        src: "javascript:false",
+                        width: $this.width(),
+                        height: $this.height(),
+                        frameBorder: 0,
+                        cbgAdsVm: html
+                    })
+
+                    .appendTo($this);
+
+                    var doc = $iframe.contents()[0];
+
+                    doc.open();
+                    doc.write('<style>*{margin:0;padding0;border:0}</style>');
+                    doc.write(html);
+                    doc.close();
+                }
             })
 
             .fail(function () {
@@ -1285,10 +1365,11 @@ define('site/init',['require','exports','module','jquery','window','site/service
             });
 
         });
+
+
     }
 
 });
-
 /*
 @author: https://github.com/21paradox
 广告位加载器
@@ -1298,7 +1379,7 @@ define('site/init',['require','exports','module','jquery','window','site/service
 // var win = window == top ? window : top;
 
 define('window', [], function () {
-    return window == top ? window : top;
+    return window == window.parent ? window : window.parent;
 });
 
 // document 是顶层的document

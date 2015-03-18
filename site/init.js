@@ -223,36 +223,81 @@
 
                         count += 1;
 
-                    }, 200);
+                    }, 500);
 
                     var overiFrame = false;
 
                     $this.on({
-                        mouseenter: function () {
+                        mouseover: function () {
                             overiFrame = true;
                         },
-                        mouseleave: function () {
+                        mouseout: function () {
                             overiFrame = false;
                         }
                     });
 
-                    $(window).on('blur', function () {
-                        if (overiFrame) {
+                    // hack for firefox
+                    if (/Firefox/.test(window.navigator.userAgent)) {
 
-                            service.logJsonp(data.cru, {
-                                referUrl: referrer
-                            });
+                        $(window).on('visibilitychange', function (e) {
 
-                        }
-                    });
+                            if (!window.document.hidden && overiFrame) {
+                                service.logJsonp(data.cru, {
+                                    referUrl: referrer
+                                });
+
+                                setTimeout(function () {
+                                    overiFrame = false;
+                                });
+                            }
+                        });
+
+                    } else {
+                        // hack for ie chrome
+                        $(window).on('blur', function () {
+
+                            if (overiFrame) {
+
+                                service.logJsonp(data.cru, {
+                                    referUrl: referrer
+                                });
+
+                                setTimeout(function () {
+                                    overiFrame = false;
+                                    $(window).focus();
+                                });
+                            }
+
+                        });
+                    }
 
                 }
 
             })
 
             .done(function (data) {
+                if (data.status === true && data.content['3']) {
+                    var html = data.content['3'].str;
 
+                    var $iframe = $('<iframe />', window.document)
 
+                    .attr({
+                        src: "javascript:false",
+                        width: $this.width(),
+                        height: $this.height(),
+                        frameBorder: 0,
+                        cbgAdsVm: html
+                    })
+
+                    .appendTo($this);
+
+                    var doc = $iframe.contents()[0];
+
+                    doc.open();
+                    doc.write('<style>*{margin:0;padding0;border:0}</style>');
+                    doc.write(html);
+                    doc.close();
+                }
             })
 
             .fail(function () {
@@ -260,18 +305,6 @@
             });
 
         });
-
-        $.when.apply(null, adsPromise)
-
-                .done(function () {
-
-                    var mzParams = $.map(arguments, function (val, key) {
-
-
-                    });
-
-
-                });
 
 
     }

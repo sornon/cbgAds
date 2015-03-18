@@ -7,7 +7,7 @@
 // var win = window == top ? window : top;
 
 define('window', [], function () {
-    return window == top ? window : top;
+    return window == window.parent ? window : window.parent;
 });
 
 // document 是顶层的document
