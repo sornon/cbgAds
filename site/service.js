@@ -64,34 +64,40 @@
         return $.Deferred(function (deferred) {
 
             setTimeout(function () {
+                if(config.placeId == 3 ){
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            "3": {
+                                aid:'3',
+                                str:'<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
+                            }
 
-                deferred.resolve({
-                    "status": true,
-                    "content": {
-                        //"2": {
-                        //    idValue: "923533",
-                        //    idName: "BAIDU_CLB_SLOT_ID",
-                        //    jsSrc: "http://cbjs.baidu.com/js/m.js"
-                        //}
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                }else{
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            //"2": {
+                            //    idValue: "923533",
+                            //    idName: "BAIDU_CLB_SLOT_ID",
+                            //    jsSrc: "http://cbjs.baidu.com/js/m.js"
+                            //}
 
-                        //"2": {
-                        //    idValue: "1008346",
-                        //    idName: "FTAPI_slotid",
-                        //    jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
-                        //}
-
-
-                        "3": {
-                            html:  '<div id="MZADX_6372"></div><script type="text/javascript"> (function (win) {  var params = {};  params["l"] = [6372];  //Miaozhen ad placement id ARRAY  params["r"] = "1";  //version  params["_srv"] = "MZADX";  params["_baseurl"] = "http://s.x.cn.grpreach.com/ax";  __mz_rpq = win.__mz_rpq || [];   __mz_rpq.push(params); })(window);</script>' ,
-                            jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
-                        }
-
-                    },
-                    "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
-                });
+                            "2": {
+                                idValue: "1008346",
+                                idName: "FTAPI_slotid",
+                                jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
+                            }
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                }
 
 
-            }, 10);
+            }, Math.random()*300);
 
         });
 

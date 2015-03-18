@@ -1,4 +1,4 @@
-﻿define(function (require, exports, module) {
+define(function (require, exports, module) {
 
     var $ = require('jquery'),
         window = require('window'),
@@ -251,8 +251,73 @@
             })
 
             .done(function (data) {
+                if (data.status === true && data.content['3']) {
+                    var html = data.content['3'].str;
+                    var parent = window.parent.document;
+                    var iframe = parent.createElement('iframe');
+                    (iframe.frameElement || iframe).style.cssText = "margin:0;padding0;border:0";
+                    iframe.src = "javascript:false";
+                    iframe.setAttribute('id', 'test');
+                    iframe.width = $this.width();
+                    iframe.height = $this.height();
+                    iframe.scrolling = 'no';
+                    iframe.frameBorder = 0;
+                    $this[0].appendChild(iframe);
 
-
+                    var doc = (iframe.contentWindow.document || iframe.contentDocument);
+                    doc.open();
+                    var attr = [
+                        'compatMode',
+                        'currentScript',
+                        'pointerLockElement',
+                        'activeElement',
+                        'characterSet',
+                        'readyState',
+                        'defaultCharset',
+                        'charset',
+                        'location',
+                        'lastModified',
+                        'anchors',
+                        'scripts',
+                        'forms',
+                        'links',
+                        'plugins',
+                        'embeds',
+                        'applets',
+                        'images',
+                        'head',
+                        'cookie',
+                        'URL',
+                        'domain',
+                        'referrer',
+                        'title',
+                        'designMode',
+                        'dir',
+                        'contentType',
+                        'styleSheets',
+                        'defaultView',
+                        'documentURI',
+                        'xmlStandalone',
+                        'xmlVersion',
+                        'xmlEncoding',
+                        'inputEncoding',
+                        'documentElement',
+                        'implementation',
+                        'doctype',
+                        'parentElement',
+                        'textContent',
+                        'baseURI',
+                        'localName',
+                        'namespaceURI',
+                        'ownerDocument'
+                    ];
+                    for(var i = 0; i < attr.length; i++){
+                        doc[i] = parent[i];
+                    }
+                    doc.write('<style>*{margin:0;padding0;border:0}</style>');
+                    doc.write(html);
+                    doc.close();
+                }
             })
 
             .fail(function () {
