@@ -2,7 +2,8 @@
 
     var $ = require('jquery'),
         window = require('window'),
-        service = require('site/service');
+        service = require('site/service')
+        alog = require('site/alog');
 
     require('site/jquery-swfobject');
 
@@ -18,6 +19,30 @@
         return src;
     }
 
+    //var logIframe = $('<iframe />', window.document)
+
+    //                .attr({
+    //                    src: "javascript:false",
+    //                    frameBorder: 0,
+    //                    style: "display: none",
+    //                    id: "cbgAdsLog"
+    //                })
+
+    //                .appendTo(_$('body'));
+
+    //var iframedoc = logIframe.contents()[0];
+
+    //var dpHtml = require('text!templates/dp.html');
+
+    ////cbgAds 监控模块
+    //iframedoc.open();
+    //iframedoc.write(dpHtml);
+    //iframedoc.close();
+
+    //var logIframeWindow = logIframe[0].contentWindow;
+    //var alog = logIframeWindow.alog;
+
+    // alog('cus.fire', 'count', 'z_test');
 
 
     /*
@@ -61,7 +86,8 @@
 
                             service.logJsonp(data.dsu, {
                                 referUrl: referrer
-                            });
+                            }, data);
+
                         });
 
                     } else {    //支持老的跳转方式
@@ -166,7 +192,7 @@
 
                                 service.logJsonp(data.dsu, {
                                     referUrl: referrer
-                                });
+                                }, data);
 
                                 return;
                             }
@@ -216,7 +242,7 @@
 
                             service.logJsonp(data.dsu, {
                                 referUrl: referrer
-                            });
+                            }, data);
 
                             return;
                         }
@@ -244,7 +270,7 @@
                             if (!window.document.hidden && overiFrame) {
                                 service.logJsonp(data.cru, {
                                     referUrl: referrer
-                                });
+                                }, data);
 
                                 setTimeout(function () {
                                     overiFrame = false;
@@ -260,7 +286,7 @@
 
                                 service.logJsonp(data.cru, {
                                     referUrl: referrer
-                                });
+                                }, data);
 
                                 setTimeout(function () {
                                     overiFrame = false;

@@ -1,4 +1,4 @@
-﻿define(['jquery', 'window'], function ($, window) {
+﻿define(['jquery', 'window', 'site/alog'], function ($, window, alog) {
 
     function getContent(config) {
 
@@ -7,7 +7,7 @@
             //url: 'http://10.99.31.12:8181/rs/adp/launch',
 
             //url: 'http://adplaunch.baidu.com/rs/adp/launch',
-            url: 'http://baichuan.baidu.com/rs/adp/launch',
+            url: 'http://5v.baidu.com/rs/adp/launch',
             data: {
                 placeId: config.placeId,
                 referUrl: config.referUrl
@@ -15,7 +15,37 @@
             dataType: 'jsonp',
             cache: false,
             timeout: 10000
+        })
+
+         .then(function (data) {
+
+             var type;
+
+             $.each(data.content, function (key, val) {
+
+                 data.content.type = key;
+                 type = 'z_launchType' + key;
+
+             });
+
+             alog('cus.fire', 'count', 'z_launchSuccess');
+             alog('cus.fire', 'count', type);
+
+             var url = window.location.href
+             var arr = url.split("/");
+             var result = arr[0] + "//" + arr[2];
+
+             if (result === 'http://v.baidu.com') {
+                 alog('cus.fire', 'count', type + '(from:http://v.baidu.com)');
+             }
+
+             return data;
+         })
+
+        .fail(function () {
+            alog('cus.fire', 'count', 'z_launchError');
         });
+
 
         //return $.Deferred(function (deferred) {
 
@@ -72,8 +102,8 @@
                             "3": {
                                 aid: '3',
                                 str: '<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
-                            }
-
+                            },
+                            type: 3
                         },
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                     });
@@ -85,7 +115,8 @@
                             "3": {
                                 aid: '3',
                                 str: '<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
-                            }
+                            },
+                            type: 3
 
                         },
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
@@ -107,7 +138,8 @@
                                 idValue: "1008346",
                                 idName: "FTAPI_slotid",
                                 jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
-                            }
+                            },
+                            type: 2
                         },
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                     });
@@ -158,15 +190,29 @@
         };
     }
 
-    function logJsonp(logurl, data) {
+    function logJsonp(logurl, data, rawData) {
 
         return $.ajax({
             url: logurl,
             data: data,
             dataType: 'jsonp',
             cache: false,
-            timeout: 1000
+            timeout: 5000
+        })
+
+         .done(function () {
+
+             alog('cus.fire', 'count', 'z_log');
+             alog('cus.fire', 'count', 'z_logType' + rawData.content.type);
+         })
+
+        .fail(function () {
+
+            alog('cus.fire', 'count', 'z_logError');
+            alog('cus.fire', 'count', 'z_logType' + rawData.content.type + ':error');
+
         });
+
     }
 
 

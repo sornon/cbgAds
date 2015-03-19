@@ -46,31 +46,31 @@
 
     <!--<script src="build/all.js"></script>-->
     <script>
-        //(function (window) {
+        (function (window) {
 
-        //    if (window['_cbgAds']) {
-        //        return;
-        //    }
+            if (window['_cbgAds']) {
+                return;
+            }
 
-        //    var loadScript = function () {
-        //        var script = document.createElement('script');
-        //        script.async = true;
-        //        script.src = './build/all.js';
-        //        document.body.appendChild(script);
-        //    }
+            var loadScript = function () {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = './build/all.js';
+                document.body.appendChild(script);
+            }
 
-        //    var iframe = document.createElement('iframe');
-        //    (iframe.frameElement || iframe).style.cssText = "display:none";
-        //    iframe.src = "javascript:false";
-        //    iframe.setAttribute('id', 'cbgAdsRuntime');
-        //    document.body.appendChild(iframe);
+            var iframe = document.createElement('iframe');
+            (iframe.frameElement || iframe).style.cssText = "display:none";
+            iframe.src = "javascript:false";
+            iframe.setAttribute('id', 'cbgAdsRuntime');
+            document.body.appendChild(iframe);
 
-        //    var doc = (iframe.contentWindow.document || iframe.contentDocument);
-        //    doc.open().write('<body onload="(' + loadScript.toString() + '())">');
-        //    doc.close();
-        //    window['_cbgAds'] = true;
+            var doc = (iframe.contentWindow.document || iframe.contentDocument);
+            doc.open().write('<body onload="(' + loadScript.toString() + '())">');
+            doc.close();
+            window['_cbgAds'] = true;
 
-        //}(window));
+        }(window));
 
 
         //_cbgAds.BAIDU_CLB = [];
@@ -379,14 +379,14 @@
     </noscript>
 
 
-    <div id="MZHKY3_88573"></div>
+    <!--<div id="MZHKY3_88573"></div>
 
      
     <noscript>
 
         BAIDU_CLB_SLOT_ID = "1111";
 
-    </noscript>
+    </noscript>-->
 
 </body>
 </html>

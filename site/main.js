@@ -15,6 +15,9 @@ define('document', [], function () {
     return window == top ? window.document : top.document;
 });
 
+
+
+
 require.config({
     baseUrl: 'http://localhost:54653/',
     paths: {
