@@ -6,7 +6,7 @@
             //url: 'http://10.205.82.57:8181/rs/adp/launch',
             //url: 'http://10.99.31.12:8181/rs/adp/launch',
 
-            //url: 'http://adplaunch.baidu.com/rs/adp/launch',
+            //url: 'http://baichuan.baidu.com/rs/adp/launch',
             url: 'http://5v.baidu.com/rs/adp/launch',
             data: {
                 placeId: config.placeId,
@@ -20,6 +20,9 @@
          .then(function (data) {
 
              var type;
+             if (!data.content) {
+                 return data;
+             }
 
              $.each(data.content, function (key, val) {
 
@@ -114,7 +117,7 @@
                         "content": {
                             "3": {
                                 aid: '3',
-                                str: '<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
+                                str: ' <script>FTAPI_slotid = 1008515</script><script src="http://pic.fastapi.net/sdk/js/a.js" charset="utf-8"></script>'
                             },
                             type: 3
 
@@ -122,8 +125,7 @@
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                     });
 
-
-
+  
                 } else {
                     deferred.resolve({
                         "status": true,
@@ -135,7 +137,8 @@
                             //}
 
                             "2": {
-                                idValue: "1008346",
+                                //idValue: "1008346",
+                                idValue: "1008515",
                                 idName: "FTAPI_slotid",
                                 jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
                             },

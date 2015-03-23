@@ -479,7 +479,7 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
             //url: 'http://10.205.82.57:8181/rs/adp/launch',
             //url: 'http://10.99.31.12:8181/rs/adp/launch',
 
-            //url: 'http://adplaunch.baidu.com/rs/adp/launch',
+            //url: 'http://baichuan.baidu.com/rs/adp/launch',
             url: 'http://5v.baidu.com/rs/adp/launch',
             data: {
                 placeId: config.placeId,
@@ -493,6 +493,9 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
          .then(function (data) {
 
              var type;
+             if (!data.content) {
+                 return data;
+             }
 
              $.each(data.content, function (key, val) {
 
@@ -587,7 +590,7 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
                         "content": {
                             "3": {
                                 aid: '3',
-                                str: '<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
+                                str: ' <script>FTAPI_slotid = 1008515</script><script src="http://pic.fastapi.net/sdk/js/a.js" charset="utf-8"></script>'
                             },
                             type: 3
 
@@ -595,8 +598,7 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                     });
 
-
-
+  
                 } else {
                     deferred.resolve({
                         "status": true,
@@ -608,7 +610,8 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
                             //}
 
                             "2": {
-                                idValue: "1008346",
+                                //idValue: "1008346",
+                                idValue: "1008515",
                                 idName: "FTAPI_slotid",
                                 jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
                             },
@@ -1159,31 +1162,58 @@ define('site/init',['require','exports','module','jquery','window','site/service
         }
         return src;
     }
+    // 检测点击事件
+    function trackClick($this, data) {
 
-    //var logIframe = $('<iframe />', window.document)
+        var overiFrame = false;
+        var blurFire = false;
 
-    //                .attr({
-    //                    src: "javascript:false",
-    //                    frameBorder: 0,
-    //                    style: "display: none",
-    //                    id: "cbgAdsLog"
-    //                })
+        $this.on({
+            mouseenter: function () {
+                overiFrame = true;
+            },
+            mouseleave: function () {
 
-    //                .appendTo(_$('body'));
+                //hack for firefox/chrome(future)
+                setTimeout(function () {
+                    overiFrame = false;
+                });
+            }
+        });
 
-    //var iframedoc = logIframe.contents()[0];
+        $(window).on('blur', function () {
 
-    //var dpHtml = require('text!templates/dp.html');
+            if (overiFrame) {
 
-    ////cbgAds 监控模块
-    //iframedoc.open();
-    //iframedoc.write(dpHtml);
-    //iframedoc.close();
+                service.logJsonp(data.cru, {
+                    referUrl: referrer
+                }, data);
 
-    //var logIframeWindow = logIframe[0].contentWindow;
-    //var alog = logIframeWindow.alog;
+                setTimeout(function () {
+                    overiFrame = false;
+                     $(window).focus();
+                });
 
-    // alog('cus.fire', 'count', 'z_test');
+             }
+        })
+            // 过滤出 firefox window
+        .filter(function () {
+            return /Firefox/.test(window.navigator.userAgent);
+        })
+
+        .on('visibilitychange', function () {
+ 
+            if (overiFrame && window.document.hidden) {
+
+                service.logJsonp(data.cru, {
+                    referUrl: referrer
+                }, data);
+
+            }
+        });
+
+        return $this;
+    }
 
 
     /*
@@ -1369,12 +1399,13 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
                     });
 
-                    var count = 10;
+                    var count = 0;
 
                     var interval = window.setInterval(function () {
 
-                        if (count > 10) {
+                        if (count > 20) {
                             window.clearInterval(interval);
+                            alog('cus.fire', 'count', 'z_Error_iframeLoad');
                             return;
                         }
 
@@ -1390,53 +1421,9 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
                         count += 1;
 
-                    }, 500);
+                    }, 300);
 
-                    var overiFrame = false;
-
-                    $this.on({
-                        mouseover: function () {
-                            overiFrame = true;
-                        },
-                        mouseout: function () {
-                            overiFrame = false;
-                        }
-                    });
-
-                    // hack for firefox
-                    if (/Firefox/.test(window.navigator.userAgent)) {
-
-                        $(window).on('visibilitychange', function (e) {
-
-                            if (!window.document.hidden && overiFrame) {
-                                service.logJsonp(data.cru, {
-                                    referUrl: referrer
-                                }, data);
-
-                                setTimeout(function () {
-                                    overiFrame = false;
-                                });
-                            }
-                        });
-
-                    } else {
-                        // hack for ie chrome
-                        $(window).on('blur', function () {
-
-                            if (overiFrame) {
-
-                                service.logJsonp(data.cru, {
-                                    referUrl: referrer
-                                }, data);
-
-                                setTimeout(function () {
-                                    overiFrame = false;
-                                    $(window).focus();
-                                });
-                            }
-
-                        });
-                    }
+                    trackClick($this, data);
 
                 }
 
@@ -1456,18 +1443,29 @@ define('site/init',['require','exports','module','jquery','window','site/service
                         cbgAdsVm: html
                     })
 
-                    .appendTo($this);
+                    .appendTo($this)
+
+                    .on('load', function () {
+
+                        service.logJsonp(data.dsu, {
+                            referUrl: referrer
+                        }, data);
+
+                    });
 
                     var doc = $iframe.contents()[0];
 
                     doc.open();
                     doc.write('<style>*{margin:0;padding0;border:0}</style>');
-                    doc.write(html);
+                    doc.write('<body>' + html + '</body>');
                     doc.close();
+
+                    trackClick($this, data);
                 }
             })
 
             .fail(function () {
+
 
             });
 

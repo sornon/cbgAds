@@ -18,31 +18,58 @@
         }
         return src;
     }
+    // 检测点击事件
+    function trackClick($this, data) {
 
-    //var logIframe = $('<iframe />', window.document)
+        var overiFrame = false;
+        var blurFire = false;
 
-    //                .attr({
-    //                    src: "javascript:false",
-    //                    frameBorder: 0,
-    //                    style: "display: none",
-    //                    id: "cbgAdsLog"
-    //                })
+        $this.on({
+            mouseenter: function () {
+                overiFrame = true;
+            },
+            mouseleave: function () {
 
-    //                .appendTo(_$('body'));
+                //hack for firefox/chrome(future)
+                setTimeout(function () {
+                    overiFrame = false;
+                });
+            }
+        });
 
-    //var iframedoc = logIframe.contents()[0];
+        $(window).on('blur', function () {
 
-    //var dpHtml = require('text!templates/dp.html');
+            if (overiFrame) {
 
-    ////cbgAds 监控模块
-    //iframedoc.open();
-    //iframedoc.write(dpHtml);
-    //iframedoc.close();
+                service.logJsonp(data.cru, {
+                    referUrl: referrer
+                }, data);
 
-    //var logIframeWindow = logIframe[0].contentWindow;
-    //var alog = logIframeWindow.alog;
+                setTimeout(function () {
+                    overiFrame = false;
+                     $(window).focus();
+                });
 
-    // alog('cus.fire', 'count', 'z_test');
+             }
+        })
+            // 过滤出 firefox window
+        .filter(function () {
+            return /Firefox/.test(window.navigator.userAgent);
+        })
+
+        .on('visibilitychange', function () {
+ 
+            if (overiFrame && window.document.hidden) {
+
+                service.logJsonp(data.cru, {
+                    referUrl: referrer
+                }, data);
+
+            }
+        });
+
+        return $this;
+    }
 
 
     /*
@@ -228,12 +255,13 @@
 
                     });
 
-                    var count = 10;
+                    var count = 0;
 
                     var interval = window.setInterval(function () {
 
-                        if (count > 10) {
+                        if (count > 20) {
                             window.clearInterval(interval);
+                            alog('cus.fire', 'count', 'z_Error_iframeLoad');
                             return;
                         }
 
@@ -249,53 +277,9 @@
 
                         count += 1;
 
-                    }, 500);
+                    }, 300);
 
-                    var overiFrame = false;
-
-                    $this.on({
-                        mouseover: function () {
-                            overiFrame = true;
-                        },
-                        mouseout: function () {
-                            overiFrame = false;
-                        }
-                    });
-
-                    // hack for firefox
-                    if (/Firefox/.test(window.navigator.userAgent)) {
-
-                        $(window).on('visibilitychange', function (e) {
-
-                            if (!window.document.hidden && overiFrame) {
-                                service.logJsonp(data.cru, {
-                                    referUrl: referrer
-                                }, data);
-
-                                setTimeout(function () {
-                                    overiFrame = false;
-                                });
-                            }
-                        });
-
-                    } else {
-                        // hack for ie chrome
-                        $(window).on('blur', function () {
-
-                            if (overiFrame) {
-
-                                service.logJsonp(data.cru, {
-                                    referUrl: referrer
-                                }, data);
-
-                                setTimeout(function () {
-                                    overiFrame = false;
-                                    $(window).focus();
-                                });
-                            }
-
-                        });
-                    }
+                    trackClick($this, data);
 
                 }
 
@@ -315,18 +299,29 @@
                         cbgAdsVm: html
                     })
 
-                    .appendTo($this);
+                    .appendTo($this)
+
+                    .on('load', function () {
+
+                        service.logJsonp(data.dsu, {
+                            referUrl: referrer
+                        }, data);
+
+                    });
 
                     var doc = $iframe.contents()[0];
 
                     doc.open();
                     doc.write('<style>*{margin:0;padding0;border:0}</style>');
-                    doc.write(html);
+                    doc.write('<body>' + html + '</body>');
                     doc.close();
+
+                    trackClick($this, data);
                 }
             })
 
             .fail(function () {
+
 
             });
 

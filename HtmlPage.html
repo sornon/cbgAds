@@ -1,47 +1,1534 @@
-﻿<html>
+﻿
+
+<!DOCTYPE html>
+<html>
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <meta name="baidu-tc-cerfication" content="d0fcb6c290f799d6921e9a455bad9273" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>首页 - 手机铁血网</title>
+    <meta name="keywords" content="中国军事,铁血网" />
+    <meta name="description" content="铁血网是中国最大的军事网站,提供中国军事、世界军事、军事新闻、原创军事评论、军事科技、军事小说、军品装备等全方位的中国军事及世界军事内容。" />
+    <meta name="author" content="铁血网" />
+    <meta name="copyright" content="铁血网" />
+
+    <link rel="stylesheet" type="text/css" href="http://s.itiexue.net/css/global/global-wap.css" />
+    <link rel="stylesheet" type="text/css" href="http://s.itiexue.net/css/tiexue/wap/page/chuping/public.css" />
+    <link rel="stylesheet" type="text/css" href="http://s.itiexue.net/css/tiexue/wap/page/chuping/index.css" />
+
+    <script type="text/javascript" src="http://s.itiexue.net/js/global/global-wap.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://s.itiexue.net/js/tiexue/wap/page/chuping/public-1.js" charset="utf-8"></script>
+    <script type="text/javascript" name="baidu-tc-cerfication" src="http://apps.bdimg.com/cloudaapi/lightapp.js#0ef0557ab59c6c2f7351fef3f2bd4de3"></script>
+    <script type="text/javascript">window.bd && bd._qdc && bd._qdc.init({ app_id: '09df30552f87dd083273f674' });</script>
 </head>
-<body onload="(function loadMultiScripts(scripts, done) {
+<body>
+    <header>
 
-                var scripts = ['./delay2.js'];
+        <div class="top white">
+            <div class="logo">
+                <a href="/touch/index.html">
+                    <img src="http://r.itiexue.net/wap/tiexue/images/chuping/logo.png" />
+                </a>
+            </div>
+            <span class="mytiexue">
+                <a id="link" href="" class="usercenter">未登陆</a>
+                <a href="MobileClient.aspx" class="app">应用</a>
+            </span>
+        </div>
 
-                var head = document.getElementsByTagName('head')[0];
-                var loadedCount = 0;
-
-                for (var i = 0 ; i < scripts.length; i++) {
-                    loadScript(scripts[i], loaded);
+        <script type="text/javascript">
+            function getQueryString(name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            }
+            function getLogoutUrl() {
+                var url;
+                if (getQueryString("logout") != null) {
+                    url = location.href.replace("logout=0", "logout=1");
                 }
-
-                //加载script
-                function loadScript(url) {
-                    var script = document.createElement('script');
-                    script.type = 'text/javascript';
-                    script.src = url;
-                    script.async = true;
-                    script.onerror = loaded;
-
-                    if (script.readyState) {
-                        script.onreadystatechange = function () {
-                            if (this.readyState == 'loaded' || this.readyState == 'complete') {
-                                loaded();
-                            }
-                        }
-                    } else {
-                        script.onload = loaded;
+                else {
+                    if (location.href.indexOf("?") > 0) {
+                        url = location.href.replace("?", "?logout=1&");
                     }
-                    head.appendChild(script);
-                }
-
-                //所有script均加载
-                function loaded() {
-                    loadedCount += 1;
-
-                    if (loadedCount === scripts.length) {
-                        //done();
+                    else {
+                        url = location.href + "?logout=1";
                     }
                 }
 
-                console.log('run');
-            }())">
+                return url;
+            }
+            var isLogin = "False";
+            var url = "http://m.tiexue.net/touch/Login.aspx?retto=" + encodeURI(window.location.href);
+            var name = "登录注册";
+            var isAdd = "False";
+            var isMsg = "False";
+            var forum = "0";
+            var hasMsg = "False";
+            if (_tx.GetUserID() > 0) {
+                isLogin = "True";
+                name = _tx.GetUserName();
+                url = "http://m.tiexue.net/touch/UserCenterV2.aspx";
+            } else {
+                _tx.R("link").className = "";
+            }
+            if (hasMsg == "True") {
+                url = "http://m.tiexue.net/touch/MessageList.aspx";
+            }
+            if (isAdd == "True") {
+                name = "发帖";
+                url = "http://m.tiexue.net/touch/AddPost.aspx?forumID=" + forum;
+                if (isLogin != "True") {
+                    url = "http://m.tiexue.net/touch/Login.aspx?retto=" + escape("AddPost.aspx?forumID=" + forum);
+                }
+            }
+            if (isMsg == "False") {
+                if (name.length > 10) {
+                    name = name.substr(0, 9) + "...<em id='msgNum' style='display:none;'></em>";
+                } else {
+                    name = name + "<em id='msgNum' style='display:none;'></em>";
+                }
+            }
+            else {
+                name = "";
+                url = "http://m.tiexue.net/touch/AddMessage.aspx";
+            }
+            if (_tx.R("link")) {
+                _tx.R("link").innerHTML = name;
+                _tx.R("link").href = url;
+                if (hasMsg == "True") {
+                    _tx.R("link").className = newsms;
+                }
+            }
+        </script>
+
+
+
+
+        <nav>
+
+            <a href="Guide.aspx">社区</a>
+            <a href="Military.aspx">军事</a>
+            <a href="http://m.junshishu.com/3G/" onclick="try{Log_AdClick(1,'wap_click_ad');}catch(e){}">读书</a>
+            <a href="/touch/threadlist_73_1.html">历史</a>
+            <a href="http://m.junph.com/">军品</a>
+            <a href="/touch/threadlist_32_1.html">陆军</a>
+            <a href="/touch/threadlist_31_1.html">海军</a>
+            <a href="/touch/threadlist_69_1.html">空军</a>
+            <a href="HotPicsShow.aspx?classType=53">酷图</a>
+            <a href="/touch/threadlist_239_1.html">情感</a>
+            <a href="/touch/threadlist_206_1.html">海外</a>
+            <a href="/touch/threadlist_125_1.html">社会</a>
+            <a href="/touch/threadlist_33_1.html">环球</a>
+            <a href="/touch/threadlist_219_1.html">枪械</a>
+            <a href="/touch/threadlist_124_1.html">影评</a>
+            <a href="/touch/threadlist_197_1.html">警察</a>
+            <a href="/touch/threadlist_246_1.html">钓鱼</a>
+            <a href="/touch/threadlist_247_1.html">美食</a>
+            <a href="Shijiao.aspx">视角</a>
+            <a href="#" id="more">更多↓</a>
+
+        </nav>
+    </header>
+    <section>
+        <div id='slider' class='swipe'>
+            <div class='swipe-wrap'>
+
+                <div class='wrap'>
+                    <em></em>
+                    <a href="Shijiao.aspx">
+                        <img src="http://img9.itiexue.net/1986/19863213.jpg">
+                    </a><span>
+                        <a href="/touch/thread_8676534_1.html">看完中缅恩怨 再决定我们支持哪一方！</a>
+                    </span>
+                </div>
+
+
+                <div class='wrap'>
+                    <a href="/touch/thread_8673214_1.html">
+                        <img src="http://img8.itiexue.net/1986/19867028.jpg">
+                    </a><span>
+                        <a href="/touch/thread_8673214_1.html">台湾之胱漫画新作 作者在线解答铁友疑惑！</a>
+                    </span>
+                </div>
+
+                <div class='wrap'>
+                    <a href="/touch/thread_8677988_1.html">
+                        <img src="http://img0.itiexue.net/1986/19866924.jpg">
+                    </a><span>
+                        <a href="/touch/thread_8677988_1.html">中日韩三国身高大比拼 结果让人大跌眼镜</a>
+                    </span>
+                </div>
+
+                <div class='wrap'>
+                    <a href="/touch/thread_8678864_1.html">
+                        <img src="http://img7.itiexue.net/1986/19866823.jpg">
+                    </a><span>
+                        <a href="/touch/thread_8678864_1.html">巴铁修成正果:已自产出3架JF-17型战机</a>
+                    </span>
+                </div>
+
+                <div class='wrap'>
+                    <a href="/touch/thread_8679063_1.html">
+                        <img src="http://img1.itiexue.net/1986/19866721.jpg">
+                    </a><span>
+                        <a href="/touch/thread_8679063_1.html">委军大搞演习 中国制VN-1战车成排出动</a>
+                    </span>
+                </div>
+
+            </div>
+            <ul id="position">
+                <li class="on" onclick="mySwipe1.slide(0,400)"></li>
+                <li onclick="mySwipe1.slide(1,400)"></li>
+                <li onclick="mySwipe1.slide(2,400)"></li>
+                <li onclick="mySwipe1.slide(3,400)"></li>
+                <li onclick="mySwipe1.slide(4,400)"></li>
+                <li onclick="mySwipe1.slide(5,400)"></li>
+            </ul>
+        </div>
+    </section>
+    <section>
+        <h3 class="tit1">
+            <aside id="jujiaoTab">
+                <a class="on" href="javascript:mySwipe2.slide(0,400)">.class="on" href="javascript:mySwipe2.slide(0,400)">.</a><a href="javascript:mySwipe2.slide(1,400)">.</a>
+            </aside>
+            <span>聚焦</span>
+        </h3>
+        <div>
+            <div style="max-width: 640px; min-width: 320px; margin: auto; position: relative; display: none;">
+
+                <a href="http://m.junph.com/?utm_source=SHJ&utm_medium=TL&utm_campaign=shuang12H">
+                    <img style="width: 100%; display: block;" src="http://img4.itiexue.net/1935/19359136.gif"
+                         class="">
+                </a>
+
+
+            </div>
+            <div style=" width: 320px;/* margin:10px 0 0 20px;*/margin: 10px auto 0; position: relative; ">
+                <!-- 广告位：铁血wap焦点图下通栏 -->
+                <script type="text/javascript">BAIDU_CLB_SLOT_ID = "1051219";</script>
+                <script type="text/javascript" src="http://cbjs.baidu.com/js/o.js"></script>
+            </div>
+        </div>
+        <div id="jujiao" class="listScoll">
+            <div class="swipe-wrap">
+                <div class="wrap">
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8678797_1.html">
+                                <font color="ab1324">美司令：鼓励东南亚建联合舰队</font>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678983_1.html">
+                                <font color="ab1324">法广网：欧洲盟友投向中国</font>
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="/touch/thread_8679420_1.html">
+                                日军人在被枪毙前的真实表现
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679389_1.html">
+                                日本人试吃解放军06单兵口粮
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679286_1.html">
+                                菲律宾发布中国造岛航拍照
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676519_1.html">
+                                父亲用子弹壳做的菜刀
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679174_1.html">
+                                美军直播轰炸IS 无一活口
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678752_1.html">
+                                外国网友怎么讨论中国贫民村
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679066_1.html">
+                                这则大新闻叫“李光耀没死”
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678845_1.html">
+                                韩国给人的感觉像美国殖民地
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678966_1.html">
+                                日本：先干掉中国15座大桥
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678798_1.html">
+                                “你们杀了我的孩子！”
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678791_1.html">
+                                调查：中国人超7成愿为国而战
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677903_1.html">
+                                军工证实红旗9中标土耳其军购
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677825_1.html">
+                                全世界最牛X军队合集
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677762_1.html">
+                                印度对比中印高端火车后
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677598_1.html">
+                                号外:中方拿下泰国铁路大项目
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677486_1.html">
+                                外国军迷试吃中国野战军粮
+                            </a>
+                        </li>
+
+
+
+
+                        <li>
+                            <span class="ico">读书</span><a href='http://m.junshishu.com/3G/Content1521671_0_1.htm?utm_source=TXBQ&utm_medium=WZ1&utm_campaign=gjaq' onclick="try{Log_AdClick(2,'wap_click_ad');}catch(e){}">
+                                《国家安全》朝鲜总动员
+                            </a>
+                        </li>
+
+                        <li>
+                            <span class="ico">读书</span><a href='http://m.junshishu.com/3G/Content628550_0_1.htm?utm_source=TXBQ&utm_medium=WZ1&utm_campaign=zrzz' onclick="try{Log_AdClick(2,'wap_click_ad');}catch(e){}">
+                                《中日战争》打响第一枪
+                            </a>
+                        </li>
+
+
+
+                        <li>
+                            <span class="ico">游戏</span>
+                            <a href="http://cnrdn.com/rd.htm?id=1481928&r=http%3A%2F%2Fm.tiexue.net%2Fgame%2Findex.html" onclick="try{Log_AdClick(3,'wap_click_ad');}catch(e){}">
+                                铁血首款战争策略手游
+                            </a>
+                        </li>
+
+
+                    </ul>
+                    <ul class="newsLi">
+
+
+                        <li class="blue">
+                            <a href="http://m.tiexue.net/touch/thread_8644408_1.html" onclick="try{Log_AdClick(4,'wap_click_ad');}catch(e){}">
+                                太平天国延长了清朝的寿命
+                            </a>
+                        </li>
+
+                        <li class="blue">
+                            <a href="http://cnrdn.com/dkV5" onclick="try{Log_AdClick(4,'wap_click_ad');}catch(e){}">
+                                萝莉御姐性感私房照全方位奉送
+                            </a>
+                        </li>
+
+                        <li class="blue">
+                            <a href=" http://apkupdate.miui.com/mihome/mihome2_latest/MiHome2_4131_1_android.apk" onclick="try{Log_AdClick(4,'wap_click_ad');}catch(e){}">
+                                极品男的艳遇生活必备
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="wrap">
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8677369_1.html">
+                                日本夜生活真是太开放
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677223_1.html">
+                                英德法意盟友纷纷背叛美国
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677422_1.html">
+                                看湾湾草莓兵是怎么训练的
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677406_1.html">
+                                意法德同意加入亚投行的表情
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677378_1.html">
+                                南海造岛消息：安达礁开工
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676873_1.html">
+                                中缅边境局势发生质变
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677307_1.html">
+                                PLA士官长平均工资7000以上
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677211_1.html">
+                                解放军警告让缅战机消失无踪
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8673275_1.html">
+                                岛国变态节目又来了
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676095_1.html">
+                                新加坡防长：中国 你什么意思
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676054_1.html">
+                                军队进驻遭缅甸炸弹落入乡镇
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675931_1.html">
+                                看老外怎么评价“中华帝国”
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675822_1.html">
+                                “最年轻少将”和他商贾妻子
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675615_1.html">
+                                媒体：大批中国军队抵达云南
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675557_1.html">
+                                发点印度物价 大家看贵不贵
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675738_1.html">
+                                看日“小寡妇”如何保卫地球
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675731_1.html">
+                                中方伤亡是缅军机炸弹造成
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675706_1.html">
+                                法德意追随英国挤入亚投行
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675139_1.html">
+                                朝鲜军队是这样训练的！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675571_1.html">
+                                缅甸正式回应边民伤亡事件
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675627_1.html">
+                                村民：有人被炸的肠子流出
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675526_1.html">
+                                缅甸军方3个师长突然被撤职
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8674628_1.html">
+                                日本人眼中最真实的中国
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8674706_1.html">
+                                临沧所有村寨屋顶插上国旗
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <a href="/touch/cmslist_1160_1.html" class="but_1">进入铁血聚焦<em></em></a>
+
+    </section>
+    <section>
+        <h3 class="tit1">
+            <aside id="junshiTab">
+                <a href="javascript:mySwipe3.slide(0,400)" class="on">陆军</a>|<a href="javascript:mySwipe3.slide(1,400)">海军</a>|<a href="javascript:mySwipe3.slide(2,400)">空军</a>
+            </aside>
+            <span>军事</span>
+        </h3>
+        <div id="junshi" class="listScoll">
+            <div class="swipe-wrap">
+                <div class="wrap">
+                    <ul class="list_2">
+
+                        <li>
+                            <a href="/touch/thread_8679063_1.html">
+                                <img src="http://small4.itiexue.net/1986/19867132.jpg"
+                                     width="144" height="96" /><span>委军大搞演习 中国制VN-1战车成排出动</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677240_1.html">
+                                <img src="http://small11.itiexue.net/1986/19862915.jpg"
+                                     width="144" height="96" /><span>为了防被狙杀 反对派竖起了3辆大巴车...</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="http://m.junph.com/product/brand/DAN">
+                                军靴中的劳斯莱斯DANNER!
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://tu.junqingtv.com/">
+                                【图】空军真正的杀手锏"轰6战神"一眼望不到头
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679197_1.html">
+                                在果敢地区生活十年的朋友对彭家声的客观评价
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679194_1.html">
+                                台女兵高跟黑丝美腿 俄军内暴力视频
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679048_1.html">
+                                什么情况?T-72竟然能与M1坦克同唱一台戏
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677437_1.html">
+                                不要把缅军“越境轰炸”搞的那么玄乎那就是误炸！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678881_1.html">
+                                福利贴 各种温婉可人的越南军队妹子
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679063_1.html">
+                                委内瑞拉军队搞大演习 中国制VN-1战车成排出动
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678903_1.html">
+                                外国枪也不结实啊  各种枪支炸膛后的惨样
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678966_1.html">
+                                日本：如果开战 先干掉中国大陆15座大桥
+                            </a>
+                        </li>
+
+
+                        <li class="blue">
+                            <a href="http://m.tiexue.net/touch/thread_8643726_1.html" onclick="try{Log_AdClick(5,'wap_click_ad');}catch(e){}">
+                                高端分析谁是暗杀俄国前副总理的真凶
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="/touch/threadlist_32_1.html" class="but_1">进入陆军论坛<em></em></a>
+                </div>
+                <div class="wrap">
+                    <ul class="list_2">
+
+                        <li>
+                            <a href="/touch/thread_8677236_1.html">
+                                <img src="http://small9.itiexue.net/1986/19862913.jpg"
+                                     width="144" height="96" /><span>走过战争与屈辱:志愿军讲述被俘后的人生</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677423_1.html">
+                                <img src="http://small3.itiexue.net/1986/19862907.jpg"
+                                     width="144" height="96" /><span>叙称击落一架美军无人机 美证实捕食者失联</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8679286_1.html">
+                                菲律宾发布中国南沙各岛工程清晰航拍照
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678797_1.html">
+                                美第七舰队司令！ 鼓动东南亚建联合舰队针对华！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679218_1.html">
+                                迪戈加西亚基地辽宁舰故宫与南沙诸岛同比例对比
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678050_1.html">
+                                永暑岛3月18日卫星图
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677689_1.html">
+                                国外航拍目前最清晰的南沙岛上建筑图
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676906_1.html">
+                                中国南海岛礁扩建照曝光 赤瓜岛大厦成形
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677334_1.html">
+                                自打嘴巴：日本公布的1969年地图恰恰证明钓鱼岛属于台湾省！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677160_1.html">
+                                中国南海扩建卫星照曝光：赤瓜岛大厦已成形
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677124_1.html">
+                                不懂礼貌的中国人请理解香港
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677378_1.html">
+                                南海造岛新照：赤瓜岛大厦成形 安达礁首次开工
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676722_1.html">
+                                中国南海建岛新图曝光 美济礁现大片陆地
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="/touch/threadlist_31_1.html" class="but_1">进入海军论坛<em></em></a>
+                </div>
+                <div class="wrap">
+                    <ul class="list_2">
+
+                        <li>
+                            <a href="/touch/thread_8678903_1.html">
+                                <img src="http://small9.itiexue.net/1986/19866333.jpg"
+                                     width="144" height="96" /><span>外国枪也不结实！大兵M16炸膛成这个德行</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677393_1.html">
+                                <img src="http://small6.itiexue.net/1986/19861638.jpg"
+                                     width="144" height="96" /><span>美国军队征兵难拉来壮丁有奖励</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8495381_1.html">
+                                以前国产子弹的开箱方式
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495233_1.html">
+                                大家来找茬----双枪李向阳之真假盒子炮
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8494871_1.html">
+                                桃花劫如何解？求支招
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495004_1.html">
+                                2015第一钓鲫鱼
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495592_1.html">
+                                海鲜桑拿
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495366_1.html">
+                                串串·········
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495449_1.html">
+                                阳澄湖大闸蟹
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495097_1.html">
+                                民以食为天～白切狗肉和各种白切肉
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495627_1.html">
+                                从进口自行车看差距小事做不好何以干大事！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495098_1.html">
+                                部队转业进入公安 我还得靠父母贴补生活
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8495456_1.html">
+                                新疆疏勒警方击毙6名暴徒！无群众警察伤亡！
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="/touch/threadlist_69_1.html" class="but_1">进入空军论坛<em></em></a>
+                </div>
+            </div>
+        </div>
+        <ul class="list_1">
+
+            <li>
+                <span class="ico">君品</span><a href='http://m.junph.com/product/detail/2075?utm_source=SHJ&utm_medium=WZ1&utm_campaign=M65' onclick="try{Log_AdClick(6,'wap_click_ad');}catch(e){}">
+                    什么风衣风靡全球50年卖出4千万件？
+                </a>
+            </li>
+
+            <li>
+                <span class="ico">君品</span><a href='http://m.junph.com/product/detail/2107?utm_source=SHJ&utm_medium=WZ2&utm_campaign=HJN' onclick="try{Log_AdClick(6,'wap_click_ad');}catch(e){}">
+                    海军呢大衣让你过年回家穿帅一点！
+                </a>
+            </li>
+
+            <li>
+                <span class="ico">君品</span><a href='http://m.junph.com/product/detail/2656?utm_source=SHJ&utm_medium=WZ3&utm_campaign=N3B' onclick="try{Log_AdClick(6,'wap_click_ad');}catch(e){}">
+                    源自爱斯基摩人冬衣的极地防寒服N3B
+                </a>
+            </li>
+
+        </ul>
+        <ul class="list_3">
+
+            <li class="blue">
+                <a href="http://dh.123.sogou.com/?fr=0005-001k " onclick="try{Log_AdClick(7,'wap_click_ad');}catch(e){}">
+                    MH370确认失事
+                </a>
+            </li>
+
+            <li class="blue">
+                <a href="http://shouji.360.cn/360safe/105811/360MobileSafe.apk" onclick="try{Log_AdClick(7,'wap_click_ad');}catch(e){}">
+                    保卫屌丝偷窥熟女私房照
+                </a>
+            </li>
+
+        </ul>
+    </section>
+    <section>
+        <h3 class="tit1">
+            <aside id="lishiTab">
+                <a href="javascript:mySwipe4.slide(0,400)" class="on">中国</a>|<a href="javascript:mySwipe4.slide(1,400)">世界</a>|<a href="javascript:mySwipe4.slide(2,400)">一二战</a>
+            </aside>
+            <span>历史</span>
+        </h3>
+        <div id="lishi" class="listScoll">
+            <div class="swipe-wrap">
+                <div class="wrap">
+                    <ul class="list_2">
+
+                        <li>
+                            <a href="/touch/thread_8677749_1.html">
+                                <img src="http://small5.itiexue.net/1986/19866269.jpg"
+                                     width="144" height="96" /><span>败家国军 火炮叫鬼子一缴一大堆!</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="http://www.junshishu.com/Book18504/Content856595.html?lskt">
+                                <img src="http://small4.itiexue.net/1985/19856656.jpg"
+                                     width="144" height="96" /><span>十万臣民将投海殉国：少年凭风暴挽救危宋</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8679319_1.html">
+                                台湾：堂堂正正做个日本人
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677479_1.html">
+                                抗战时日本屡次诱降国民党：蒋介石为何没有投降
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677745_1.html">
+                                国民党如何讲述淞沪会战
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677707_1.html">
+                                戚继光晚死40年 女真骑兵还能逾越长城吗
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677717_1.html">
+                                官大权势也大——一个无知者的谬论！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677708_1.html">
+                                贺龙为何喜欢坐女飞行员开的飞机?
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677638_1.html">
+                                明朝怎么不搞“虽远必诛”？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678306_1.html">
+                                徐蚌战役的国军兵团战力怎么排序？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677696_1.html">
+                                著名京剧艺术家马连良为志愿军演出索要出场费惹众怒
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677968_1.html">
+                                邓小平没上过军事院校 为何能指挥千军万马
+                            </a>
+                        </li>
+
+
+                        <li class="blue">
+                            <a href="http://m.tiexue.net/touch/thread_8641689_1.html" onclick="try{Log_AdClick(8,'wap_click_ad');}catch(e){}">
+                                中国游客春节日本花近60亿
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="/touch/threadlist_73_1.html" class="but_1">进入中国历史论坛<em></em></a>
+                </div>
+                <div class="wrap">
+                    <ul class="list_2">
+
+                        <li>
+                            <a href="/touch/thread_8677743_1.html">
+                                <img src="http://small8.itiexue.net/1986/19863308.jpg"
+                                     width="144" height="96" /><span>从1840年至今 中国最有尊严的事件是什么</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8679319_1.html">
+                                <img src="http://small3.itiexue.net/1986/19867695.png"
+                                     width="144" height="96" /><span>台湾：堂堂正正做个日本人</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8677523_1.html">
+                                看看以色列ZF是怎样解救自己的国民的
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678179_1.html">
+                                这才是真正的历史！你知道的太多了(转载）
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677692_1.html">
+                                东西方兵法对比 骑兵如何攻城拔寨
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677994_1.html">
+                                一夫多妻制 是如何在西方退出的
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677448_1.html">
+                                斯大林遗体因何从列宁墓里被突然移出？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677452_1.html">
+                                军事揭秘：美军战败日军兼并夏威夷内幕
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677739_1.html">
+                                日本历史上最著名的精神病患者：下令使用相扑破坏碉堡
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677130_1.html">
+                                世界格局的大转变— 1453年之君士坦丁堡的陷落
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676855_1.html">
+                                一口气看完日本史！这样讲历史也蛮好玩的
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676261_1.html">
+                                令人震惊的前苏联腐败史：列宁时代就性质恶劣
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676206_1.html">
+                                如果世界上只剩一个女人将会发生什么？
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="/touch/threadlist_74_1.html" class="but_1">进入世界历史论坛<em></em></a>
+                </div>
+                <div class="wrap">
+                    <ul class="list_2">
+
+                        <li>
+                            <a href="/touch/thread_8677708_1.html">
+                                <img src="http://small4.itiexue.net/1986/19862968.jpg"
+                                     width="144" height="96" /><span>贺龙为何喜欢坐女飞行员开的飞机?</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677754_1.html">
+                                <img src="http://small0.itiexue.net/1986/19863228.jpg"
+                                     width="144" height="96" /><span>中国人在日本画里是什么样</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8679420_1.html">
+                                老兵回忆:日本军人在被枪毙前的真实表现
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678022_1.html">
+                                二战中日本士兵服用毒品增强战斗力
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678636_1.html">
+                                《申报》里的二战：神出鬼没的“浦东神炮”！！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677784_1.html">
+                                德国是男人日本是女人！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677928_1.html">
+                                苏联历史上真正的战斗力--一塌糊涂
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676197_1.html">
+                                今年最好的视频没有之一
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677679_1.html">
+                                终于明白了二战德国坦克大都使用汽油发动机
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676845_1.html">
+                                没有美国 日本侵华失败有什么后果？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676571_1.html">
+                                为啥说虎豹是半吊子坦克设计
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675423_1.html">
+                                做研究用问一个问题：太平洋战争中后期有哪些战斗？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676477_1.html">
+                                二战苏联女兵的背叛：为活命竟为德军做这种事情
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="/touch/threadlist_172_1.html" class="but_1">进入一二战历史论坛<em></em></a>
+                </div>
+            </div>
+        </div>
+        <ul class="list_3">
+
+            <li class="blue">
+                <a href="http://m.ydbrowser.com/apk/ydbrowser04.apk" onclick="try{Log_AdClick(9,'wap_click_ad');}catch(e){}">
+                    屌丝逆袭！黑丝翘臀长腿妹求围观
+                </a>
+            </li>
+
+            <li class="blue">
+                <a href="http://susapi.lenovomm.com/adpserver/DLBYREDFOL?pt=android&id=4345&pn=com.lenovo.leos.appstore&vc=310&vn=5.10.0.88&ch=20020&rep1=a&rep2=b&rep3=c&OL=*01*L2FkcEBjbHVzdGVyLTEvMTM2OTcyNjM2MjUxOS85T09aNkdTQU1QSUIvMzEwLzIwMDIwL0xlbm92b1N0b3JlLWNoMjAwMjAuYXBrfC0xfDB8MA%3D%3D" onclick="try{Log_AdClick(9,'wap_click_ad');}catch(e){}">
+                    23岁以下勿进非请勿入
+                </a>
+            </li>
+
+        </ul>
+    </section>
+    <section>
+        <h3 class="tit1">
+            <span>小说</span>
+        </h3>
+        <ul class="list_1">
+
+            <li>
+                <a href="http://m.junshishu.com/3G/Content1096679_0_1.htm" onclick="try{Log_AdClick(10,'wap_click_ad');}catch(e){}">
+                    中美空军争霸印军坐山观虎
+                </a>
+            </li>
+
+            <li>
+                <a href="http://m.junshishu.com/3G/Content1541154_0_1.htm" onclick="try{Log_AdClick(10,'wap_click_ad');}catch(e){}">
+                    魏帅私通将领娇妻无暇应战
+                </a>
+            </li>
+
+            <li>
+                <a href="http://m.junshishu.com/3G/Content1113401_0_1.htm" onclick="try{Log_AdClick(10,'wap_click_ad');}catch(e){}">
+                    九名战士杀入鬼子陆战队
+                </a>
+            </li>
+
+            <li>
+                <a href="http://m.junshishu.com/3G/Content1535787_0_1.htm" onclick="try{Log_AdClick(10,'wap_click_ad');}catch(e){}">
+                    大规模轰炸台湾瘫痪成废墟
+                </a>
+            </li>
+
+            <li>
+                <a href="http://m.junshishu.com/3G/Content849569_0_1.htm" onclick="try{Log_AdClick(10,'wap_click_ad');}catch(e){}">
+                    国共争夺制高点挽回不利局面
+                </a>
+            </li>
+
+
+        </ul>
+    </section>
+    <section>
+        <h3 class="tit1">
+            <aside id="xiuxianTab">
+                <a href="javascript:mySwipe5.slide(0,400)" class="on">情感</a>|<a href="javascript:mySwipe5.slide(1,400)">幽默</a>|<a href="javascript:mySwipe5.slide(2,400)">钓鱼</a>
+            </aside>
+            <span>休闲</span>
+        </h3>
+        <div id="xiuxian" class="listScoll">
+            <div class="swipe-wrap">
+                <div class="wrap">
+                    <ul class="list_1">
+
+                        <li class="blue">
+                            <a href="http://rd.go.10086.cn:9090/adsi/adclk?id=1x4oZ55b&mcpid=4WhZ33UZ3dw" onclick="try{Log_AdClick(11,'wap_click_ad');}catch(e){}">
+                                被破解性感激情自拍外泄
+                            </a>
+                        </li>
+
+
+                        <li>
+                            <a href="http://bbs.tiexue.net/bbs239-0-1.html">
+                                丈母娘和女婿的那些事儿
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678057_1.html">
+                                我小孩像老婆前男友 怎么办?
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676784_1.html">
+                                羞耻!军训时我性骚扰了女同学
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676536_1.html">
+                                结婚 新娘在新郎裤裆里推鸡蛋
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676506_1.html">
+                                接媳妇走错门 流氓张险拧断手
+                            </a>
+                        </li>
+
+
+                        <li><span class="ico">捧腹</span><a href="http://m.pengfu.com/content/643488/" onclick="try{Log_AdClick(21,'wap_click_ad');}catch(e){}">妹子你是不是故意走光</a></li>
+
+
+                        <li><span class="ico">骑行</span><a href="http://www.qixing365.com/wapsite/" onclick="try{Log_AdClick(22,'wap_click_ad');}catch(e){}">参与即有奖全民众测</a></li>
+
+
+                        <li><span class="ico">钓鱼</span><a href="http://m.diaoyu.com" onclick="try{Log_AdClick(23,'wap_click_ad');}catch(e){}">2015年第一场有奖征文活动</a></li>
+
+                    </ul>
+                </div>
+                <div class="wrap">
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8677826_1.html">
+                                当代中国人的新十大傻160;您在内吗?
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677595_1.html">
+                                他不会被判强奸罪了所以以后交友当心点
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677288_1.html">
+                                为开罚单的点个赞
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677244_1.html">
+                                能开成这样也是需要技术技巧的
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8676949_1.html">
+                                女人的世界你不懂！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675586_1.html">
+                                再骑一百米老子就是第一啦！！哎！！卧槽！
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8673767_1.html">
+                                求解剪红线还是黑线？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675932_1.html">
+                                老婆的幽默都是带虐的
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8673797_1.html">
+                                小战士就这样泄露了军事秘密
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="wrap">
+                    <ul class="list_1">
+
+                        <li>
+                            <a href="/touch/thread_8678861_1.html">
+                                男子钓起3米长大鱼
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8678302_1.html">
+                                这是啥鱼？
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677520_1.html">
+                                空军的时代即将离我远去
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8677218_1.html">
+                                无事去挑逗食人鱼 然后整个人都不好了
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675174_1.html">
+                                海钓是什么及海钓装备归结
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675684_1.html">
+                                独家揭秘鲫鱼窝料制作全过程
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675398_1.html">
+                                2015第一钓大板板鲫上图
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8675176_1.html">
+                                钓鱼百科详解钓鱼脱钩的原因
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="/touch/thread_8674415_1.html">
+                                远投钓法浅谈
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <h3 class="tit1">
+            <span>热帖</span>
+        </h3>
+        <ul class="list_1">
+
+
+
+            <li class="blue">
+                <a href="http://wapzk.net/linkurl.asp?ID=1054139" onclick="try{Log_AdClick(14,'wap_click_ad');}catch(e){}">
+                    日本女性为何爱下跪服侍男人
+                </a>
+            </li>
+
+
+            <li>
+                <a href="/touch/thread_8679095_1.html">
+                    朱可夫元帅干掉斯大林继承人
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8678009_1.html">
+                    忙碌了半个月煲个爱心鸡汤
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8677448_1.html">
+                    斯大林遗体因何从列宁墓里被突然移出？
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8677479_1.html">
+                    抗战时日本屡次诱降国民党：蒋介石为何没有投降
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8679361_1.html">
+                    小飞猪：解放军歼七就可以打垮缅甸空军
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8677362_1.html">
+                    美媒炒作中国网络威胁 称若开战中国将先发制人
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8678773_1.html">
+                    为什么美国既不可能加入亚投行更竭力阻拦别国加入亚投行
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8679122_1.html">
+                    中方展示两栖攻击舰新方案 反导火力无死角
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8678415_1.html">
+                    目前为止南沙四岛最清航拍图来了9P
+                </a>
+            </li>
+
+            <li>
+                <a href="/touch/thread_8677663_1.html">
+                    女童求学寄宿姑姑家 遭姑姑六旬公公多次猥亵
+                </a>
+            </li>
+
+        </ul>
+        <ul class="list_3">
+
+
+            <li class="blue">
+                <a href='http://m.junph.com/product/brand/dan' onclick="try{Log_AdClick(16,'wap_click_ad');}catch(e){}">
+                    始于1932 美军军靴始祖 精英专属
+                </a>
+            </li>
+
+        </ul>
+    </section>
+    <footer>
+
+        <nav class="white">
+            <ul>
+                <li><a href="/touch/cmslist_1160_1.html ">聚焦</a></li>
+                <li><a href="Military.aspx">军事</a></li>
+                <li><a href="/touch/threadlist_73_1.html">历史</a></li>
+                <li><a href="/touch/threadlist_206_1.html">海外</a></li>
+                <li><a href="/touch/threadlist_125_1.html">社会</a></li>
+                <li><a href="http://m.junshishu.com/3G/" onclick="try{Log_AdClick(18,'wap_click_ad');}catch(e){}">读书</a></li>
+            </ul>
+        </nav>
+        <div class="butBox">
+            <a href="/touch/index.html" class="but_2">首页</a><a href="ContactUs.aspx" class="but_2">留言</a> <a href="Guide.aspx" class="but_2">导航</a>
+            <a href="javascript:_tx.BackTop();" class="but_2">顶部</a>
+        </div>
+        <div class="toggle_v">
+            <a href="/3g/">彩版</a> | <a href="MobileClient.aspx">客户端</a> | <a href="http://www.tiexue.net/default.htm?fr=touch">网页版</a>
+        </div>
+        <div class="copyright">
+            <a href="/touch/index.html">m.tiexue.net 手机铁血网</a>
+        </div>
+
+    </footer>
+    <script>
+        function loginResult(result) {
+            alert(result.Message);
+            if (result.Result == "Success") {
+                isLogin = "True";
+                checkin({ fn: closeCheck });
+                $("#popLayer1").remove();
+                $(".loginPop").remove();
+            }
+            closeloding();
+        }
+    </script>
+    <script type="text/javascript" src="http://s.itiexue.net/js/tiexue/wap/page/chuping/index-1.js" charset="utf-8"></script>
+
+    <script src="http://s.itiexue.net/statistic/tx-wap-monitor.js" type="text/javascript"></script>
+    <!-- 广告位：铁血网wap底部悬浮 -->
+    <!--<script type="text/javascript">BAIDU_CLB_SLOT_ID = "1008988";</script>
+    <script type="text/javascript" src="http://cbjs.baidu.com/js/o.js"></script>-->
+
+
+    <div class="cbg-Ads"
+         data-place-id="3"
+         style="display:inline-block;width:100%;height:0px"></div>
+
+
+    <script>
+
+        (function (window) {
+
+            if (window['_cbgAds']) {
+                return;
+            }
+
+            var loadScript = function () {
+                var script = document.createElement('script');
+                script.async = true;
+                script.src = 'http://static.pay.baidu.com/resource/ads/all.js';
+                document.body.appendChild(script);
+            }
+
+            var iframe = document.createElement('iframe');
+            (iframe.frameElement || iframe).style.cssText = "display:none";
+            iframe.src = "javascript:false";
+            iframe.setAttribute('id', 'cbgAdsRuntime');
+            document.body.appendChild(iframe);
+
+            var doc = (iframe.contentWindow.document || iframe.contentDocument);
+            doc.open().write('<body onload="(' + loadScript.toString() + '())">');
+            doc.close();
+            window['_cbgAds'] = true;
+
+        }(window));
+
+    </script>
+
+
+    <script src="http://s.itiexue.net/js/global/global-wap-usersync.js" type="text/javascript"></script>
 </body>
 </html>
+<!-- CopyRight by TieXue -->
