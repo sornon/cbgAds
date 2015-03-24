@@ -253,13 +253,16 @@
                             window._FTAPI_.init(id, { target: $this[0] });
                         }
 
+                        alog('speed.set', 'c_002', new Date());
+                        alog.fire("mark");
+
                     });
 
                     var count = 0;
 
                     var interval = window.setInterval(function () {
 
-                        if (count > 20) {
+                        if (count > 40) {
                             window.clearInterval(interval);
                             alog('cus.fire', 'count', 'z_Error_iframeLoad');
                             return;
@@ -268,9 +271,24 @@
                         if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
                             window.clearInterval(interval);
 
+                            alog('speed.set', 'c_003', new Date());
+                            alog.fire("mark");
+
                             service.logJsonp(data.dsu, {
                                 referUrl: referrer
                             }, data);
+
+                            alog('speed.set', 'drt', +new Date); //请利用js框架在domreday时调用该代码，或在body的尾部
+
+
+                            if (name === 'cpro_id') {
+
+                            } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                                alog('cus.fire', 'count', 'z_adsType_wm:success');
+                            } else if (name === 'FTAPI_slotid') {
+                                alog('cus.fire', 'count', 'z_adsType_hz:success');
+                            }
+
 
                             return;
                         }

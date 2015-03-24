@@ -3,6 +3,11 @@
 // pc和mobile端会稍有不同，必须严格按照该文档来部署
 void function(g,f,j,c,h,d,b){g.alogObjectName=h,g[h]=g[h]||function(){(g[h].q=g[h].q||[]).push(arguments)},g[h].l=g[h].l||+new Date,d=f.createElement(j),d.async=!0,d.src=c,b=f.getElementsByTagName(j)[0],b.parentNode.insertBefore(d,b)}(window,document,"script","http://img.baidu.com/hunter/alog/alog.min.js","alog");void function(){function c(){return;}window.PDC={mark:function(a,b){alog("speed.set",a,b||+new Date);alog.fire&&alog.fire("mark")},init:function(a){alog("speed.set","options",a)},view_start:c,tti:c,page_ready:c}}();void function(n){var o=!1;n.onerror=function(n,e,t,c){var i=!0;return!e&&/^script error/i.test(n)&&(o?i=!1:o=!0),i&&alog("exception.send","exception",{msg:n,js:e,ln:t,col:c}),!1},alog("exception.on","catch",function(n){alog("exception.send","exception",{msg:n.msg,js:n.path,ln:n.ln,method:n.method,flag:"catch"})})}(window);
 
+alog('speed.set', 'ht', +new Date);
+
+void function (e, t) { for (var n = t.getElementsByTagName("img"), a = +new Date, i = [], o = function () { this.removeEventListener && this.removeEventListener("load", o, !1), i.push({ img: this, time: +new Date }) }, s = 0; s < n.length; s++) !function () { var e = n[s]; e.addEventListener ? !e.complete && e.addEventListener("load", o, !1) : e.attachEvent && e.attachEvent("onreadystatechange", function () { "complete" == e.readyState && o.call(e, o) }) }(); alog("speed.set", { fsItems: i, fs: a }) }(window, document);
+
+
 /* 配置需要统计的模块，不需要的模块不配置即可（如不需要csp，下面的csp部分删除即可） */
 window.alogObjectConfig = {
     product: '620',  // 必须, DP平台产品线id
@@ -10,12 +15,26 @@ window.alogObjectConfig = {
     monkey_page: '',  // 如果页面已经有hunter平台的monkey，则为monkey的pageId, 否侧无需该字段
     speed_page: '',  // 如果页面已经有webspeed平台的性能监控，则为性能的page_id,否侧无需该字段
 
+    speed: {
+        sample: '1',   // 抽样率, 0~1，建议使采样的pv控制在100万以内，必须要设定，否则统计不会生效
+        custom_metrics: ['c_001', 'c_002', 'c_003']
+    },
+
+    monkey: {
+        sample: '1'
+    },
+
     // 自定义事件，详见‘帮助文档’------------------------------------------------------------
     cus: {
         sample: '1'   // 抽样率, 0~1  必须要设定，否则统计不会生效
     }
 };
 
+
+
 // pc和mobile端会稍有不同，必须严格按照该文档来部署，该段代码必须放在上面的window.alogObjectConfig配置之后
 void function (e, t, n, a, r, o) { function c(t) { e.attachEvent ? e.attachEvent("onload", t, !1) : e.addEventListener && e.addEventListener("load", t) } function i(e, n, a) { a = a || 15; var r = new Date; r.setTime((new Date).getTime() + 1e3 * a), t.cookie = e + "=" + escape(n) + ";path=/;expires=" + r.toGMTString() } function s(e) { var n = t.cookie.match(new RegExp("(^| )" + e + "=([^;]*)(;|$)")); return null != n ? unescape(n[2]) : null } function d() { var e = s("PMS_JT"); if (e) { i("PMS_JT", "", -1); try { e = eval(e) } catch (n) { e = {} } e.r && t.referrer.replace(/#.*/, "") != e.r || alog("speed.set", "wt", e.s) } } c(function () { alog("speed.set", "lt", +new Date), r = t.createElement(n), r.async = !0, r.src = a + "?v=" + ~(new Date / 864e5), o = t.getElementsByTagName(n)[0], o.parentNode.insertBefore(r, o) }), d() }(window, document, "script", "http://img.baidu.com/hunter/alog/dp.min.js");
+
+
+
 </script>

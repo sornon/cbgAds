@@ -3,19 +3,17 @@
 广告位加载器
 */
 
-// win是顶层的 window对象
-// var win = window == top ? window : top;
+// win是父层的 window对象
+// window.parent ? window : window.parent;
 
 define('window', [], function () {
     return window == window.parent ? window : window.parent;
 });
 
-// document 是顶层的document
-define('document', [], function () {
-    return window == top ? window.document : top.document;
+// document 是父层的document
+define('document', ['window'], function (window) {
+    return window.document;
 });
-
-
 
 
 require.config({

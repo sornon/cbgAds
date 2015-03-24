@@ -14,10 +14,16 @@
             },
             dataType: 'jsonp',
             cache: false,
-            timeout: 10000
+            timeout: 10000,
+            beforeSend: function (jqXHR, settings) {
+                jqXHR.startTime = $.now();
+            }
         })
 
-         .then(function (data) {
+         .then(function (data, a, jqXHR) {
+
+             //console.log(jqXHR);
+             //console.log(a);
 
              var type;
              if (!data.content) {
@@ -28,19 +34,49 @@
 
                  data.content.type = key;
                  type = 'z_launchType' + key;
-
              });
 
              alog('cus.fire', 'count', 'z_launchSuccess');
-             alog('cus.fire', 'count', type);
 
-             var url = window.location.href
+             if ($.type(type) === 'undefined') {
+                 alog('cus.fire', 'count', 'z_launchType_null');
+             } else {
+                 alog('cus.fire', 'count', type);
+             }
+
+             var url = window.location.href;
              var arr = url.split("/");
              var result = arr[0] + "//" + arr[2];
 
              if (result === 'http://v.baidu.com') {
                  alog('cus.fire', 'count', type + '(from:http://v.baidu.com)');
              }
+
+             // 区分 网盟和互众
+             if (data.content.type == 2) {
+
+                 if (data.content['2'].idName == 'cpro_id') {
+                     alog('cus.fire', 'count', 'z_adsType_wm');
+                 } else if (data.content['2'].idName == 'FTAPI_slotid') {
+                     alog('cus.fire', 'count', 'z_adsType_hz');
+                 }
+             }
+
+             var time = $.now() - jqXHR.startTime;
+
+             //console.log(time / 1000);
+
+             //alog('cus.fire', 'time', { z_launchTime: time / 1000, page: '620_9' });
+
+             //logTime({
+             //    z_launchTime: time / 1000,
+             //    page: '620_9'
+             //});
+
+             alog('speed.set', 'c_001', new Date());
+             alog.fire("mark");
+
+             //alog('speed.set', 'drt', +new Date); //请利用js框架在domreday时调用该代码，或在body的尾部
 
              return data;
          })
@@ -216,6 +252,20 @@
 
         });
 
+    }
+
+
+
+    function logTime(data) {
+
+        var img = new Image();
+        var baseUrl = 'http://5v.baidu.com/statistics/tj.gif?';
+        var query = $.param(data);
+
+        img.src = baseUrl + query;
+        img.onload = img.onerror = function () {
+            img = null;
+        };
     }
 
 
