@@ -99,56 +99,65 @@
 
                     data.content['0'].src = addDomain(data.content['0'].src);
 
-                    if (data.cru) {   // 支持新的跳转方式
+                    //if (data.cru) {   // 支持新的跳转方式
 
-                        data.content['0'].link = data.cru + '&' + $.param({
-                            referUrl: referrer
-                        });
+                    data.content['0'].link = data.cru + '&' + $.param({
+                        referUrl: referrer
+                    });
 
-                        outHtml = require('templatesamd/view0')(data.content['0']);
+                    outHtml = require('templatesamd/view0')(data.content['0']);
 
-                        $this.html(outHtml)
+                    $this.html(outHtml)
 
-                        .find('img').one('load', function () {
+                    .find('img').one({
+                        load: function () {
 
                             service.logJsonp(data.dsu, {
                                 referUrl: referrer
                             }, data);
 
-                        });
+                        },
+                        error: function () {
 
-                    } else {    //支持老的跳转方式
-
-                        data.content['0'].link = data.content['0'].href;
-                        outHtml = require('templatesamd/view0')(data.content['0']);
-
-                        $this.on('click', function () {
-                            service.log({
-                                placeId: data.placeId,
-                                ideaId: data.ideaId,
-                                ideaType: data.ideaType,
-                                token: data.token,
-                                _random: data._random,
-                                referUrl: referrer
+                            alog('exception.fire', 'catch', {
+                                msg: '广告图片加载失败',
+                                path: placeId
                             });
-                        })
+                        }
+                    });
 
-                        .html(outHtml)
+                    //} else {    //支持老的跳转方式
 
-                        .find('img').one('load', function () {
+                    //    data.content['0'].link = data.content['0'].href;
+                    //    outHtml = require('templatesamd/view0')(data.content['0']);
 
-                            service.log({
-                                placeId: data.placeId,
-                                ideaId: data.ideaId,
-                                ideaType: data.ideaType,
-                                token: data.token,
-                                _random: data._random,
-                                referUrl: referrer,
-                                isDis: 1
-                            });
+                    //    $this.on('click', function () {
+                    //        service.log({
+                    //            placeId: data.placeId,
+                    //            ideaId: data.ideaId,
+                    //            ideaType: data.ideaType,
+                    //            token: data.token,
+                    //            _random: data._random,
+                    //            referUrl: referrer
+                    //        });
+                    //    })
 
-                        });
-                    }
+                    //    .html(outHtml)
+
+                    //    .find('img').one('load', function () {
+
+                    //        service.log({
+                    //            placeId: data.placeId,
+                    //            ideaId: data.ideaId,
+                    //            ideaType: data.ideaType,
+                    //            token: data.token,
+                    //            _random: data._random,
+                    //            referUrl: referrer,
+                    //            isDis: 1
+                    //        });
+
+                    //    });
+                    //}
                 }
 
             })
@@ -259,43 +268,87 @@
                     });
 
                     var count = 0;
+                    var time0 = $.now();
 
-                    var interval = window.setInterval(function () {
+                    var deferred = $.Deferred(function (deferred) {
 
-                        if (count > 40) {
-                            window.clearInterval(interval);
-                            alog('cus.fire', 'count', 'z_Error_iframeLoad');
-                            return;
-                        }
+                        var interval = window.setInterval(function () {
 
-                        if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
-                            window.clearInterval(interval);
-
-                            alog('speed.set', 'c_003', new Date());
-                            alog.fire("mark");
-
-                            service.logJsonp(data.dsu, {
-                                referUrl: referrer
-                            }, data);
-
-                            alog('speed.set', 'drt', +new Date); //请利用js框架在domreday时调用该代码，或在body的尾部
-
-
-                            if (name === 'cpro_id') {
-
-                            } else if (name === 'BAIDU_CLB_SLOT_ID') {
-                                alog('cus.fire', 'count', 'z_adsType_wm:success');
-                            } else if (name === 'FTAPI_slotid') {
-                                alog('cus.fire', 'count', 'z_adsType_hz:success');
+                            if (count > 100) {
+                                window.clearInterval(interval);
+                                deferred.reject();
+                                return;
                             }
 
+                            if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
+                                window.clearInterval(interval);
 
-                            return;
+                                service.logJsonp(data.dsu, {
+                                    referUrl: referrer
+                                }, data);
+
+                                deferred.resolve();
+                                return;
+                            }
+
+                            count += 1;
+
+                        }, 100);
+
+                    })
+
+                    .fail(function () {
+
+                        alog('cus.fire', 'count', 'z_Error_iframeLoad');
+
+                        if (name === 'cpro_id') {
+
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+
+                            alog('exception.fire', 'catch', {
+                                msg: '广告（网盟）加载失败',
+                                path: placeId
+                            });
+
+                        } else if (name === 'FTAPI_slotid') {
+
+                            alog('exception.fire', 'catch', {
+                                msg: '广告（互众）加载失败',
+                                path: placeId
+                            });
+
                         }
 
-                        count += 1;
+                    })
 
-                    }, 300);
+                    .done(function () {
+
+                        if (name === 'cpro_id') {
+
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                            alog('cus.fire', 'count', 'z_adsType_wm:success');
+
+                        } else if (name === 'FTAPI_slotid') {
+                            alog('cus.fire', 'count', 'z_adsType_hz:success');
+                        }
+                    })
+
+                    .always(function () {
+
+                        alog('speed.set', 'c_003', new Date());
+                        alog.fire("mark");
+
+                        alog('speed.set', 'drt', new Date());
+
+                        if (name === 'cpro_id') {
+
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                            alog('cus.fire', 'time', { z_wmTime: $.now() - time0 });
+
+                        } else if (name === 'FTAPI_slotid') {
+                            alog('cus.fire', 'time', { z_hzTime: $.now() - time0 });
+                        }
+                    });
 
                     trackClick($this, data);
 
@@ -304,6 +357,7 @@
             })
 
             .done(function (data) {
+
                 if (data.status === true && data.content['3']) {
                     var html = data.content['3'].str;
 

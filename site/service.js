@@ -22,16 +22,13 @@
 
          .then(function (data, a, jqXHR) {
 
-             //console.log(jqXHR);
-             //console.log(a);
-
              var type;
              if (!data.content) {
-                 return data;
+                 return $.Deferred().reject(data);
              }
 
+             // ios 8.1 /ios 8.2 might have errors
              $.each(data.content, function (key, val) {
-
                  data.content.type = key;
                  type = 'z_launchType' + key;
              });
@@ -40,17 +37,23 @@
 
              if ($.type(type) === 'undefined') {
                  alog('cus.fire', 'count', 'z_launchType_null');
+
+                 alog('exception.fire', 'catch', {
+                     msg: 'type无法识别',
+                     path: JSON.stringify(data)
+                 });
+
              } else {
                  alog('cus.fire', 'count', type);
              }
 
-             var url = window.location.href;
-             var arr = url.split("/");
-             var result = arr[0] + "//" + arr[2];
+             //var url = window.location.href;
+             //var arr = url.split("/");
+             //var result = arr[0] + "//" + arr[2];
 
-             if (result === 'http://v.baidu.com') {
-                 alog('cus.fire', 'count', type + '(from:http://v.baidu.com)');
-             }
+             //if (result === 'http://v.baidu.com') {
+             //    alog('cus.fire', 'count', type + '(from:http://v.baidu.com)');
+             //}
 
              // 区分 网盟和互众
              if (data.content.type == 2) {
@@ -63,26 +66,27 @@
              }
 
              var time = $.now() - jqXHR.startTime;
-
-             //console.log(time / 1000);
-
-             //alog('cus.fire', 'time', { z_launchTime: time / 1000, page: '620_9' });
-
-             //logTime({
-             //    z_launchTime: time / 1000,
-             //    page: '620_9'
-             //});
+             alog('cus.fire', 'time', { z_launchTime: time });
 
              alog('speed.set', 'c_001', new Date());
              alog.fire("mark");
-
-             //alog('speed.set', 'drt', +new Date); //请利用js框架在domreday时调用该代码，或在body的尾部
 
              return data;
          })
 
         .fail(function () {
             alog('cus.fire', 'count', 'z_launchError');
+
+            alog('speed.set', 'c_001', new Date());
+            alog.fire("mark");
+
+            alog('speed.set', 'c_002', new Date());
+            alog.fire("mark");
+
+            alog('speed.set', 'c_003', new Date());
+            alog.fire("mark");
+
+            alog('speed.set', 'drt', new Date());
         });
 
 
@@ -163,25 +167,39 @@
 
   
                 } else {
+                    //deferred.resolve({
+                    //    "status": true,
+                    //    "content": {
+                    //        //"2": {
+                    //        //    idValue: "923533",
+                    //        //    idName: "BAIDU_CLB_SLOT_ID",
+                    //        //    jsSrc: "http://cbjs.baidu.com/js/m.js"
+                    //        //}
+
+                    //        "2": {
+                    //            //idValue: "1008346",
+                    //            idValue: "1008515",
+                    //            idName: "FTAPI_slotid",
+                    //            jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
+                    //        },
+                    //        type: 2
+                    //    },
+                    //    "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    //});
+
                     deferred.resolve({
                         "status": true,
                         "content": {
-                            //"2": {
-                            //    idValue: "923533",
-                            //    idName: "BAIDU_CLB_SLOT_ID",
-                            //    jsSrc: "http://cbjs.baidu.com/js/m.js"
-                            //}
-
-                            "2": {
-                                //idValue: "1008346",
-                                idValue: "1008515",
-                                idName: "FTAPI_slotid",
-                                jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
-                            },
-                            type: 2
+                            "0": {
+                                "title": "thuti",
+                                "src": "http://p2.youxi.bdimg.com/r/image/2015-02-05/890f47de2868c23545cf3597ffc94bf2.jpg",
+                                "href": "http://www.baidu.com"
+                            }
                         },
+                        "cru": "http://baichuan.baidu.com/redirecting?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzI=",
                         "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
                     });
+
                 }
 
 
@@ -240,16 +258,13 @@
         })
 
          .done(function () {
-
              alog('cus.fire', 'count', 'z_log');
-             alog('cus.fire', 'count', 'z_logType' + rawData.content.type);
+             //alog('cus.fire', 'count', 'z_logType' + rawData.content.type);
          })
 
         .fail(function () {
-
             alog('cus.fire', 'count', 'z_logError');
-            alog('cus.fire', 'count', 'z_logType' + rawData.content.type + ':error');
-
+            //alog('cus.fire', 'count', 'z_logType' + rawData.content.type + ':error');
         });
 
     }
@@ -294,16 +309,6 @@
         script.async = true;
         script.onerror = error;
 
-        //if (script.readyState) {
-        //    script.onreadystatechange = function () {
-        //        if (this.readyState == 'loaded' || this.readyState == 'complete') {
-        //            loaded();
-        //        }
-        //    }
-        //} else {
-        //    script.onload = loaded;
-        //}
-
         //  从jquery script.js 中拷过来
         script.onload = script.onreadystatechange = function (_, isAbort) {
 
@@ -328,7 +333,6 @@
         };
 
         head.insertBefore(script, head.firstChild);
-        //window.document.body.appendChild(script);
     }
 
     // 新建调用script的缓存
@@ -359,6 +363,19 @@
 
         // url里是 promise
         scriptsCache[url] = promise;
+
+        deferred.always(function () {
+            alog('speed.set', 'c_002', new Date());
+            alog.fire("mark");
+        })
+
+       .fail(function () {
+
+           alog('speed.set', 'c_003', new Date());
+           alog.fire("mark");
+
+           alog('speed.set', 'drt', new Date());
+       });
 
         return deferred.promise();
     }
