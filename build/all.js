@@ -502,28 +502,52 @@ define('site/service',['jquery', 'window'], function ($, window) {
         return $.Deferred(function (deferred) {
 
             setTimeout(function () {
+                if(config.placeId == 3 ){
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            "3": {
+                                aid:'3',
+                                str:'<script type="text/javascript">var cpro_id = "u1825627";</script><script src="http://cpro.baidustatic.com/cpro/ui/c.js" type="text/javascript"></script>'
+                            }
 
-                deferred.resolve({
-                    "status": true,
-                    "content": {
-                        //"2": {
-                        //    idValue: "923533",
-                        //    idName: "BAIDU_CLB_SLOT_ID",
-                        //    jsSrc: "http://cbjs.baidu.com/js/m.js"
-                        //}
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                }else if(config.placeId == 4){
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            "3": {
+                                aid:'4',
+                                str:'<script type="text/javascript">BAIDU_CLB_SLOT_ID = "999704";</script><script type="text/javascript" src="http://testdelay.chinacloudsites.cn/m.js"></script>'
+                            }
 
-                        "2": {
-                            idValue: "1008346",
-                            idName: "FTAPI_slotid",
-                            jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
-                        }
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                }else{
+                    deferred.resolve({
+                        "status": true,
+                        "content": {
+                            //"2": {
+                            //    idValue: "923533",
+                            //    idName: "BAIDU_CLB_SLOT_ID",
+                            //    jsSrc: "http://cbjs.baidu.com/js/m.js"
+                            //}
 
-                    },
-                    "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
-                });
+                            "2": {
+                                idValue: "1008346",
+                                idName: "FTAPI_slotid",
+                                jsSrc: "http://pic.fastapi.net/sdk/js/_a.js"
+                            }
+                        },
+                        "dsu": "http://baichuan.baidu.com/rs/logger/stat?key=cGxhY2VJZD0xNDIzNTgxNjAzMzIwJmlkZWFJZD0xNDIzNjQzNTgzMTAyMSZpZGVhVHlwZT0xJnRva2VuPTVhZjM5NWZiLWQ5NjgtNDZmYi1iNjk0LTZhMWNmY2QwYjUyMiZyYW5kb209MzAyZTMwMzImaXNEaXM9MQ=="
+                    });
+                }
 
 
-            }, 10);
+            }, Math.random()*300);
 
         });
 
@@ -1276,8 +1300,87 @@ define('site/init',['require','exports','module','jquery','window','site/service
                         }
                     });
 
-                }
 
+                }
+            })
+            .done(function (data) {
+                if (data.status === true && data.content['3']) {
+                    var html = data.content['3'].str;
+                    var parent = window.parent.document;
+                    var iframe = parent.createElement('iframe');
+                    (iframe.frameElement || iframe).style.cssText = "margin:0;padding0;border:0";
+                    iframe.src = "javascript:false";
+                    iframe.setAttribute('id', 'test');
+                    iframe.width = $this.width();
+                    iframe.height = $this.height();
+                    iframe.scrolling = 'no';
+                    iframe.frameBorder = 0;
+                    $this[0].appendChild(iframe);
+
+                    var doc = (iframe.contentWindow.document || iframe.contentDocument);
+                    doc.open();
+                    var attr = [
+                        'compatMode',
+                        'currentScript',
+                        'pointerLockElement',
+                        'activeElement',
+                        'characterSet',
+                        'readyState',
+                        'defaultCharset',
+                        'charset',
+                        'location',
+                        'lastModified',
+                        'anchors',
+                        'scripts',
+                        'forms',
+                        'links',
+                        'plugins',
+                        'embeds',
+                        'applets',
+                        'images',
+                        'head',
+                        'cookie',
+                        'URL',
+                        'domain',
+                        'referrer',
+                        'title',
+                        'designMode',
+                        'dir',
+                        'contentType',
+                        'styleSheets',
+                        'defaultView',
+                        'documentURI',
+                        'xmlStandalone',
+                        'xmlVersion',
+                        'xmlEncoding',
+                        'inputEncoding',
+                        'implementation',
+                        'doctype',
+                        'textContent',
+                        'baseURI',
+                        'localName',
+                        'namespaceURI',
+                        'ownerDocument'
+                    ];
+                    for(var i = 0; i < attr.length; i++){
+                        doc[i] = parent[i];
+                    }
+                    doc.write('<style>*{margin:0;padding0;border:0}</style>');
+                    doc.write(html);
+                    doc.close();
+                    // document.write=window.parent.document.write=function(s){
+                    //     var scripts = document.getElementsByTagName('script');
+                    //     var lastScript = scripts[scripts.length-1];
+                    //     lastScript.insertAdjacentHTML("beforebegin", s);
+                    // }
+                    // document.write = function(txt){
+                    //     $this.append(txt);
+                    // }
+                    //$this.append(html);
+                    //delete document.write;
+                    //console.log($this.html());
+                    //
+                }
             })
 
             .fail(function () {

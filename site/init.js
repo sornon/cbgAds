@@ -2,7 +2,8 @@ define(function (require, exports, module) {
 
     var $ = require('jquery'),
         window = require('window'),
-        service = require('site/service');
+        service = require('site/service')
+        alog = require('site/alog');
 
     require('site/jquery-swfobject');
 
@@ -17,7 +18,58 @@ define(function (require, exports, module) {
         }
         return src;
     }
+    // 检测点击事件
+    function trackClick($this, data) {
 
+        var overiFrame = false;
+        var blurFire = false;
+
+        $this.on({
+            mouseenter: function () {
+                overiFrame = true;
+            },
+            mouseleave: function () {
+
+                //hack for firefox/chrome(future)
+                setTimeout(function () {
+                    overiFrame = false;
+                });
+            }
+        });
+
+        $(window).on('blur', function () {
+
+            if (overiFrame) {
+
+                service.logJsonp(data.cru, {
+                    referUrl: referrer
+                }, data);
+
+                setTimeout(function () {
+                    overiFrame = false;
+                     $(window).focus();
+                });
+
+             }
+        })
+            // 过滤出 firefox window
+        .filter(function () {
+            return /Firefox/.test(window.navigator.userAgent);
+        })
+
+        .on('visibilitychange', function () {
+ 
+            if (overiFrame && window.document.hidden) {
+
+                service.logJsonp(data.cru, {
+                    referUrl: referrer
+                }, data);
+
+            }
+        });
+
+        return $this;
+    }
 
 
     /*
@@ -43,68 +95,80 @@ define(function (require, exports, module) {
                 var outHtml;
 
                 //view 0
-                if (data.status === true && data.content['0']) {
+                if (data.content['0'] || data.content['3']) {
 
-                    data.content['0'].src = addDomain(data.content['0'].src);
+                    var content = data.content['0'] || data.content['3'];
 
-                    if (data.cru) {   // 支持新的跳转方式
+                    content.src = addDomain(content.src);
 
-                        data.content['0'].link = data.cru + '&' + $.param({
-                            referUrl: referrer
-                        });
+                    //if (data.cru) {   // 支持新的跳转方式
 
-                        outHtml = require('templatesamd/view0')(data.content['0']);
+                    content.link = data.cru + '&' + $.param({
+                        referUrl: referrer
+                    });
 
-                        $this.html(outHtml)
+                    outHtml = require('templatesamd/view0')(content);
 
-                        .find('img').one('load', function () {
+                    $this.html(outHtml)
+
+                    .find('img').one({
+                        load: function () {
 
                             service.logJsonp(data.dsu, {
                                 referUrl: referrer
+                            }, data);
+
+                        },
+                        error: function () {
+
+                            alog('exception.fire', 'catch', {
+                                msg: '广告图片加载失败',
+                                path: placeId
                             });
-                        });
+                        }
+                    });
 
-                    } else {    //支持老的跳转方式
+                    //} else {    //支持老的跳转方式
 
-                        data.content['0'].link = data.content['0'].href;
-                        outHtml = require('templatesamd/view0')(data.content['0']);
+                    //    data.content['0'].link = data.content['0'].href;
+                    //    outHtml = require('templatesamd/view0')(data.content['0']);
 
-                        $this.on('click', function () {
-                            service.log({
-                                placeId: data.placeId,
-                                ideaId: data.ideaId,
-                                ideaType: data.ideaType,
-                                token: data.token,
-                                _random: data._random,
-                                referUrl: referrer
-                            });
-                        })
+                    //    $this.on('click', function () {
+                    //        service.log({
+                    //            placeId: data.placeId,
+                    //            ideaId: data.ideaId,
+                    //            ideaType: data.ideaType,
+                    //            token: data.token,
+                    //            _random: data._random,
+                    //            referUrl: referrer
+                    //        });
+                    //    })
 
-                        .html(outHtml)
+                    //    .html(outHtml)
 
-                        .find('img').one('load', function () {
+                    //    .find('img').one('load', function () {
 
-                            service.log({
-                                placeId: data.placeId,
-                                ideaId: data.ideaId,
-                                ideaType: data.ideaType,
-                                token: data.token,
-                                _random: data._random,
-                                referUrl: referrer,
-                                isDis: 1
-                            });
+                    //        service.log({
+                    //            placeId: data.placeId,
+                    //            ideaId: data.ideaId,
+                    //            ideaType: data.ideaType,
+                    //            token: data.token,
+                    //            _random: data._random,
+                    //            referUrl: referrer,
+                    //            isDis: 1
+                    //        });
 
-                        });
-                    }
+                    //    });
+                    //}
                 }
 
             })
 
             .done(function (data) {
 
-                if (data.status === true && data.content['1']) {
+                if (data.content['1'] || data.content['4']) {
 
-                    var content = data.content['1'];
+                    var content = data.content['1'] || data.content['4'];
 
                     // 如果没有domain，增加 adp.baidu.com
                     content.src = addDomain(content.src);
@@ -166,7 +230,7 @@ define(function (require, exports, module) {
 
                                 service.logJsonp(data.dsu, {
                                     referUrl: referrer
-                                });
+                                }, data);
 
                                 return;
                             }
@@ -184,14 +248,13 @@ define(function (require, exports, module) {
 
             .done(function (data) {
 
-                if (data.status === true && data.content['2']) {
+                if (data.content['2']) {
 
                     var name = data.content['2'].idName;
                     var id = data.content['2'].idValue;
                     var src = data.content['2'].jsSrc;
-
+                    var logTimer = $.now();
                     service.getMjs(src).done(function () {
-
                         if (name === 'cpro_id') {
                             window.BAIDU_CLB_DUP2_fillSlotAsync(id, $this[0]);
                         } else if (name === 'BAIDU_CLB_SLOT_ID') {
@@ -199,144 +262,179 @@ define(function (require, exports, module) {
                         } else if (name === 'FTAPI_slotid') {
                             window._FTAPI_.init(id, { target: $this[0] });
                         }
+                        //nginx log
+                        service.logGif({
+                            action: 'getMjs_done',
+                            name: name,
+                            placeId: placeId,
+                            time : $.now() - logTimer
+                        });
+                        logTimer = $.now();
+                        alog('speed.set', 'c_002', new Date());
+                        alog.fire("mark");
 
                     });
 
-                    var count = 10;
+                    var count = 0;
+                    var time0 = $.now();
 
-                    var interval = window.setInterval(function () {
+                    var deferred = $.Deferred(function (deferred) {
 
-                        if (count > 10) {
-                            window.clearInterval(interval);
-                            return;
-                        }
+                        var interval = window.setInterval(function () {
 
-                        if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
-                            window.clearInterval(interval);
+                            if (count > 100) {
+                                window.clearInterval(interval);
+                                deferred.reject();
+                                return;
+                            }
 
-                            service.logJsonp(data.dsu, {
-                                referUrl: referrer
+                            if ($this.find('iframe').length || $this.find('img').length || $this.find('object').length) {
+                                window.clearInterval(interval);
+
+                                //nginx log
+                                service.logGif({
+                                    action: 'display',
+                                    name: name,
+                                    placeId: placeId,
+                                    time : $.now() - logTimer
+                                });
+                                service.logJsonp(data.dsu, {
+                                    referUrl: referrer
+                                }, data);
+
+                                deferred.resolve();
+                                return;
+                            }
+
+                            count += 1;
+
+                        }, 100);
+
+                    })
+
+                    .fail(function () {
+
+                        //nginx log
+                        service.logGif({
+                            action: 'getMjs_fail',
+                            name: name,
+                            placeId: placeId,
+                            id: id
+                        });
+                        alog('cus.fire', 'count', 'z_Error_iframeLoad');
+
+                        if (name === 'cpro_id') {
+
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+
+                            alog('exception.fire', 'catch', {
+                                msg: '广告（网盟）加载失败',
+                                path: placeId
                             });
 
-                            return;
-                        }
+                        } else if (name === 'FTAPI_slotid') {
 
-                        count += 1;
-
-                    }, 200);
-
-                    var overiFrame = false;
-
-                    $this.on({
-                        mouseenter: function () {
-                            overiFrame = true;
-                        },
-                        mouseleave: function () {
-                            overiFrame = false;
-                        }
-                    });
-
-                    $(window).on('blur', function () {
-                        if (overiFrame) {
-
-                            service.logJsonp(data.cru, {
-                                referUrl: referrer
+                            alog('exception.fire', 'catch', {
+                                msg: '广告（互众）加载失败',
+                                path: placeId
                             });
 
                         }
+
+                        if (id === '994198') {
+                            service.logGif({
+                                idName: 994198,
+                                success: false
+                            });
+                        }
+
+                    })
+
+                    .done(function () {
+
+                        if (name === 'cpro_id') {
+
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                            alog('cus.fire', 'count', 'z_adsType_wm:success');
+
+                        } else if (name === 'FTAPI_slotid') {
+                            alog('cus.fire', 'count', 'z_adsType_hz:success');
+                        }
+
+                        if (id === '994198') {
+                            service.logGif({
+                                idName: 994198,
+                                success: true
+                            });
+                        }
+
+                    })
+
+                    .always(function () {
+
+                        alog('speed.set', 'c_003', new Date());
+                        alog.fire("mark");
+
+                        alog('speed.set', 'drt', new Date());
+
+                        if (name === 'cpro_id') {
+
+                        } else if (name === 'BAIDU_CLB_SLOT_ID') {
+                            alog('cus.fire', 'time', { z_wmTime: $.now() - time0 });
+
+                        } else if (name === 'FTAPI_slotid') {
+                            alog('cus.fire', 'time', { z_hzTime: $.now() - time0 });
+                        }
                     });
+
+                    trackClick($this, data);
 
                 }
 
             })
 
             .done(function (data) {
-                if (data.status === true && data.content['3']) {
-                    var html = data.content['3'].str;
-                    var parent = window.parent.document;
-                    var iframe = parent.createElement('iframe');
-                    (iframe.frameElement || iframe).style.cssText = "margin:0;padding0;border:0";
-                    iframe.src = "javascript:false";
-                    iframe.setAttribute('id', 'cbgAdsExt_'+data.content['3'].aid;
-                    iframe.width = $this.width();
-                    iframe.height = $this.height();
-                    iframe.scrolling = 'no';
-                    iframe.frameBorder = 0;
-                    $this[0].appendChild(iframe);
 
-                    var doc = (iframe.contentWindow.document || iframe.contentDocument);
+                if (data.content['5']) {
+                    var html = data.content['5'].str;
+
+                    var $iframe = $('<iframe />', window.document)
+
+                    .attr({
+                        src: "javascript:false",
+                        width: $this.width(),
+                        height: $this.height(),
+                        frameBorder: 0,
+                        cbgAdsVm: html
+                    })
+
+                    .appendTo($this)
+
+                    .on('load', function () {
+
+                        service.logJsonp(data.dsu, {
+                            referUrl: referrer
+                        }, data);
+
+                    });
+
+                    var doc = $iframe.contents()[0];
+
                     doc.open();
-                    var attr = [
-                        'compatMode',
-                        'currentScript',
-                        'pointerLockElement',
-                        'activeElement',
-                        'characterSet',
-                        'readyState',
-                        'defaultCharset',
-                        'charset',
-                        'location',
-                        'lastModified',
-                        'anchors',
-                        'scripts',
-                        'forms',
-                        'links',
-                        'plugins',
-                        'embeds',
-                        'applets',
-                        'images',
-                        'head',
-                        'cookie',
-                        'URL',
-                        'domain',
-                        'referrer',
-                        'title',
-                        'designMode',
-                        'dir',
-                        'contentType',
-                        'styleSheets',
-                        'defaultView',
-                        'documentURI',
-                        'xmlStandalone',
-                        'xmlVersion',
-                        'xmlEncoding',
-                        'inputEncoding',
-                        'documentElement',
-                        'implementation',
-                        'doctype',
-                        'parentElement',
-                        'textContent',
-                        'baseURI',
-                        'localName',
-                        'namespaceURI',
-                        'ownerDocument'
-                    ];
-                    for(var i = 0; i < attr.length; i++){
-                        doc[i] = parent[i];
-                    }
                     doc.write('<style>*{margin:0;padding0;border:0}</style>');
-                    doc.write(html);
+                    doc.write('<body>' + html + '</body>');
                     doc.close();
+
+                    trackClick($this, data);
                 }
             })
 
             .fail(function () {
 
+
             });
 
         });
-
-        $.when.apply(null, adsPromise)
-
-                .done(function () {
-
-                    var mzParams = $.map(arguments, function (val, key) {
-
-
-                    });
-
-
-                });
 
 
     }
