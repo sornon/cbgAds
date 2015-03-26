@@ -2,7 +2,7 @@ define(function (require, exports, module) {
 
     var $ = require('jquery'),
         window = require('window'),
-        service = require('site/service')
+        service = require('site/service'),
         alog = require('site/alog');
 
     require('site/jquery-swfobject');
