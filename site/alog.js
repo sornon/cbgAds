@@ -26,7 +26,6 @@
     var logIframeWindow = logIframe[0].contentWindow;
     var alog = logIframeWindow.alog;
 
-
     module.exports = alog;
 
 });

@@ -3,9 +3,6 @@
     function getContent(config) {
 
         return $.ajax({
-            //url: 'http://10.205.82.57:8181/rs/adp/launch',
-            //url: 'http://10.99.31.12:8181/rs/adp/launch',
-
             //url: 'http://baichuan.baidu.com/rs/adp/launch',
             url: 'http://5v.baidu.com/rs/adp/launch',
             data: {
@@ -23,15 +20,23 @@
          .then(function (data, a, jqXHR) {
 
              var type;
-             if (!data.content) {
+             if (!data.content || !data.status) {
                  return $.Deferred().reject(data);
              }
 
              // ios 8.1 /ios 8.2 might have errors
-             $.each(data.content, function (key, val) {
+             //$.each(data.content, function (key, val) {
+             //    data.content.type = key;
+             //    type = 'z_launchType' + key;
+
+             //    alert('each each');
+             //});
+
+             // https://github.com/jquery/jquery/issues/2145
+             for (var key in data.content) {
                  data.content.type = key;
                  type = 'z_launchType' + key;
-             });
+             }
 
              alog('cus.fire', 'count', 'z_launchSuccess');
 
@@ -44,6 +49,7 @@
                  });
 
              } else {
+
                  alog('cus.fire', 'count', type);
              }
 
@@ -271,7 +277,7 @@
 
 
 
-    function logTime(data) {
+    function logGif(data) {
 
         var img = new Image();
         var baseUrl = 'http://5v.baidu.com/statistics/tj.gif?';
@@ -386,7 +392,8 @@
         log: log,
         getFnParam: getParamNames,
         getMjs: getMjs,
-        logJsonp: logJsonp
+        logJsonp: logJsonp,
+        logGif: logGif
     };
 
 });

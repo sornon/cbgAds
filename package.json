@@ -25,6 +25,7 @@
     "requirejs": "^2.1.15"
   },
   "dependencies": {
+    "phantomjs": "^1.9.16",
     "streamqueue": "^0.1.1"
   }
 }

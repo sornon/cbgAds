@@ -467,7 +467,6 @@ define('site/alog',['require','exports','module','jquery','window','text!templat
     var logIframeWindow = logIframe[0].contentWindow;
     var alog = logIframeWindow.alog;
 
-
     module.exports = alog;
 
 });
@@ -476,9 +475,6 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
     function getContent(config) {
 
         return $.ajax({
-            //url: 'http://10.205.82.57:8181/rs/adp/launch',
-            //url: 'http://10.99.31.12:8181/rs/adp/launch',
-
             //url: 'http://baichuan.baidu.com/rs/adp/launch',
             url: 'http://5v.baidu.com/rs/adp/launch',
             data: {
@@ -496,15 +492,23 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
          .then(function (data, a, jqXHR) {
 
              var type;
-             if (!data.content) {
+             if (!data.content || !data.status) {
                  return $.Deferred().reject(data);
              }
 
              // ios 8.1 /ios 8.2 might have errors
-             $.each(data.content, function (key, val) {
+             //$.each(data.content, function (key, val) {
+             //    data.content.type = key;
+             //    type = 'z_launchType' + key;
+
+             //    alert('each each');
+             //});
+
+             // https://github.com/jquery/jquery/issues/2145
+             for (var key in data.content) {
                  data.content.type = key;
                  type = 'z_launchType' + key;
-             });
+             }
 
              alog('cus.fire', 'count', 'z_launchSuccess');
 
@@ -517,6 +521,7 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
                  });
 
              } else {
+
                  alog('cus.fire', 'count', type);
              }
 
@@ -744,7 +749,7 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
 
 
 
-    function logTime(data) {
+    function logGif(data) {
 
         var img = new Image();
         var baseUrl = 'http://5v.baidu.com/statistics/tj.gif?';
@@ -859,7 +864,8 @@ define('site/service',['jquery', 'window', 'site/alog'], function ($, window, al
         log: log,
         getFnParam: getParamNames,
         getMjs: getMjs,
-        logJsonp: logJsonp
+        logJsonp: logJsonp,
+        logGif: logGif
     };
 
 });
@@ -1306,17 +1312,19 @@ define('site/init',['require','exports','module','jquery','window','site/service
                 var outHtml;
 
                 //view 0
-                if (data.status === true && data.content['0']) {
+                if (data.content['0'] || data.content['3']) {
 
-                    data.content['0'].src = addDomain(data.content['0'].src);
+                    var content = data.content['0'] || data.content['3'];
+
+                    content.src = addDomain(content.src);
 
                     //if (data.cru) {   // 支持新的跳转方式
 
-                    data.content['0'].link = data.cru + '&' + $.param({
+                    content.link = data.cru + '&' + $.param({
                         referUrl: referrer
                     });
 
-                    outHtml = require('templatesamd/view0')(data.content['0']);
+                    outHtml = require('templatesamd/view0')(content);
 
                     $this.html(outHtml)
 
@@ -1375,9 +1383,9 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
             .done(function (data) {
 
-                if (data.status === true && data.content['1']) {
+                if (data.content['1'] || data.content['4']) {
 
-                    var content = data.content['1'];
+                    var content = data.content['1'] || data.content['4'];
 
                     // 如果没有domain，增加 adp.baidu.com
                     content.src = addDomain(content.src);
@@ -1457,7 +1465,7 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
             .done(function (data) {
 
-                if (data.status === true && data.content['2']) {
+                if (data.content['2']) {
 
                     var name = data.content['2'].idName;
                     var id = data.content['2'].idValue;
@@ -1530,6 +1538,13 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
                         }
 
+                        if (id === '994198') {
+                            service.logGif({
+                                idName: 994198,
+                                success: false
+                            });
+                        }
+
                     })
 
                     .done(function () {
@@ -1542,6 +1557,14 @@ define('site/init',['require','exports','module','jquery','window','site/service
                         } else if (name === 'FTAPI_slotid') {
                             alog('cus.fire', 'count', 'z_adsType_hz:success');
                         }
+
+                        if (id === '994198') {
+                            service.logGif({
+                                idName: 994198,
+                                success: true
+                            });
+                        }
+
                     })
 
                     .always(function () {
@@ -1569,8 +1592,8 @@ define('site/init',['require','exports','module','jquery','window','site/service
 
             .done(function (data) {
 
-                if (data.status === true && data.content['3']) {
-                    var html = data.content['3'].str;
+                if (data.content['5']) {
+                    var html = data.content['5'].str;
 
                     var $iframe = $('<iframe />', window.document)
 

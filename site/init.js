@@ -95,17 +95,19 @@
                 var outHtml;
 
                 //view 0
-                if (data.status === true && data.content['0']) {
+                if (data.content['0'] || data.content['3']) {
 
-                    data.content['0'].src = addDomain(data.content['0'].src);
+                    var content = data.content['0'] || data.content['3'];
+
+                    content.src = addDomain(content.src);
 
                     //if (data.cru) {   // 支持新的跳转方式
 
-                    data.content['0'].link = data.cru + '&' + $.param({
+                    content.link = data.cru + '&' + $.param({
                         referUrl: referrer
                     });
 
-                    outHtml = require('templatesamd/view0')(data.content['0']);
+                    outHtml = require('templatesamd/view0')(content);
 
                     $this.html(outHtml)
 
@@ -164,9 +166,9 @@
 
             .done(function (data) {
 
-                if (data.status === true && data.content['1']) {
+                if (data.content['1'] || data.content['4']) {
 
-                    var content = data.content['1'];
+                    var content = data.content['1'] || data.content['4'];
 
                     // 如果没有domain，增加 adp.baidu.com
                     content.src = addDomain(content.src);
@@ -246,7 +248,7 @@
 
             .done(function (data) {
 
-                if (data.status === true && data.content['2']) {
+                if (data.content['2']) {
 
                     var name = data.content['2'].idName;
                     var id = data.content['2'].idValue;
@@ -319,6 +321,13 @@
 
                         }
 
+                        if (id === '994198') {
+                            service.logGif({
+                                idName: 994198,
+                                success: false
+                            });
+                        }
+
                     })
 
                     .done(function () {
@@ -331,6 +340,14 @@
                         } else if (name === 'FTAPI_slotid') {
                             alog('cus.fire', 'count', 'z_adsType_hz:success');
                         }
+
+                        if (id === '994198') {
+                            service.logGif({
+                                idName: 994198,
+                                success: true
+                            });
+                        }
+
                     })
 
                     .always(function () {
@@ -358,8 +375,8 @@
 
             .done(function (data) {
 
-                if (data.status === true && data.content['3']) {
-                    var html = data.content['3'].str;
+                if (data.content['5']) {
+                    var html = data.content['5'].str;
 
                     var $iframe = $('<iframe />', window.document)
 
